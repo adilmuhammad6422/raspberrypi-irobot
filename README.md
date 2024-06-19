@@ -1,4 +1,4 @@
-# raspberrypi-irobot
+# Raspberry Pi-irobot
 
 
 ### How to sign into Raspberry Pi 3 using ssh
