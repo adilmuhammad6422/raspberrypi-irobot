@@ -25,14 +25,40 @@ def drive_straight(tty, duration):
     # Stop the robot
     send(tty, [137, 0, 0, 0, 0])
 
+def drive_and_turn(tty):
+    # Drive straight for 5 seconds
+    drive_straight(tty, 5)
+
+    # Turn right
+    velocity = 200  # mm/s
+    radius = -1  # Special code for turning in place clockwise
+
+    # Convert velocity and radius to bytes
+    vel_high_byte = (velocity >> 8) & 0xFF
+    vel_low_byte = velocity & 0xFF
+    rad_high_byte = (radius >> 8) & 0xFF
+    rad_low_byte = radius & 0xFF
+
+    turn_command = [137, vel_high_byte, vel_low_byte, rad_high_byte, rad_low_byte]
+    send(tty, turn_command)
+
+    # Time to turn 90 degrees (adjust based on your robot's turning speed)
+    time.sleep(2)
+
+    # Stop the robot after turning
+    send(tty, [137, 0, 0, 0, 0])
+
+    # Drive straight for another 5 seconds
+    drive_straight(tty, 5)
+
 def main():
     tty = serial.Serial(port='/dev/ttyUSB0', baudrate=57600, timeout=0.01)
 
     send(tty, [128, 132])
     time.sleep(1)
 
-    # Drive straight for 5 seconds
-    drive_straight(tty, 5)
+    #drive_straight(tty, 5)
+    drive_and_turn(tty)
 
     # try:
     #     while True:
