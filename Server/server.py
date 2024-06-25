@@ -20,19 +20,22 @@
 import socket
 import selectors
 import types
+import threading
 
 HOST = "0.0.0.0"  # Listen on all available interfaces
 PORT = 44700  # Port to listen on (non-privileged ports are > 1023)
 
 sel = selectors.DefaultSelector()
+connections = []
 
 def accept_wrapper(sock):
     conn, addr = sock.accept()  # Should be ready to read
-    print(f"Accepted connection from {addr}")
+    print("Accepted connection from", addr)
     conn.setblocking(False)
     data = types.SimpleNamespace(addr=addr, inb=b"", outb=b"")
     events = selectors.EVENT_READ | selectors.EVENT_WRITE
     sel.register(conn, events, data=data)
+    connections.append(conn)
 
 def service_connection(key, mask):
     sock = key.fileobj
@@ -40,19 +43,21 @@ def service_connection(key, mask):
     if mask & selectors.EVENT_READ:
         recv_data = sock.recv(1024)  # Should be ready to read
         if recv_data:
-            data.outb += recv_data
-            print(f"Received {recv_data.decode('utf-8')} from {data.addr}")
+            data.inb += recv_data
+            print("Received", recv_data.decode('utf-8'), "from", data.addr)
             if recv_data.decode('utf-8').strip() == 'quit':
                 sel.unregister(sock)
                 sock.close()
-                print(f"Closed connection to {data.addr}")
+                print("Closed connection to", data.addr)
+                connections.remove(sock)
         else:
-            print(f"Closing connection to {data.addr}")
+            print("Closing connection to", data.addr)
             sel.unregister(sock)
             sock.close()
+            connections.remove(sock)
     if mask & selectors.EVENT_WRITE:
         if data.outb:
-            print(f"Sending {data.outb.decode('utf-8')} to {data.addr}")
+            print("Sending", data.outb.decode('utf-8'), "to", data.addr)
             sent = sock.send(data.outb)  # Should be ready to write
             data.outb = data.outb[sent:]
 
@@ -60,7 +65,7 @@ def service_connection(key, mask):
 lsock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 lsock.bind((HOST, PORT))
 lsock.listen()
-print(f"Server is listening on {HOST}:{PORT}...")
+print("Server is listening on", HOST, ":", PORT)
 lsock.setblocking(False)
 sel.register(lsock, selectors.EVENT_READ, data=None)
 
@@ -72,7 +77,13 @@ try:
                 accept_wrapper(key.fileobj)
             else:
                 service_connection(key, mask)
+        
+        msg_to_send = input("Send a message: ")
+        for conn in connections:
+            conn.sendall(msg_to_send.encode('utf-8'))
+
 except KeyboardInterrupt:
     print("Caught keyboard interrupt, exiting")
 finally:
     sel.close()
+
