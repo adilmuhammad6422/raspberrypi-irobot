@@ -31,7 +31,7 @@ def drive_and_turn(tty):
 
     # Turn right
     velocity = 200  # mm/s
-    radius = -120  # Special code for turning in place clockwise
+    radius = -140  # Special code for turning in place clockwise
 
     # Convert velocity and radius to bytes
     vel_high_byte = (velocity >> 8) & 0xFF
