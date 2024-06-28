@@ -72,7 +72,7 @@ class Robot:
         # Drive straight for 5 seconds
         self.drive_straight(5)
 
-        self.turn_left()
+        self.turn_right()
 
         # # Turn right
         # velocity = 200  # mm/s
