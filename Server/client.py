@@ -34,7 +34,7 @@ def start_connections(host, port, num_conns):
     server_addr = (host, port)
     for i in range(0, num_conns):
         connid = i + 1
-        print(f"Starting connection {connid} to {server_addr}")
+        print("Starting connection {connid} to {server_addr}")
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         sock.setblocking(False)
         sock.connect_ex(server_addr)
