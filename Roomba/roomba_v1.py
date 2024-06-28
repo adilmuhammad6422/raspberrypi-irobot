@@ -7,7 +7,7 @@ def send(tty, commands):
 
 def drive_straight(tty, duration):
     # Drive command: 137
-    velocity = 200  # mm/s (positive value for forward, negative for backward)
+    velocity = 1000  # mm/s (positive value for forward, negative for backward)
     radius = 32768  # Special code for driving straight (0x8000)
 
     # Convert velocity and radius to bytes
@@ -27,10 +27,10 @@ def drive_straight(tty, duration):
 
 def drive_and_turn(tty):
     # Drive straight for 5 seconds
-    drive_straight(tty, 2)
+    drive_straight(tty, 5)
 
     # Turn right
-    velocity = 500  # mm/s
+    velocity = 200  # mm/s
     radius = -2000  # Special code for turning in place clockwise
     radius = 150  # Special code for turning in place clockwise
 
