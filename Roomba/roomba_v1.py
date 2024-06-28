@@ -30,7 +30,7 @@ def drive_and_turn(tty):
     drive_straight(tty, 2)
 
     # Turn right
-    velocity = 200  # mm/s
+    velocity = 500  # mm/s
     radius = -2000  # Special code for turning in place clockwise
     radius = 150  # Special code for turning in place clockwise
 
@@ -50,7 +50,7 @@ def drive_and_turn(tty):
     send(tty, [137, 0, 0, 0, 0])
 
     # Drive straight for another 5 seconds
-    # drive_straight(tty, 5)
+    drive_straight(tty, 2)
 
 def main():
     tty = serial.Serial(port='/dev/ttyUSB0', baudrate=57600, timeout=0.01)
