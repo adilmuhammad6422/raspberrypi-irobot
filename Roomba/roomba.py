@@ -26,7 +26,7 @@ def turn(tty, angle, velocity=100):
         # Calculate radius for in-place turn (straight turn in place is 32768 or -1 in OI)
         radius = 32767 if angle > 0 else -32768
         drive(tty, velocity, radius)
-        wait_angle(angle)
+        wait_angle(tty, angle)
         stop()
 
 def drive(tty, velocity, radius):
