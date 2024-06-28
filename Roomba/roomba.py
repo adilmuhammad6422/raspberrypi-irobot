@@ -27,7 +27,7 @@ def turn(tty, angle, velocity=100):
         radius = 32767 if angle > 0 else -32768
         drive(tty, velocity, radius)
         wait_angle(tty, angle)
-        stop()
+        stop(tty)
 
 def drive(tty, velocity, radius):
         # Drive command: 137 [velocity high byte] [velocity low byte] [radius high byte] [radius low byte]
