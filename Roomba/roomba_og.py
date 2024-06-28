@@ -93,8 +93,8 @@ def drive_and_turn(tty):
 def main():
     tty = serial.Serial(port='/dev/ttyUSB0', baudrate=57600, timeout=0.01)
 
-    # send(tty, [128, 132])
-    # time.sleep(1)
+    send(tty, [128, 132])
+    time.sleep(1)
 
     #drive_straight(tty, 5)
     drive_and_turn(tty)
