@@ -39,7 +39,7 @@ class Robot:
         self.send([137, 0, 0, 0, 0])
 
         velocity = 200  # mm/s
-        radius = 120  # Special code for turning in place clockwise
+        radius = 90  # Special code for turning in place clockwise
 
         # Convert velocity and radius to bytes
         vel_high_byte, vel_low_byte, radius_high_byte, radius_low_byte = self.convert_to_bytes(velocity, radius)
@@ -56,7 +56,7 @@ class Robot:
         self.send([137, 0, 0, 0, 0])
 
         velocity = 200  # mm/s
-        radius = -120  # Special code for turning in place clockwise
+        radius = -90  # Special code for turning in place clockwise
 
         # Convert velocity and radius to bytes
         vel_high_byte, vel_low_byte, radius_high_byte, radius_low_byte = self.convert_to_bytes(velocity, radius)
