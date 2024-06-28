@@ -40,7 +40,7 @@ class Roomba:
         self.ser.close()
 
     def straight(self, duration):
-         # Drive command: 137
+        # Drive command: 137
         velocity = 200  # mm/s (positive value for forward, negative for backward)
         radius = 32768  # Special code for driving straight (0x8000)
 
@@ -55,7 +55,7 @@ class Roomba:
         # Stop the robot
         self.send(self.ser, [137, 0, 0, 0, 0])
 
-    def send(tty, commands):
+    def send(self, tty, commands):
         for x in commands:
             tty.write(bytes([x]))
     
