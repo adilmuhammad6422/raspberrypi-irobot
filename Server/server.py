@@ -20,13 +20,12 @@
 import socket
 import selectors
 import types
-import threading
 
 HOST = "0.0.0.0"  # Listen on all available interfaces
 PORT = 44700  # Port to listen on (non-privileged ports are > 1023)
 
 sel = selectors.DefaultSelector()
-connections = []
+connections = {}
 
 def accept_wrapper(sock):
     conn, addr = sock.accept()  # Should be ready to read
@@ -35,7 +34,7 @@ def accept_wrapper(sock):
     data = types.SimpleNamespace(addr=addr, inb=b"", outb=b"")
     events = selectors.EVENT_READ | selectors.EVENT_WRITE
     sel.register(conn, events, data=data)
-    connections.append(conn)
+    connections[conn] = addr
 
 def service_connection(key, mask):
     sock = key.fileobj
@@ -49,12 +48,12 @@ def service_connection(key, mask):
                 sel.unregister(sock)
                 sock.close()
                 print("Closed connection to", data.addr)
-                connections.remove(sock)
+                del connections[sock]
         else:
             print("Closing connection to", data.addr)
             sel.unregister(sock)
             sock.close()
-            connections.remove(sock)
+            del connections[sock]
     if mask & selectors.EVENT_WRITE:
         if data.outb:
             print("Sending", data.outb.decode('utf-8'), "to", data.addr)
@@ -78,12 +77,19 @@ try:
             else:
                 service_connection(key, mask)
         
-        msg_to_send = input("Send a message: ")
-        for conn in connections:
-            conn.sendall(msg_to_send.encode('utf-8'))
+        if connections:
+            print("\nActive connections:")
+            for i, conn in enumerate(connections.keys()):
+                print(f"{i}: {connections[conn]}")
 
+            try:
+                conn_index = int(input("Enter the connection number to send a message: "))
+                conn = list(connections.keys())[conn_index]
+                msg_to_send = input("Send a message: ")
+                conn.sendall(msg_to_send.encode('utf-8'))
+            except (ValueError, IndexError):
+                print("Invalid selection. Please try again.")
 except KeyboardInterrupt:
     print("Caught keyboard interrupt, exiting")
 finally:
     sel.close()
-
