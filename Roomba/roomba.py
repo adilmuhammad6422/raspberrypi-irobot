@@ -12,12 +12,39 @@ def convert_to_bytes(velocity, radius):
     rad_low_byte = radius & 0xFF
     return vel_high_byte, vel_low_byte, rad_high_byte, rad_low_byte
 
-def turn_angle(tty, angle):
+def wait_angle(tty, angle):
     angle_high = (angle >> 8) & 0xFF
     angle_low = angle & 0xFF
     tty.write(bytes([157, angle_high, angle_low]))
 
+# def turn_angle(tty, angle):
+#     radius = 32767 if angle > 0 else -32768
+#     drive_straight(tty, radius)
+#     self.wait_angle(angle)
 
+def turn(angle, velocity=100):
+        # Calculate radius for in-place turn (straight turn in place is 32768 or -1 in OI)
+        radius = 32767 if angle > 0 else -32768
+        drive(velocity, radius)
+        wait_angle(angle)
+        stop()
+
+def drive(velocity, radius):
+        # Drive command: 137 [velocity high byte] [velocity low byte] [radius high byte] [radius low byte]
+        velocity_high = (velocity >> 8) & 0xFF
+        velocity_low = velocity & 0xFF
+        radius_high = (radius >> 8) & 0xFF
+        radius_low = radius & 0xFF
+        command = bytes([137, velocity_high, velocity_low, radius_high, radius_low])
+        send_command(command)
+
+def send_command(tty, command):
+        tty.write(command)
+        time.sleep(0.1)  # small delay to ensure command is sent properly
+
+def stop():
+        # Stop the robot by setting velocity to 0
+        drive(0, 0)
 
 def drive_straight(tty, duration):
     # Drive command: 137
@@ -40,7 +67,7 @@ def drive_and_turn(tty):
     drive_straight(tty, 5)
 
     # Turn right 90 degrees
-    turn_angle(tty, 90)
+    turn(90, 100)
 
     drive_straight(tty, 5)
 
