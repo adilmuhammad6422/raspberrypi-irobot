@@ -22,21 +22,21 @@ def wait_angle(tty, angle):
 #     drive_straight(tty, radius)
 #     self.wait_angle(angle)
 
-def turn(angle, velocity=100):
+def turn(tty, angle, velocity=100):
         # Calculate radius for in-place turn (straight turn in place is 32768 or -1 in OI)
         radius = 32767 if angle > 0 else -32768
-        drive(velocity, radius)
+        drive(tty, velocity, radius)
         wait_angle(angle)
         stop()
 
-def drive(velocity, radius):
+def drive(tty, velocity, radius):
         # Drive command: 137 [velocity high byte] [velocity low byte] [radius high byte] [radius low byte]
         velocity_high = (velocity >> 8) & 0xFF
         velocity_low = velocity & 0xFF
         radius_high = (radius >> 8) & 0xFF
         radius_low = radius & 0xFF
         command = bytes([137, velocity_high, velocity_low, radius_high, radius_low])
-        send_command(command)
+        send_command(tty, command)
 
 def send_command(tty, command):
         tty.write(command)
@@ -67,7 +67,7 @@ def drive_and_turn(tty):
     drive_straight(tty, 5)
 
     # Turn right 90 degrees
-    turn(90, 100)
+    turn(tty, 90, 100)
 
     drive_straight(tty, 5)
 
