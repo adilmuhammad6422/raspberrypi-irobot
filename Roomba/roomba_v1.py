@@ -52,6 +52,9 @@ def drive_and_turn(tty):
     # Drive straight for another 5 seconds
     drive_straight(tty, 2)
 
+    # Stop the robot after turning
+    send(tty, [137, 0, 0, 0, 0])
+
 def main():
     tty = serial.Serial(port='/dev/ttyUSB0', baudrate=57600, timeout=0.01)
 
