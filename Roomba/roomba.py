@@ -42,9 +42,9 @@ def send_command(tty, command):
         tty.write(command)
         time.sleep(0.1)  # small delay to ensure command is sent properly
 
-def stop():
+def stop(tty):
         # Stop the robot by setting velocity to 0
-        drive(0, 0)
+        drive(tty, 0, 0)
 
 def drive_straight(tty, duration):
     # Drive command: 137
