@@ -9,7 +9,7 @@ class Robot:
         for x in commands:
             self.tty.write(bytes([x]))
 
-    def convert_to_bytes(velocity, radius):
+    def convert_to_bytes(self, velocity, radius):
         vel_high_byte = (velocity >> 8) & 0xFF
         vel_low_byte = velocity & 0xFF
         radius_high_byte = (radius >> 8) & 0xFF
