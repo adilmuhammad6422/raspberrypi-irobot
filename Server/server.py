@@ -34,7 +34,7 @@ def accept_wrapper(sock):
     data = types.SimpleNamespace(addr=addr, inb=b"", outb=b"")
     events = selectors.EVENT_READ | selectors.EVENT_WRITE
     sel.register(conn, events, data=data)
-    connections[conn] = addr
+    connections[conn] = data
 
 def service_connection(key, mask):
     sock = key.fileobj
@@ -80,17 +80,24 @@ try:
         if connections:
             print("\nActive connections:")
             for i, conn in enumerate(connections.keys()):
-                print(i, ":", connections[conn])
+                print(i, ":", connections[conn].addr)
 
             try:
-                conn_index = int(input("Enter the connection number to send a message: "))
-                conn = list(connections.keys())[conn_index]
-                msg_to_send = input("Send a message: ")
-                conn.sendall(msg_to_send.encode('utf-8'))
+                option = input("Enter 'all' to broadcast a message to all connections or the connection number to send a message to a specific connection: ").strip()
+                if option.lower() == 'all':
+                    msg_to_send = input("Send a message to all connections: ")
+                    for conn in connections.keys():
+                        connections[conn].outb = msg_to_send.encode('utf-8')
+                else:
+                    conn_index = int(option)
+                    conn = list(connections.keys())[conn_index]
+                    msg_to_send = input("Send a message: ")
+                    connections[conn].outb = msg_to_send.encode('utf-8')
             except (ValueError, IndexError):
                 print("Invalid selection. Please try again.")
 except KeyboardInterrupt:
     print("Caught keyboard interrupt, exiting")
 finally:
     sel.close()
+
 
