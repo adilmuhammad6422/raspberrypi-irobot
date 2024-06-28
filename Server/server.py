@@ -80,7 +80,7 @@ try:
         if connections:
             print("\nActive connections:")
             for i, conn in enumerate(connections.keys()):
-                print(f"{i}: {connections[conn]}")
+                print(i, ":", connections[conn])
 
             try:
                 conn_index = int(input("Enter the connection number to send a message: "))
@@ -93,3 +93,4 @@ except KeyboardInterrupt:
     print("Caught keyboard interrupt, exiting")
 finally:
     sel.close()
+
