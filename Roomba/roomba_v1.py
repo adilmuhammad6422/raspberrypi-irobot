@@ -27,7 +27,7 @@ def drive_straight(tty, duration):
 
 def drive_and_turn(tty):
     # Drive straight for 5 seconds
-    drive_straight(tty, 5)
+    drive_straight(tty, 2)
 
     # Turn right
     velocity = 200  # mm/s
@@ -50,7 +50,7 @@ def drive_and_turn(tty):
     send(tty, [137, 0, 0, 0, 0])
 
     # Drive straight for another 5 seconds
-    drive_straight(tty, 5)
+    # drive_straight(tty, 5)
 
 def main():
     tty = serial.Serial(port='/dev/ttyUSB0', baudrate=57600, timeout=0.01)
@@ -58,26 +58,7 @@ def main():
     send(tty, [128, 132])
     time.sleep(1)
 
-    #drive_straight(tty, 5)
     drive_and_turn(tty)
-
-    # try:
-    #     while True:
-    #         time.sleep(0.1)
-
-    #         send(tty, [149, 1, 7])
-    #         inp = tty.read(1)
-    #         if inp:
-    #             bump = inp[0]
-    #             if bump:
-    #                 print("Bump, Rotating ...")
-    #                 send(tty, [137, 0, 50, 0, 1])
-    #                 time.sleep(0.1)
-    #             else:
-    #                 send(tty, [137, 0, 200, 128, 0])
-    # except KeyboardInterrupt:
-    #     # Gracefully close the serial connection on exit
-    #     tty.close()
 
 if __name__ == '__main__':
     main()
