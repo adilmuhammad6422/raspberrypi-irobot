@@ -9,17 +9,23 @@ class Robot:
         for x in commands:
             self.tty.write(bytes([x]))
 
+    def convert_to_bytes(velocity, radius):
+        vel_high_byte = (velocity >> 8) & 0xFF
+        vel_low_byte = velocity & 0xFF
+        radius_high_byte = (radius >> 8) & 0xFF
+        radius_low_byte = radius & 0xFF
+        return vel_high_byte, vel_low_byte, radius_high_byte, radius_low_byte
+
+
     def drive_straight(self, duration):
         velocity = 200  # mm/s (positive value for forward, negative for backward)
         radius = 32768  # Special code for driving straight (0x8000)
 
         # Convert velocity and radius to bytes
-        vel_high_byte = (velocity >> 8) & 0xFF
-        vel_low_byte = velocity & 0xFF
-        rad_high_byte = (radius >> 8) & 0xFF
-        rad_low_byte = radius & 0xFF
-
-        drive_command = [137, vel_high_byte, vel_low_byte, rad_high_byte, rad_low_byte]
+        vel_high_byte, vel_low_byte, radius_high_byte, radius_low_byte = self.convert_to_bytes(velocity, radius)
+        
+        # Send drive command
+        drive_command = [137, vel_high_byte, vel_low_byte, radius_high_byte, radius_low_byte]
         self.send(drive_command)
 
         # Wait for the specified duration
@@ -28,57 +34,66 @@ class Robot:
         # Stop the robot
         self.send([137, 0, 0, 0, 0])
 
-    def turn_angle(self, angle, speed):
-        # angle: desired turn angle in degrees
-        # speed: speed of the turn in mm/s
-
-        # Convert angle to radians
-        angle_rad = angle * (3.14159 / 180.0)
-
-        # Calculate time to turn based on the speed and angle
-        # Assuming wheel base (distance between wheels) of 235 mm
-        wheel_base = 235.0
-
-        # Turn radius for in-place turn is half of the wheel base
-        turn_radius = wheel_base / 2.0
-
-        # Time to turn (seconds)
-        turn_time = (angle_rad * turn_radius) / speed
-
-        # Command for turning in place (clockwise or counterclockwise)
-        if angle > 0:
-            # Turn left
-            left_speed = -speed
-            right_speed = speed
-        else:
-            # Turn right
-            left_speed = speed
-            right_speed = -speed
-
-        # Convert speeds to high and low byte
-        left_speed_high = (left_speed >> 8) & 0xFF
-        left_speed_low = left_speed & 0xFF
-        right_speed_high = (right_speed >> 8) & 0xFF
-        right_speed_low = right_speed & 0xFF
-
-        # Drive command (137) + wheel speeds
-        command = [137, right_speed_high, right_speed_low, left_speed_high, left_speed_low]
-        self.send(bytearray(command))
-
-        # Wait for the turn to complete
-        time.sleep(abs(turn_time))
-
+    def turn_left(self):
         # Stop the robot
+        self.send([137, 0, 0, 0, 0])
+
+        velocity = 200  # mm/s
+        radius = 120  # Special code for turning in place clockwise
+
+        # Convert velocity and radius to bytes
+        vel_high_byte, vel_low_byte, radius_high_byte, radius_low_byte = self.convert_to_bytes(velocity, radius)
+
+        turn_command = [137, vel_high_byte, vel_low_byte, radius_high_byte, radius_low_byte]
+        self.send(turn_command)
+        time.sleep(2)
+
+        # Stop the robot after turning
+        self.send([137, 0, 0, 0, 0])
+
+    def turn_right(self):
+        # Stop the robot
+        self.send([137, 0, 0, 0, 0])
+
+        velocity = 200  # mm/s
+        radius = -120  # Special code for turning in place clockwise
+
+        # Convert velocity and radius to bytes
+        vel_high_byte, vel_low_byte, radius_high_byte, radius_low_byte = self.convert_to_bytes(velocity, radius)
+
+        turn_command = [137, vel_high_byte, vel_low_byte, radius_high_byte, radius_low_byte]
+        self.send(turn_command)
+        time.sleep(2)
+
+        # Stop the robot after turning
         self.send([137, 0, 0, 0, 0])
 
     def drive_and_turn(self):
         # Drive straight for 5 seconds
         self.drive_straight(5)
 
-        # Turn 90 degrees to the right
-        self.turn_angle(-90, 200)
+        self.turn_left()
 
-        # Drive straight for another 2 seconds
+        # # Turn right
+        # velocity = 200  # mm/s
+        # radius = 150  # Special code for turning in place clockwise
+
+        # # Convert velocity and radius to bytes
+        # vel_high_byte = (velocity >> 8) & 0xFF
+        # vel_low_byte = velocity & 0xFF
+        # rad_high_byte = (radius >> 8) & 0xFF
+        # rad_low_byte = radius & 0xFF
+
+        # turn_command = [137, vel_high_byte, vel_low_byte, rad_high_byte, rad_low_byte]
+        # self.send(turn_command)
+
+        # # Time to turn 90 degrees (adjust based on your robot's turning speed)
+        # time.sleep(2)
+
+        # # Stop the robot after turning
+        # self.send([137, 0, 0, 0, 0])
+
+        # # Drive straight for another 2 seconds
         self.drive_straight(2)
 
         # Stop the robot after driving straight
