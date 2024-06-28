@@ -5,16 +5,26 @@ def send(tty, commands):
     for x in commands:
         tty.write(bytes([x]))
 
+def convert_to_bytes(velocity, radius):
+    vel_high_byte = (velocity >> 8) & 0xFF
+    vel_low_byte = velocity & 0xFF
+    rad_high_byte = (radius >> 8) & 0xFF
+    rad_low_byte = radius & 0xFF
+    return vel_high_byte, vel_low_byte, rad_high_byte, rad_low_byte
+
+def turn_angle(tty, angle):
+    angle_high = (angle >> 8) & 0xFF
+    angle_low = angle & 0xFF
+    tty.write(bytes([157, angle_high, angle_low]))
+
+
+
 def drive_straight(tty, duration):
     # Drive command: 137
     velocity = 200  # mm/s (positive value for forward, negative for backward)
     radius = 32768  # Special code for driving straight (0x8000)
 
-    # Convert velocity and radius to bytes
-    vel_high_byte = (velocity >> 8) & 0xFF
-    vel_low_byte = velocity & 0xFF
-    rad_high_byte = (radius >> 8) & 0xFF
-    rad_low_byte = radius & 0xFF
+    vel_high_byte, vel_low_byte, rad_high_byte, rad_low_byte = convert_to_bytes(velocity, radius)
 
     drive_command = [137, vel_high_byte, vel_low_byte, rad_high_byte, rad_low_byte]
     send(tty, drive_command)
@@ -29,27 +39,29 @@ def drive_and_turn(tty):
     # Drive straight for 5 seconds
     drive_straight(tty, 5)
 
-    # Turn right
-    velocity = 200  # mm/s
-    radius = -140  # Special code for turning in place clockwise
+    # Turn right 90 degrees
+    turn_angle(tty, 90)
 
-    # Convert velocity and radius to bytes
-    vel_high_byte = (velocity >> 8) & 0xFF
-    vel_low_byte = velocity & 0xFF
-    rad_high_byte = (radius >> 8) & 0xFF
-    rad_low_byte = radius & 0xFF
+    drive_straight(tty, 5)
 
-    turn_command = [137, vel_high_byte, vel_low_byte, rad_high_byte, rad_low_byte]
-    send(tty, turn_command)
+    tty.close()
+
+    # velocity = 200  # mm/s
+    # radius = -140  # Special code for turning in place clockwise
+
+    # vel_high_byte, vel_low_byte, rad_high_byte, rad_low_byte = convert_to_bytes(velocity, radius)
+    # turn_command = [137, vel_high_byte, vel_low_byte, rad_high_byte, rad_low_byte]
+    # send(tty, turn_command)
 
     # Time to turn 90 degrees (adjust based on your robot's turning speed)
-    time.sleep(2)
+    # time.sleep(2)
 
     # Stop the robot after turning
-    send(tty, [137, 0, 0, 0, 0])
+    # send(tty, [137, 0, 0, 0, 0])
 
     # Drive straight for another 5 seconds
-    drive_straight(tty, 5)
+    
+    # tty.close()
 
 def main():
     tty = serial.Serial(port='/dev/ttyUSB0', baudrate=57600, timeout=0.01)
