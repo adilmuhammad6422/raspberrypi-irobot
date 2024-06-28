@@ -32,11 +32,13 @@ class Robot:
         time.sleep(duration)
 
         # Stop the robot
-        self.send([137, 0, 0, 0, 0])
+        self.stop()
+
 
     def turn_left(self):
         # Stop the robot
-        self.send([137, 0, 0, 0, 0])
+        self.stop()
+
 
         velocity = 200  # mm/s
         radius = 90  # Special code for turning in place clockwise
@@ -49,14 +51,15 @@ class Robot:
         time.sleep(2)
 
         # Stop the robot after turning
-        self.send([137, 0, 0, 0, 0])
+        self.stop()
+
 
     def turn_right(self):
         # Stop the robot
         self.send([137, 0, 0, 0, 0])
 
         velocity = 200  # mm/s
-        radius = -90  # Special code for turning in place clockwise
+        radius = -500  # Special code for turning in place clockwise
 
         # Convert velocity and radius to bytes
         vel_high_byte, vel_low_byte, radius_high_byte, radius_low_byte = self.convert_to_bytes(velocity, radius)
@@ -66,7 +69,11 @@ class Robot:
         time.sleep(2)
 
         # Stop the robot after turning
+        self.stop()
+
+    def stop(self):
         self.send([137, 0, 0, 0, 0])
+
 
     def drive_and_turn(self):
         # Drive straight for 5 seconds
