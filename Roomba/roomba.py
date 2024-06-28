@@ -70,6 +70,6 @@ class Roomba:
 if __name__ == "__main__":
     robot = Roomba('/dev/ttyUSB0')
 
-    robot.straight(robot, 5)
+    robot.straight(5)
 
     robot.close()
