@@ -55,7 +55,7 @@ def service_connection(key, mask):
         recv_data = sock.recv(1024)  # Should be ready to read
         if recv_data:
             data.recv_total += len(recv_data)
-            print(f"Received {recv_data.decode('utf-8')} from connection {data.connid}")
+            print("Received {recv_data.decode('utf-8')} from connection {data.connid}")
             if recv_data.decode('utf-8') == 'straight':
                 print("Roomba going straight.")
                 sock.sendall(b'straight')
@@ -74,7 +74,7 @@ def service_connection(key, mask):
         if not data.outb and data.messages:
             data.outb = data.messages.pop(0)
         if data.outb:
-            print(f"Sending {data.outb.decode('utf-8')} to connection {data.connid}")
+            print("Sending {data.outb.decode('utf-8')} to connection {data.connid}")
             sent = sock.send(data.outb)  # Should be ready to write
             data.outb = data.outb[sent:]
 
