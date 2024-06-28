@@ -28,13 +28,23 @@ class Robot:
         # Stop the robot
         self.send([137, 0, 0, 0, 0])
 
-    def drive_and_turn(self):
+    def drive_and_turn(self, angle):
         # Drive straight for 5 seconds
         self.drive_straight(5)
 
         # Turn right
         velocity = 200  # mm/s
         radius = 150  # Special code for turning in place clockwise
+
+        # Determine direction and duration based on the angle
+        if angle > 0:
+            radius = -2000  # Special code for turning in place clockwise
+        else:
+            radius = 2000  # Special code for turning in place counter-clockwise
+
+        # Calculate duration needed to turn the specified angle
+        turning_speed = 90  # degrees per second, adjust based on your robot's turning speed
+        duration = abs(angle) / turning_speed
 
         # Convert velocity and radius to bytes
         vel_high_byte = (velocity >> 8) & 0xFF
@@ -44,6 +54,9 @@ class Robot:
 
         turn_command = [137, vel_high_byte, vel_low_byte, rad_high_byte, rad_low_byte]
         self.send(turn_command)
+
+        # Wait for the calculated duration
+        time.sleep(duration)
 
         # Time to turn 90 degrees (adjust based on your robot's turning speed)
         time.sleep(2)
