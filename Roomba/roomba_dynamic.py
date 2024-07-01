@@ -127,10 +127,12 @@ class Robot:
                 
                 self.send([149, 1, 7])  # Request bump sensor data
                 inp = self.tty.read(1)
+                print(inp)
                 if inp:
                     bump = ord(inp[0])
                     if bump:
                         print("Bump detected, rotating...")
+
                         self.send([137, 0, 50, 0, 1])  # Turn in place clockwise
                         time.sleep(0.5)  # Adjust the sleep duration as necessary
                     else:
