@@ -23,6 +23,7 @@ class Robot:
         return vel_high_byte, vel_low_byte, radius_high_byte, radius_low_byte
 
     def drive_straight(self, duration):
+        self.set_velocity(200)
         radius = 32768  # Special code for driving straight (0x8000)
 
         # Convert velocity and radius to bytes
@@ -39,6 +40,7 @@ class Robot:
         self.stop()
 
     def turn_left(self):
+        self.set_velocity(200)
         radius = 1  # Special code for turning in place counterclockwise
 
         # Convert velocity and radius to bytes
@@ -54,6 +56,7 @@ class Robot:
         self.stop()
 
     def turn_right(self):
+        self.set_velocity(200)
         radius = -1  # Special code for turning in place clockwise
 
         # Convert velocity and radius to bytes
@@ -69,6 +72,8 @@ class Robot:
         self.stop()
 
     def turn_dynamic_angle(self, angle):
+        self.set_velocity(200)
+
         if angle == 0:
             radius = 32768  # Drive straight
         else:
@@ -93,6 +98,8 @@ class Robot:
         self.send([137, 0, 0, 0, 0])
 
     def drive_and_turn(self):
+        self.set_velocity(200)
+
         # Drive straight for 5 seconds
         self.drive_straight(2)
 
