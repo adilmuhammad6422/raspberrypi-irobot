@@ -132,7 +132,7 @@ class Robot:
                     self.turn_right()
                     bump_count += 1
                 else:
-                    self.drive_straight()
+                    self.drive_straight(3)
 
 
 
