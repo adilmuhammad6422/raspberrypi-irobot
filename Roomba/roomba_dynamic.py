@@ -97,7 +97,7 @@ class Robot:
         self.turn_left()
 
         # Drive straight for another 2 seconds
-        self.drive_straight(2)
+        self.drive_straight(3)
 
         # Turn right
         self.turn_right()
