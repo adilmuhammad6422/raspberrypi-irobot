@@ -115,14 +115,14 @@ class Robot:
         self.stop()
 
     def drive_infinite_and_turn_right_90(self):
-        self.send(self.tty, [128, 132])
+        self.send([128, 132])
         time.sleep(1)
 
         bump_count = 0
         while bump_count < 3:
             time.sleep(100.0/1000.0)
 
-            self.send(self.tty, [149, 1, 7])
+            self.send([149, 1, 7])
             inp = self.tty.read(1)
             if inp:
                 bump = ord(inp[0])
