@@ -6,6 +6,7 @@ class Robot:
         self.tty = serial.Serial(port=port, baudrate=baudrate, timeout=timeout)
 
     def send(self, commands):
+        print("Sending commands:", commands)  # Debugging print
         for x in commands:
             self.tty.write(bytes([x]))
 
@@ -66,6 +67,7 @@ class Robot:
         self.stop()
 
     def stop(self):
+        print("Stopping the robot")  # Debugging print
         self.send([137, 0, 0, 0, 0])
 
     def drive_and_turn(self):
@@ -81,6 +83,7 @@ class Robot:
         self.stop()
 
     def start(self):
+        print("Starting the robot")  # Debugging print
         self.send([128, 132])
         time.sleep(1)
 
