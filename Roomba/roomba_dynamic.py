@@ -115,87 +115,6 @@ class Robot:
         self.stop()
 
 
-    # def send1(tty, commands):
-    #     for x in commands:
-    #         tty.write(chr(x))
-
-    def drive_infinite_and_turn_right_90(self):
-        try:
-            while True:
-                self.send([137, 0, 200, 128, 0])  # Drive forward
-                time.sleep(0.1)
-                
-                self.send([149, 1, 7])  # Request bump sensor data
-                inp = self.tty.read(1)
-                print(inp)
-                if inp:
-                    bump = ord(inp[0])
-                    if bump:
-                        print("Bump detected, rotating...")
-
-                        self.send([137, 0, 50, 0, 1])  # Turn in place clockwise
-                        time.sleep(0.5)  # Adjust the sleep duration as necessary
-                    else:
-                        self.send([137, 0, 200, 128, 0])  # Continue driving forward
-        except KeyboardInterrupt:
-            print("Interrupted, stopping the robot...")
-            self.stop()
-        
-        self.tty.close()
-        
-        
-        
-        
-        
-        
-        # tty = serial.Serial(port='/dev/ttyUSB0', baudrate=57600, timeout=0.01)
-
-        # self.send([128, 132])
-        
-        
-        
-        
-        # time.sleep(1)
-        # while 1:
-            
-        #     time.sleep(100.0/1000.0)
-
-        #     self.send([149, 1, 7])
-        #     inp = self.tty.read(1)
-        #     if inp:
-        #         bump = ord(inp[0])
-        #         if bump:
-        #             print("Bump, Rotating ...")
-        #             self.send([137, 0, 50, 0, 1])
-        #             time.sleep(0.1)
-        #         else:
-        #             self.send([137, 0, 200, 128, 0])
-        
-        # tty.close()
-        
-        
-        # self.send([128, 132])
-        # time.sleep(1)
-        # while True:
-        #     time.sleep(0.1)
-
-        #     self.send([149, 1, 7])
-        #     inp = self.tty.read(1)
-        #     if inp:
-        #         bump = inp[0]
-        #         if bump:
-        #             print("Bump detected, rotating...")
-        #             self.send([137, 0, 50, 0, 1])
-        #             time.sleep(0.1)
-        #         else:
-        #             self.send([137, 0, 200, 128, 0])
-        
-        
-        
-        
-
-
-
     def start(self):
         print("Starting the robot")  # Debugging print
         self.send([128, 132])
@@ -204,7 +123,7 @@ class Robot:
 def main():
     robot = Robot()
     robot.start()
-    robot.drive_infinite_and_turn_right_90()
+    robot.drive_and_turn()
 
 if __name__ == '__main__':
     main()
