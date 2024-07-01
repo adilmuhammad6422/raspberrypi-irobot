@@ -94,7 +94,7 @@ class Robot:
 
     def stop(self):
         print("Stopping the robot")  # Debugging print
-        self.set_velocity(0)
+        # self.set_velocity(0)
         self.send([137, 0, 0, 0, 0])
 
     def drive_and_turn(self):
