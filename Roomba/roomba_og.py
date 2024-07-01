@@ -12,7 +12,7 @@ def main():
     time.sleep(1)
     try:
         while True:
-            time.sleep(0.1)
+            time.sleep(100.0/1000.0)
 
             send(tty, [149, 1, 7])
             inp = tty.read(1)
