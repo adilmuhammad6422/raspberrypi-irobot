@@ -115,7 +115,7 @@ class Robot:
         self.stop()
 
 
-    def send(tty, commands):
+    def send1(tty, commands):
         for x in commands:
             tty.write(chr(x))
 
@@ -149,7 +149,7 @@ class Robot:
 
 def main():
     robot = Robot()
-    robot.start()
+    # robot.start()
     robot.drive_infinite_and_turn_right_90()
 
 if __name__ == '__main__':
