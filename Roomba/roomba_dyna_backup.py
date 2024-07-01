@@ -125,6 +125,14 @@ class Robot:
             return left_bumper, right_bumper
         return False, False
 
+    def test_bumper_detection(self):
+        print("Testing bumper detection...")  # Debugging print
+        while True:
+            left_bumper, right_bumper = self.read_bumper_status()
+            print("Left bumper activated:", left_bumper)
+            print("Right bumper activated:", right_bumper)
+            time.sleep(1)  # Check bumper status every second
+
     def start(self):
         print("Starting the robot")  # Debugging print
         self.send([128, 132])
@@ -133,12 +141,7 @@ class Robot:
 def main():
     robot = Robot()
     robot.start()
-    robot.drive_and_turn()
-    
-    # Check bumper status
-    left_bumper, right_bumper = robot.read_bumper_status()
-    print("Left bumper activated:", left_bumper)
-    print("Right bumper activated:", right_bumper)
+    robot.test_bumper_detection()
 
 if __name__ == '__main__':
     main()
