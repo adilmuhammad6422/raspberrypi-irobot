@@ -114,28 +114,31 @@ class Robot:
         # Stop the robot after driving straight
         self.stop()
 
+
+    def send(tty, commands):
+        for x in commands:
+            tty.write(chr(x))
+
     def drive_infinite_and_turn_right_90(self):
-        self.send([128, 132])
+        tty = serial.Serial(port='/dev/ttyUSB0', baudrate=57600, timeout=0.01)
+
+        self.send1(tty, [128, 132])
         time.sleep(1)
+        while 1:
+            time.sleep(0.1)
 
-        bump_count = 0
-        while bump_count < 3:
-            time.sleep(100.0 / 1000.0)
-
-            # Request bump and wheel drop sensors packet
-            self.send([142, 7])
-            inp = self.tty.read(1)
+            self.send1(tty, [149, 1, 7])
+            inp = tty.read(1)
             if inp:
-                bump = ord(inp) & 0x03  # Check the bump sensors (bits 0 and 1)
-
+                bump = inp[0]
                 if bump:
-                    print('Bump detected, rotating...')
-                    self.turn_right()
-                    bump_count += 1
+                    print("Bump, Rotating ...")
+                    self.send1(tty, [137, 0, 50, 0, 1])
+                    time.sleep(0.1)
                 else:
-                    self.drive_straight(0.1)
-            else:
-                print("No data received from sensors")
+                    self.send1(tty, [137, 0, 200, 128, 0])
+        
+        tty.close()
 
 
 
