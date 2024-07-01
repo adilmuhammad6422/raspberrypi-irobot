@@ -114,6 +114,28 @@ class Robot:
         # Stop the robot after driving straight
         self.stop()
 
+    def drive_infinite_and_turn_right_90(self):
+        self.send(self.tty, [128, 132])
+        time.sleep(1)
+
+        bump_count = 0
+        while bump_count < 3:
+            time.sleep(100.0/1000.0)
+
+            self.send(self.tty, [149, 1, 7])
+            inp = self.tty.read(1)
+            if inp:
+                bump = ord(inp[0])
+
+                if bump:
+                    print('Bump, Rotating...')
+                    self.turn_right()
+                    bump_count += 1
+                else:
+                    self.drive_straight()
+
+
+
     def start(self):
         print("Starting the robot")  # Debugging print
         self.send([128, 132])
@@ -122,7 +144,7 @@ class Robot:
 def main():
     robot = Robot()
     robot.start()
-    robot.drive_and_turn()
+    robot.drive_infinite_and_turn_right_90()
 
 if __name__ == '__main__':
     main()
