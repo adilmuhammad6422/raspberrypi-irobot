@@ -120,19 +120,20 @@ class Robot:
 
         bump_count = 0
         while bump_count < 3:
-            time.sleep(100.0/1000.0)
+            time.sleep(100.0 / 1000.0)
 
-            self.send([149, 1, 7])
+            # Request bump and wheel drop sensors packet
+            self.send([142, 7])
             inp = self.tty.read(1)
             if inp:
-                bump = ord(inp[0])
+                bump = ord(inp[0]) & 0x03  # Check the bump sensors (bits 0 and 1)
 
                 if bump:
-                    print('Bump, Rotating...')
+                    print('Bump detected, rotating...')
                     self.turn_right()
                     bump_count += 1
                 else:
-                    self.drive_straight(3)
+                    self.drive_straight(0.1)
 
 
 
