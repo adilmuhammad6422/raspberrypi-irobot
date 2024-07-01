@@ -70,11 +70,23 @@ class Robot:
         print("Stopping the robot")  # Debugging print
         self.send([137, 0, 0, 0, 0])
 
-    def drive_and_turn(self):
+    def drive_and_turn_left(self):
         # Drive straight for 5 seconds
         self.drive_straight(5)
 
         self.turn_left()
+
+        # Drive straight for another 2 seconds
+        self.drive_straight(2)
+
+        # Stop the robot after driving straight
+        self.stop()
+
+    def drive_and_turn_right(self):
+        # Drive straight for 5 seconds
+        self.drive_straight(5)
+
+        self.turn_right()
 
         # Drive straight for another 2 seconds
         self.drive_straight(2)
@@ -90,7 +102,7 @@ class Robot:
 def main():
     robot = Robot()
     robot.start()
-    robot.drive_and_turn()
+    robot.drive_and_turn_right()
 
 if __name__ == '__main__':
     main()
