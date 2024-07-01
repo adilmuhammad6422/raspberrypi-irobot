@@ -102,7 +102,7 @@ class Robot:
 def main():
     robot = Robot()
     robot.start()
-    robot.drive_and_turn()
+    robot.drive_and_turn_right()
 
 if __name__ == '__main__':
     main()
