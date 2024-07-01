@@ -118,8 +118,8 @@ class Robot:
         self.send([142, 7])  # Requesting bumper sensor data (packet ID 7)
         time.sleep(0.1)  # Wait for the sensor data to be sent
         data = self.tty.read(1)  # Read one byte from the sensor data
-        if data:
-            bumper_byte = ord(data)  # Convert byte to integer
+        if len(data) == 1:
+            bumper_byte = data[0]  # Directly use the byte from the data
             left_bumper = (bumper_byte & 0x02) > 0
             right_bumper = (bumper_byte & 0x01) > 0
             return left_bumper, right_bumper
