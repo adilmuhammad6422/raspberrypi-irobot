@@ -91,7 +91,7 @@ class Robot:
 
     def drive_and_turn(self):
         # Drive straight for 5 seconds
-        self.drive_straight(5)
+        self.drive_straight(2)
 
         # Turn left
         self.turn_left()
