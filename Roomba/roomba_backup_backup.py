@@ -42,7 +42,9 @@ class Robot:
 
         turn_command = [137, vel_high_byte, vel_low_byte, radius_high_byte, radius_low_byte]
         self.send(turn_command)
-        time.sleep(2)
+        
+        # Adjust the sleep duration to achieve a 90-degree turn
+        time.sleep(1)  # Adjust this value as necessary
 
         # Stop the robot after turning
         self.stop()
@@ -56,7 +58,9 @@ class Robot:
 
         turn_command = [137, vel_high_byte, vel_low_byte, radius_high_byte, radius_low_byte]
         self.send(turn_command)
-        time.sleep(2)
+        
+        # Adjust the sleep duration to achieve a 90-degree turn
+        time.sleep(1)  # Adjust this value as necessary
 
         # Stop the robot after turning
         self.stop()
