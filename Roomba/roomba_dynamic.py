@@ -126,7 +126,7 @@ class Robot:
             self.send([142, 7])
             inp = self.tty.read(1)
             if inp:
-                bump = ord(inp[0]) & 0x03  # Check the bump sensors (bits 0 and 1)
+                bump = ord(inp) & 0x03  # Check the bump sensors (bits 0 and 1)
 
                 if bump:
                     print('Bump detected, rotating...')
@@ -134,6 +134,8 @@ class Robot:
                     bump_count += 1
                 else:
                     self.drive_straight(0.1)
+            else:
+                print("No data received from sensors")
 
 
 
