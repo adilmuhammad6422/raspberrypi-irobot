@@ -115,30 +115,48 @@ class Robot:
         self.stop()
 
 
-    def send1(tty, commands):
-        for x in commands:
-            tty.write(chr(x))
+    # def send1(tty, commands):
+    #     for x in commands:
+    #         tty.write(chr(x))
 
     def drive_infinite_and_turn_right_90(self):
-        tty = serial.Serial(port='/dev/ttyUSB0', baudrate=57600, timeout=0.01)
-
-        self.send1(tty, [128, 132])
+        self.send([128, 132])
         time.sleep(1)
-        while 1:
+        while True:
             time.sleep(0.1)
 
-            self.send1(tty, [149, 1, 7])
-            inp = tty.read(1)
+            self.send([149, 1, 7])
+            inp = self.tty.read(1)
             if inp:
                 bump = inp[0]
                 if bump:
-                    print("Bump, Rotating ...")
-                    self.send1(tty, [137, 0, 50, 0, 1])
+                    print("Bump detected, rotating...")
+                    self.send([137, 0, 50, 0, 1])
                     time.sleep(0.1)
                 else:
-                    self.send1(tty, [137, 0, 200, 128, 0])
+                    self.send([137, 0, 200, 128, 0])
         
-        tty.close()
+        
+        
+        # tty = serial.Serial(port='/dev/ttyUSB0', baudrate=57600, timeout=0.01)
+
+        # self.send1(tty, [128, 132])
+        # time.sleep(1)
+        # while 1:
+        #     time.sleep(0.1)
+
+        #     self.send1(tty, [149, 1, 7])
+        #     inp = tty.read(1)
+        #     if inp:
+        #         bump = inp[0]
+        #         if bump:
+        #             print("Bump, Rotating ...")
+        #             self.send1(tty, [137, 0, 50, 0, 1])
+        #             time.sleep(0.1)
+        #         else:
+        #             self.send1(tty, [137, 0, 200, 128, 0])
+        
+        # tty.close()
 
 
 
@@ -149,7 +167,7 @@ class Robot:
 
 def main():
     robot = Robot()
-    # robot.start()
+    robot.start()
     robot.drive_infinite_and_turn_right_90()
 
 if __name__ == '__main__':
