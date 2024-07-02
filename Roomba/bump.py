@@ -172,11 +172,11 @@ class Robot:
 
     def read_bump_sensors(self):
         # Request sensor packet 7
-        self.send(b'\x8E\x07')
+        self.send([0x8E, 0x07])
         time.sleep(0.1)
         
         # Read the sensor data
-        data = self.send.read(1)
+        data = self.read(1)
         if data:
             sensor_data = ord(data)
             
@@ -207,37 +207,6 @@ class Robot:
                 time.sleep(0.1)
         except KeyboardInterrupt:
             pass
-        # finally:
-            # Close the serial port
-            # self.tty.close()
-
-
-
-        # print("Starting bump and turn...")
-        # self.start()
-        # self.set_velocity(200)
-
-        # while True:
-            
-        #     bump_left, bump_right = self.read_bump_sensor()
-        #     if bump_left or bump_right:
-        #         break
-
-
-
-        # while True:
-        #     # Drive straight
-        #     self.drive_straight(0.1)  # Short drive time to check for bumps frequently
-
-        #     # Check for bump sensors
-        #     bump_left, bump_right = self.read_bump_sensor()
-
-
-        #     if bump_left or bump_right:
-        #         print("Bump detected! Turning right...")
-        #         self.turn_right()
-        #         # You can adjust the duration or behavior as needed after a bump
-        #         time.sleep(0.5)
 
 def main():
     robot = Robot()
