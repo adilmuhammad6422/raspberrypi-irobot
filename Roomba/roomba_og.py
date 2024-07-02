@@ -18,7 +18,7 @@ def main():
         inp = tty.read(10)  # Read more bytes to capture the response
         
         if inp:
-            bump = ord(inp[0]) & 0x03  # Extract bump data (assuming bump data is in the first byte)
+            bump = inp[0] & 0x03  # Extract bump data (assuming bump data is in the first byte)
             if bump:
                 print("Bump, Rotating ...")
                 send(tty, [137, 0, 50, 0, 1])  # Rotate
