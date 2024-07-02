@@ -24,7 +24,7 @@ class Robot:
 
     def drive_straight(self, duration):
         print('Driving Straight...')
-        
+
         radius = 32768  # Special code for driving straight (0x8000)
 
         # Convert velocity and radius to bytes
@@ -74,7 +74,7 @@ class Robot:
         self.stop()
 
     def turn_dynamic_angle(self, angle):
-        print('Turning ' + angle + 'degree ')
+        print('Turning ' + str(angle) + ' degree')
 
         if angle == 0:
             radius = 32768  # Drive straight
