@@ -188,10 +188,11 @@ class Robot:
         self.start()
         self.set_velocity(200)
 
-        for i in range(100):
-
-            self.read_bump_sensor()
-
+        while True:
+            
+            bump_left, bump_right = self.read_bump_sensor()
+            if bump_left or bump_right:
+                break
 
 
 
