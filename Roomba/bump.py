@@ -174,9 +174,9 @@ class Robot:
         # Send a command to request sensor data
         self.send([149, 1, 7])  # Request bumper and wheel drop sensors
         data = self.read(1)
-        if data[0]:
-            print('bump detected...')
+        if data:
             bump_data = ord(data)
+            print('bump detected...')
             bump_right = bump_data & 0x01
             bump_left = (bump_data & 0x02) >> 1
             return bump_left, bump_right
