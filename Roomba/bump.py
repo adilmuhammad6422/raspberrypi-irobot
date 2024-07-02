@@ -188,19 +188,22 @@ class Robot:
         self.start()
         self.set_velocity(200)
 
-        while True:
-            # Drive straight
-            self.drive_straight(0.1)  # Short drive time to check for bumps frequently
-
-            # Check for bump sensors
-            bump_left, bump_right = self.read_bump_sensor()
+        self.read_bump_sensor()
 
 
-            # if bump_left or bump_right:
-            #     print("Bump detected! Turning right...")
-            #     self.turn_right()
-            #     # You can adjust the duration or behavior as needed after a bump
-            #     time.sleep(0.5)
+        # while True:
+        #     # Drive straight
+        #     self.drive_straight(0.1)  # Short drive time to check for bumps frequently
+
+        #     # Check for bump sensors
+        #     bump_left, bump_right = self.read_bump_sensor()
+
+
+        #     if bump_left or bump_right:
+        #         print("Bump detected! Turning right...")
+        #         self.turn_right()
+        #         # You can adjust the duration or behavior as needed after a bump
+        #         time.sleep(0.5)
 
 def main():
     robot = Robot()
