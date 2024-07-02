@@ -172,9 +172,10 @@ class Robot:
 
     def read_bump_sensor(self):
         # Send a command to request sensor data
-        self.send([142, 7])  # Request bumper and wheel drop sensors
+        self.send([149, 1, 7])  # Request bumper and wheel drop sensors
         data = self.read(1)
-        if data:
+        if data[0]:
+            print('bump detected...')
             bump_data = ord(data)
             bump_right = bump_data & 0x01
             bump_left = (bump_data & 0x02) >> 1
@@ -193,11 +194,13 @@ class Robot:
 
             # Check for bump sensors
             bump_left, bump_right = self.read_bump_sensor()
-            if bump_left or bump_right:
-                print("Bump detected! Turning right...")
-                self.turn_right()
-                # You can adjust the duration or behavior as needed after a bump
-                time.sleep(0.5)
+
+
+            # if bump_left or bump_right:
+            #     print("Bump detected! Turning right...")
+            #     self.turn_right()
+            #     # You can adjust the duration or behavior as needed after a bump
+            #     time.sleep(0.5)
 
 def main():
     robot = Robot()
