@@ -23,6 +23,8 @@ class Robot:
         return vel_high_byte, vel_low_byte, radius_high_byte, radius_low_byte
 
     def drive_straight(self, duration):
+        print('Driving Straight...')
+        
         radius = 32768  # Special code for driving straight (0x8000)
 
         # Convert velocity and radius to bytes
@@ -39,6 +41,7 @@ class Robot:
         self.stop()
 
     def turn_left(self):
+        print('Turning right while driving...')
         radius = 1  # Special code for turning in place counterclockwise
 
         # Convert velocity and radius to bytes
@@ -54,6 +57,8 @@ class Robot:
         self.stop()
 
     def turn_right(self):
+        print('Turning right...')
+
         radius = -1  # Special code for turning in place clockwise
 
         # Convert velocity and radius to bytes
@@ -69,6 +74,8 @@ class Robot:
         self.stop()
 
     def turn_dynamic_angle(self, angle):
+        print('Turning ' + angle + 'degree ')
+
         if angle == 0:
             radius = 32768  # Drive straight
         else:
@@ -117,6 +124,8 @@ class Robot:
         self.stop()
 
     def turn_left_while_driving(self, radius, duration):
+        print('Turns left while driving...')
+
         # Convert velocity and radius to bytes
         vel_high_byte, vel_low_byte, radius_high_byte, radius_low_byte = self.convert_to_bytes(self.velocity, radius)
 
@@ -130,6 +139,7 @@ class Robot:
         self.stop()
 
     def turn_right_while_driving(self, radius, duration):
+        print('Turns right while driving...')
         # Convert velocity and radius to bytes
         vel_high_byte, vel_low_byte, radius_high_byte, radius_low_byte = self.convert_to_bytes(self.velocity, -radius)
 
@@ -164,7 +174,7 @@ def main():
     robot = Robot()
     robot.start()
     robot.set_velocity(200)
-    robot.turn_while_driving()
+    robot.drive_and_turn()
 
 
 if __name__ == '__main__':
