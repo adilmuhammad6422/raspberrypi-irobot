@@ -188,7 +188,11 @@ class Robot:
         self.start()
         self.set_velocity(200)
 
-        self.read_bump_sensor()
+        for i in range(100):
+
+            self.read_bump_sensor()
+
+
 
 
         # while True:
