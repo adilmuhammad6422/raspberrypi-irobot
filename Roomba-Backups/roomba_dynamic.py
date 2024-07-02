@@ -87,6 +87,38 @@ class Robot:
         # Stop the robot after turning
         self.stop()
 
+    def turn_left_while_driving(self, radius, duration):
+        # Convert velocity and radius to bytes
+        vel_high_byte, vel_low_byte, radius_high_byte, radius_low_byte = self.convert_to_bytes(self.velocity, radius)
+
+        turn_command = [137, vel_high_byte, vel_low_byte, radius_high_byte, radius_low_byte]
+        self.send(turn_command)
+        
+        # Drive for the specified duration
+        time.sleep(duration)
+
+        # Stop the robot after turning
+        self.stop()
+
+    def turn_right_while_driving(self, radius, duration):
+        # Convert velocity and radius to bytes
+        vel_high_byte, vel_low_byte, radius_high_byte, radius_low_byte = self.convert_to_bytes(self.velocity, -radius)
+
+        turn_command = [137, vel_high_byte, vel_low_byte, radius_high_byte, radius_low_byte]
+        self.send(turn_command)
+        
+        # Drive for the specified duration
+        time.sleep(duration)
+
+        # Stop the robot after turning
+        self.stop()
+
+    def turn_while_driving(self):
+         # Turn left while driving with a radius of 500mm for 2 seconds
+        self.turn_left_while_driving(500, 2)
+
+        self.stop()
+
     def stop(self):
         print("Stopping the robot")  # Debugging print
         self.send([137, 0, 0, 0, 0])
@@ -126,7 +158,8 @@ def main():
     robot = Robot()
     robot.start()
     robot.set_velocity(200)
-    robot.drive_and_turn()
+    # robot.drive_and_turn()
+    robot.turn_while_driving()
 
 if __name__ == '__main__':
     main()
