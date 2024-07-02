@@ -170,29 +170,58 @@ class Robot:
         self.send([128, 132])
         time.sleep(1)
 
-    def read_bump_sensor(self):
-        # Send a command to request sensor data
-        self.send([149, 1, 7])  # Request bumper and wheel drop sensors
-        data = self.read(1)
+    def read_bump_sensors(self):
+        # Request sensor packet 7
+        self.send(b'\x8E\x07')
+        time.sleep(0.1)
+        
+        # Read the sensor data
+        data = self.send.read(1)
         if data:
-            bump_data = ord(data)
-            print('bump detected...')
-            bump_right = bump_data & 0x01
-            bump_left = (bump_data & 0x02) >> 1
-            return bump_left, bump_right
+            sensor_data = ord(data)
+            
+            # Extract bump and wheel drop data
+            bump_right = sensor_data & 0x01
+            bump_left = sensor_data & 0x02
+            wheel_drop_left = sensor_data & 0x04
+            wheel_drop_right = sensor_data & 0x08
+            wheel_drop_caster = sensor_data & 0x10
+            
+            return bump_right, bump_left, wheel_drop_left, wheel_drop_right, wheel_drop_caster
         else:
-            return 0, 0
+            return None
 
     def bump_and_turn(self):
-        print("Starting bump and turn...")
-        self.start()
-        self.set_velocity(200)
+        try:
+            while True:
+                bumps = self.read_bump_sensors()
+                if bumps:
+                    bump_right, bump_left, wheel_drop_left, wheel_drop_right, wheel_drop_caster = bumps
+                    if bump_right:
+                        print("Right bump detected")
+                    if bump_left:
+                        print("Left bump detected")
+                    if wheel_drop_left or wheel_drop_right or wheel_drop_caster:
+                        print("Wheel drop detected")
+                
+                time.sleep(0.1)
+        except KeyboardInterrupt:
+            pass
+        # finally:
+            # Close the serial port
+            # self.tty.close()
 
-        while True:
+
+
+        # print("Starting bump and turn...")
+        # self.start()
+        # self.set_velocity(200)
+
+        # while True:
             
-            bump_left, bump_right = self.read_bump_sensor()
-            if bump_left or bump_right:
-                break
+        #     bump_left, bump_right = self.read_bump_sensor()
+        #     if bump_left or bump_right:
+        #         break
 
 
 
