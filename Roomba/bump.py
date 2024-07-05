@@ -15,7 +15,7 @@ while True:
         sensor_byte = ord(sensor_data)
         
         # Print the raw byte and its binary representation
-        print(f"Raw Byte: {sensor_byte}, Binary: {sensor_byte:08b}")
+        print("Raw Byte: "+ sensor_byte + ", Binary: "+ sensor_byte + ":08b}")
         
         # Extract bumper information from the byte
         bump_right = sensor_byte & 0b00000001
