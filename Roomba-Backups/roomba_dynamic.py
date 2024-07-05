@@ -41,8 +41,7 @@ class Robot:
         self.stop()
 
     def turn_left(self):
-        print('Turning left...')
-
+        print('Turning right while driving...')
         radius = 1  # Special code for turning in place counterclockwise
 
         # Convert velocity and radius to bytes
@@ -100,24 +99,20 @@ class Robot:
         inp = self.tty.read(1)
 
         if inp:
-            bump = ord(inp)            
+            bump = ord(inp)
+            print("Received:", bump, "Binary:", format(bump, '08b'))
+            
             bump_right = bump & 0b00000001
             bump_left = bump & 0b00000010
             
             if bump_left:
                 print("Left Bump detected...")
-                return True
+                time.sleep(0.1)
             if bump_right:
                 print("Right Bump detected...")
-                return True
-        return False
+                time.sleep(0.1)
 
-    def infinite_drive_turn_when_bump(self):
-        while True:
-            self.drive_straight(0.1)  # Drive straight in short intervals to continuously check for bumps
-            if self.detect_bump():
-                self.turn_left()
-                time.sleep(1)  # Pause briefly before resuming straight driving
+
 
     def stop(self):
         print("Stopping the robot")  # Debugging print
@@ -199,7 +194,8 @@ def main():
     robot = Robot()
     robot.start()
     robot.set_velocity(200)
-    robot.infinite_drive_turn_when_bump()
+    robot.drive_and_turn()
+
 
 if __name__ == '__main__':
     main()
