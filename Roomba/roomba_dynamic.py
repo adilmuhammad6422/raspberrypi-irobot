@@ -198,9 +198,9 @@ class Robot:
                 
                 if bump_right or bump_left:
                     print("Bump detected, Rotating ...")
-                    # self.send([137, 0, 50, 0, 1])  # Rotate command
-                    self.turn_left()
-                    time.sleep(0.1)
+                    self.send([137, 0, 50, 0, 1])  # Rotate command
+                    # self.turn_left()
+                    # time.sleep(0.1)
                 else:
                     self.send([137, 0, 200, 128, 0])  # Move forward command
 
