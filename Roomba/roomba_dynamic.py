@@ -201,7 +201,6 @@ class Robot:
                     # self.send([137, 0, 50, 0, 1])  # Rotate command
                     self.turn_left()
                     time.sleep(0.1)
-                    continue
                 else:
                     self.send([137, 0, 200, 128, 0])  # Move forward command
 
