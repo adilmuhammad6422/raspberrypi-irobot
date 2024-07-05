@@ -106,9 +106,11 @@ class Robot:
             
             if bump_left:
                 print("Left Bump detected...")
+                time.sleep(0.1)
                 return True
             if bump_right:
                 print("Right Bump detected...")
+                time.sleep(0.1)
                 return True
         return False
 
