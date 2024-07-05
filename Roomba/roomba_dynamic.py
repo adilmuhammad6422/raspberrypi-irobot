@@ -40,7 +40,7 @@ class Robot:
         # Stop the robot
         self.stop()
 
-    def turn_left(self):
+    def turn_left(self, duration=1):
         print('Turning left...')
 
         radius = 1  # Special code for turning in place counterclockwise
@@ -51,8 +51,8 @@ class Robot:
         turn_command = [137, vel_high_byte, vel_low_byte, radius_high_byte, radius_low_byte]
         self.send(turn_command)
         
-        # Adjust the sleep duration to achieve a 90-degree turn
-        time.sleep(1)  # Adjust this value as necessary
+        # Adjust the sleep duration to achieve the turn
+        time.sleep(duration)  # Adjust this value as necessary
 
         # Stop the robot after turning
         self.stop()
@@ -197,12 +197,10 @@ class Robot:
                 bump_left = bump & 0b00000010
                 
                 if bump_right or bump_left:
-                    print("Bump detected, Rotating ...")
-                    self.send([137, 0, 50, 0, 1])  # Rotate command
-                    # self.turn_left()
-                    # time.sleep(0.1)
+                    print("Bump detected, turning left...")
+                    self.turn_left(duration=0.5)  # Call turn_left for 0.5 seconds
                 else:
-                    self.send([137, 0, 200, 128, 0])  # Move forward command
+                    self.send(drive_command)  # Continue moving forward
 
         # Stop the robot
         self.stop()
