@@ -3,19 +3,19 @@ import serial
 # Open the serial port
 ser = serial.Serial('/dev/ttyUSB0', 57600)
 
-# Send the STREAM command
+# Send the STREAM command to request bumper sensor data
 ser.write(bytearray([149, 1, 7]))
 
 while True:
-    # Attempt to read a byte
-    sensor_data = ser.read(1)
+    # Read multiple bytes (assuming we need at least 2 bytes to get meaningful data)
+    sensor_data = ser.read(2)
     
-    if sensor_data:
-        # Convert the byte to an integer
-        sensor_byte = ord(sensor_data)
+    if len(sensor_data) == 2:
+        # Combine the bytes into a single integer
+        sensor_byte = ord(sensor_data[0]) | (ord(sensor_data[1]) << 8)
         
         # Print the raw byte and its binary representation
-        print(f"Raw Byte: {sensor_byte}, Binary: {sensor_byte:08b}")
+        print("Raw Bytes: {}, Combined: {:016b}".format(sensor_data, sensor_byte))
         
         # Extract bumper information from the byte
         bump_right = sensor_byte & 0b00000001
