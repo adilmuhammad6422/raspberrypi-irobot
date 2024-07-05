@@ -5,7 +5,7 @@ class Robot:
     def __init__(self, port='/dev/ttyUSB0', baudrate=57600, timeout=0.01, velocity=200):
         self.tty = serial.Serial(port=port, baudrate=baudrate, timeout=timeout)
         self.velocity = velocity
-    
+
     def set_velocity(self, velocity):
         print("Setting velocity to:", velocity)  # Debugging print
         self.velocity = velocity
@@ -29,7 +29,7 @@ class Robot:
 
         # Convert velocity and radius to bytes
         vel_high_byte, vel_low_byte, radius_high_byte, radius_low_byte = self.convert_to_bytes(self.velocity, radius)
-        
+
         # Send drive command
         drive_command = [137, vel_high_byte, vel_low_byte, radius_high_byte, radius_low_byte]
         self.send(drive_command)
@@ -41,8 +41,7 @@ class Robot:
         self.stop()
 
     def turn_left(self):
-        print('Turning left...')
-
+        print('Turning right while driving...')
         radius = 1  # Special code for turning in place counterclockwise
 
         # Convert velocity and radius to bytes
@@ -50,7 +49,7 @@ class Robot:
 
         turn_command = [137, vel_high_byte, vel_low_byte, radius_high_byte, radius_low_byte]
         self.send(turn_command)
-        
+
         # Adjust the sleep duration to achieve a 90-degree turn
         time.sleep(1)  # Adjust this value as necessary
 
@@ -67,7 +66,7 @@ class Robot:
 
         turn_command = [137, vel_high_byte, vel_low_byte, radius_high_byte, radius_low_byte]
         self.send(turn_command)
-        
+
         # Adjust the sleep duration to achieve a 90-degree turn
         time.sleep(1)  # Adjust this value as necessary
 
@@ -87,7 +86,7 @@ class Robot:
 
         turn_command = [137, vel_high_byte, vel_low_byte, radius_high_byte, radius_low_byte]
         self.send(turn_command)
-        
+
         # Adjust the sleep duration based on the angle and speed
         time_to_turn = abs(angle) / 90.0  # Adjust this value as necessary
         time.sleep(time_to_turn)
@@ -100,33 +99,21 @@ class Robot:
         inp = self.tty.read(1)
 
         if inp:
-            bump = ord(inp)            
+            bump = ord(inp)
+            print("Received:", bump, "Binary:", format(bump, '08b'))
+
             bump_right = bump & 0b00000001
             bump_left = bump & 0b00000010
-            
+
             if bump_left:
                 print("Left Bump detected...")
                 time.sleep(0.1)
-                return True
             if bump_right:
                 print("Right Bump detected...")
                 time.sleep(0.1)
-                return True
-        return False
 
-    def infinite_drive_turn_when_bump(self):
-        while True:
-            time.sleep(0.1)
-            self.drive_straight(10)
-            # self.send([149, 1, 7])
-            if self.detect_bump():
-                print("Bump detected, Rotating 90 degrees")
-                self.turn_left()
-                self.drive_straight(10)
-            else:
-                self.drive_straight(10)
 
-            
+
     def stop(self):
         print("Stopping the robot")  # Debugging print
         self.send([137, 0, 0, 0, 0])
@@ -164,7 +151,7 @@ class Robot:
 
         turn_command = [137, vel_high_byte, vel_low_byte, radius_high_byte, radius_low_byte]
         self.send(turn_command)
-        
+
         # Drive for the specified duration
         time.sleep(duration)
 
@@ -178,7 +165,7 @@ class Robot:
 
         turn_command = [137, vel_high_byte, vel_low_byte, radius_high_byte, radius_low_byte]
         self.send(turn_command)
-        
+
         # Drive for the specified duration
         time.sleep(duration)
 
@@ -207,7 +194,8 @@ def main():
     robot = Robot()
     robot.start()
     robot.set_velocity(200)
-    robot.infinite_drive_turn_when_bump()
+    robot.drive_and_turn()
+
 
 if __name__ == '__main__':
     main()
