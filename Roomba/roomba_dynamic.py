@@ -171,10 +171,32 @@ class Robot:
         self.send([128, 132])
         time.sleep(1)
 
+    def bumper_detection(self):
+        while True:
+            time.sleep(0.1)
+
+            self.send([149, 1, 7])  # Request bumper sensor data
+            inp = self.tty.read(1)
+            if inp:
+                bump = ord(inp)
+                print("Received:", bump, "Binary:", format(bump, '08b'))
+                
+                bump_right = bump & 0b00000001
+                bump_left = bump & 0b00000010
+                
+                if bump_right or bump_left:
+                    print("Bump detected, Rotating ...")
+                    self.send([137, 0, 50, 0, 1])  # Rotate command
+                    time.sleep(0.1)
+                else:
+                    self.send([137, 0, 200, 128, 0])  # Move forward command
+
+
 def main():
     robot = Robot()
     robot.start()
     robot.set_velocity(200)
-    
+    robot.bumper_detection()
+
 if __name__ == '__main__':
     main()
