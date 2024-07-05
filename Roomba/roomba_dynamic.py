@@ -175,6 +175,7 @@ def main():
     robot = Robot()
     robot.start()
     robot.set_velocity(200)
-    
+    robot.turn_while_driving()
+
 if __name__ == '__main__':
     main()
