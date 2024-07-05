@@ -117,8 +117,7 @@ class Robot:
             self.drive_straight(2)  # Drive straight in short intervals to continuously check for bumps
             if self.detect_bump():
                 self.turn_left()
-                time.sleep(1)  # Pause briefly before resuming straight driving
-
+            
     def stop(self):
         print("Stopping the robot")  # Debugging print
         self.send([137, 0, 0, 0, 0])
