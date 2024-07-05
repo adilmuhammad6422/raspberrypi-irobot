@@ -117,14 +117,14 @@ class Robot:
     def infinite_drive_turn_when_bump(self):
         while True:
             time.sleep(0.1)
-
-            self.send([149, 1, 7])
+            self.drive_straight(10)
+            # self.send([149, 1, 7])
             if self.detect_bump():
                 print("Bump detected, Rotating 90 degrees")
                 self.turn_left()
-                continue
+                self.drive_straight(10)
             else:
-                self.send([137, 0, 200, 128, 0])
+                self.drive_straight(10)
 
             
     def stop(self):
