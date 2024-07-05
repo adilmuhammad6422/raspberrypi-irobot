@@ -57,7 +57,7 @@ class Robot:
         # Stop the robot after turning
         self.stop()
 
-    def turn_right(self):
+    def turn_right(self, duration=1):
         print('Turning right...')
 
         radius = -1  # Special code for turning in place clockwise
@@ -68,8 +68,8 @@ class Robot:
         turn_command = [137, vel_high_byte, vel_low_byte, radius_high_byte, radius_low_byte]
         self.send(turn_command)
         
-        # Adjust the sleep duration to achieve a 90-degree turn
-        time.sleep(1)  # Adjust this value as necessary
+        # Adjust the sleep duration to achieve the turn
+        time.sleep(duration)  # Adjust this value as necessary
 
         # Stop the robot after turning
         self.stop()
@@ -197,8 +197,12 @@ class Robot:
                 bump_left = bump & 0b00000010
                 
                 if bump_right or bump_left:
-                    print("Bump detected, turning left...")
-                    self.turn_left(duration=0.5)  # Call turn_left for 0.5 seconds
+                    if bump_left:
+                        print("Left bump detected, turning right...")
+                        self.turn_right(duration=0.5)  # Call turn_right for 0.5 seconds
+                    elif bump_right:
+                        print("Right bump detected, turning left...")
+                        self.turn_left(duration=0.5)  # Call turn_left for 0.5 seconds
                 else:
                     self.send(drive_command)  # Continue moving forward
 
