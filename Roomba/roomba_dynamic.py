@@ -171,8 +171,20 @@ class Robot:
         self.send([128, 132])
         time.sleep(1)
 
-    def bumper_detection(self):
-        while True:
+    def drive_straight_with_bumper_detection(self, duration):
+        print('Driving Straight with Bumper Detection...')
+
+        radius = 32768  # Special code for driving straight (0x8000)
+
+        # Convert velocity and radius to bytes
+        vel_high_byte, vel_low_byte, radius_high_byte, radius_low_byte = self.convert_to_bytes(self.velocity, radius)
+        
+        # Send drive command
+        drive_command = [137, vel_high_byte, vel_low_byte, radius_high_byte, radius_low_byte]
+        self.send(drive_command)
+
+        start_time = time.time()
+        while time.time() - start_time < duration:
             time.sleep(0.1)
 
             self.send([149, 1, 7])  # Request bumper sensor data
@@ -191,12 +203,14 @@ class Robot:
                 else:
                     self.send([137, 0, 200, 128, 0])  # Move forward command
 
+        # Stop the robot
+        self.stop()
 
 def main():
     robot = Robot()
     robot.start()
     robot.set_velocity(200)
-    robot.bumper_detection()
+    robot.drive_straight_with_bumper_detection(10)  # Drive straight for 10 seconds with bumper detection
 
 if __name__ == '__main__':
     main()
