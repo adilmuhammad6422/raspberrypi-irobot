@@ -41,7 +41,7 @@ class Robot:
         self.stop()
 
     def turn_left(self):
-        print('Turning right while driving...')
+        print('Turning left while driving...')
         radius = 1  # Special code for turning in place counterclockwise
 
         # Convert velocity and radius to bytes
@@ -74,7 +74,7 @@ class Robot:
         self.stop()
 
     def turn_dynamic_angle(self, angle):
-        print('Turning ' + str(angle) + ' degree')
+        print('Turning ' + str(angle) + ' degrees')
 
         if angle == 0:
             radius = 32768  # Drive straight
@@ -84,7 +84,7 @@ class Robot:
         # Convert velocity and radius to bytes
         vel_high_byte, vel_low_byte, radius_high_byte, radius_low_byte = self.convert_to_bytes(self.velocity, int(radius))
 
-        turn_command = [137, vel_high_byte, vel_low_byte, radius_high_byte, radius_low_byte]
+        turn_command = [137, vel_high_byte, vel_low_byte, radius_high_byte, radius_high_byte]
         self.send(turn_command)
 
         # Adjust the sleep duration based on the angle and speed
@@ -95,7 +95,7 @@ class Robot:
         self.stop()
 
     def detect_bump(self):
-        self.send([149, 1, 7]) # Request bumper sensor data
+        self.send([149, 1, 7])  # Request bumper sensor data
         inp = self.tty.read(1)
 
         if inp:
@@ -107,12 +107,11 @@ class Robot:
 
             if bump_left:
                 print("Left Bump detected...")
-                time.sleep(0.1)
+                self.turn_right()
             if bump_right:
                 print("Right Bump detected...")
-                time.sleep(0.1)
-
-
+                self.turn_left()
+            time.sleep(0.1)
 
     def stop(self):
         print("Stopping the robot")  # Debugging print
@@ -194,8 +193,14 @@ def main():
     robot = Robot()
     robot.start()
     robot.set_velocity(200)
-    robot.drive_and_turn()
 
+    try:
+        while True:
+            robot.detect_bump()
+            time.sleep(0.1)
+    except KeyboardInterrupt:
+        print("Stopping robot...")
+        robot.stop()
 
 if __name__ == '__main__':
     main()
