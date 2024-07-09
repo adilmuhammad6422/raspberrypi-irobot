@@ -158,10 +158,10 @@ class Robot:
         self.drive_straight(2)
 
         # Turn left while driving with a radius of 500mm for 2 seconds
-        self.turn_left_while_driving(500, 2)
+        self.turn_left_while_driving(100000, 2)
 
         # Turn right while driving with a radius of 500mm for 2 seconds
-        self.turn_right_while_driving(500, 2)
+        # self.turn_right_while_driving(500, 2)
 
         # Stop the robot after driving straight
         self.stop()
@@ -213,12 +213,6 @@ def main():
     robot = Robot()
     robot.start()
     robot.set_velocity(300)
-    robot.turn_dynamic_angle(-180)
-    robot.turn_dynamic_angle(-90)
-    robot.turn_dynamic_angle(90)
-    robot.turn_dynamic_angle(180)
-    robot.turn_dynamic_angle(270)
-    robot.turn_dynamic_angle(360)
 
 # main
 if __name__ == '__main__':
