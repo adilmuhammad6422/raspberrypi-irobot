@@ -124,11 +124,11 @@ class Robot:
                 if bump_right or bump_left:
                     if bump_left:
                         print("Left bump detected, turning right...")
-                        time.sleep(0.5)
+                        self.stop()
                         self.turn_dynamic_angle(-90)
                     elif bump_right:
                         print("Right bump detected, turning left...")
-                        time.sleep(0.5)
+                        self.stop()
                         self.turn_dynamic_angle(90)
                 else:
                     self.drive_straight(1000)
