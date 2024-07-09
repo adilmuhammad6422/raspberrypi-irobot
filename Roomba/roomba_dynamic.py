@@ -215,5 +215,6 @@ def main():
     robot.set_velocity(200)
     robot.drive_straight_with_bumper_detection(10)  # Drive straight for 10 seconds with bumper detection
 
+# main
 if __name__ == '__main__':
     main()
