@@ -123,56 +123,63 @@ class Robot:
         # Stop the robot
         self.stop()
 
+# Testing methods
+
+# Test method for driving and turning
+def test_drive_and_turn(robot):
+        # Drive straight for 2 seconds
+        robot.drive_straight(2)
+        robot.stop()
+    
+        # Turn left
+        robot.turn_dynamic_angle(-90)
+        robot.stop()
+
+        # Drive straight for another 2 seconds
+        robot.drive_straight(3)
+        robot.stop()
+
+        # Turn right
+        robot.turn_dynamic_angle(90)
+        robot.stop()
+
+        # Drive straight for another 2 seconds
+        robot.drive_straight(2)
+        robot.stop()
+
+        # Turn dynamically by 45 degrees
+        robot.turn_dynamic_angle(45)
+        robot.stop()
+
+        # Drive straight for another 2 seconds
+        robot.drive_straight(2)
+        
+
+        # Stop the robot after driving straight
+        robot.stop()
+
+# Test method for turning WHILE driving
+def turn_while_driving(robot):
+        # Drive straight for another 2 seconds
+        robot.drive_straight(2)
+
+        # Turn left while driving with a radius of 500mm for 2 seconds
+        robot.turn_while_driving(500, 2)
+
+        # Turn right while driving with a radius of 500mm for 2 seconds
+        robot.turn_while_driving(500, 2)
+
+        # Stop the robot after driving straight
+        robot.stop()
+
+
 # The main method
 def main():
     robot = Robot()
     robot.start()
     robot.set_velocity(300)
-    test_drive_and_turn()
+    test_drive_and_turn(robot)
 
 # Calls the main method
 if __name__ == '__main__':
     main()
-
-
-# Testing methods
-
-# Test method for driving and turning
-def test_drive_and_turn(self):
-        # Drive straight for 5 seconds
-        self.drive_straight(2)
-
-        # Turn left
-        self.turn_dynamic_angle(-90)
-
-        # Drive straight for another 2 seconds
-        self.drive_straight(3)
-
-        # Turn right
-        self.turn_dynamic_angle(90)
-
-        # Drive straight for another 2 seconds
-        self.drive_straight(2)
-
-        # Turn dynamically by 45 degrees
-        self.turn_dynamic_angle(45)
-
-        # Drive straight for another 2 seconds
-        self.drive_straight(2)
-
-        # Stop the robot after driving straight
-        self.stop()
-
-# Test method for turning WHILE driving
-def turn_while_driving(self):
-        # Drive straight for another 2 seconds
-        self.drive_straight(2)
-
-        # Turn left while driving with a radius of 500mm for 2 seconds
-        self.turn_while_driving(500, 2)
-
-        # Turn right while driving with a radius of 500mm for 2 seconds
-        self.turn_while_driving(500, 2)
-
-        # Stop the robot after driving straight
-        self.stop()
