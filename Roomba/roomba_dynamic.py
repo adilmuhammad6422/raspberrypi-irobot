@@ -105,27 +105,42 @@ class Robot:
     # Function for driving straight with bumper detection
     def drive_straight_with_bumper_detection(self, duration):
         print('Driving Straight with Bumper Detection...')
-        self.__call_command(32768) # Drive straight
+
+        radius = 32768  # Special code for driving straight (0x8000)
+
+        # Convert velocity and radius to bytes
+        vel_high_byte, vel_low_byte, radius_high_byte, radius_low_byte = self.convert_to_bytes(self.velocity, radius)
+        
+        # Send drive command
+        drive_command = [137, vel_high_byte, vel_low_byte, radius_high_byte, radius_low_byte]
+        self.send(drive_command)
 
         start_time = time.time()
         while time.time() - start_time < duration:
             time.sleep(0.1)
 
-            bump_left, bump_right = self.detect_bumper()
-            print(bump_left)
-            print(bump_right)
-            
-            if bump_right or bump_left:
-                if bump_left:
-                    print("Left bump detected, turning right...")
-                    self.turn_right(duration=0.5)  # Call turn_right for 0.5 seconds
-                elif bump_right:
-                    print("Right bump detected, turning left...")
-                    self.turn_left(duration=0.5)  # Call turn_left for 0.5 seconds
-            else:
-                self.drive_straight(sys.maxsize)
+            self.send([149, 1, 7])  # Request bumper sensor data
+            inp = self.tty.read(1)
+            if inp:
+                bump = ord(inp)
+                print("Received:", bump, "Binary:", format(bump, '08b'))
+                
+                bump_right = bump & 0b00000001
+                bump_left = bump & 0b00000010
+                
+                if bump_right or bump_left:
+                    if bump_left:
+                        print("Left bump detected, turning right...")
+                        self.turn_right(duration=0.5)  # Call turn_right for 0.5 seconds
+                    elif bump_right:
+                        print("Right bump detected, turning left...")
+                        self.turn_left(duration=0.5)  # Call turn_left for 0.5 seconds
+                else:
+                    self.send(drive_command)  # Continue moving forward
+
         # Stop the robot
         self.stop()
+
 
 # Testing methods
 
