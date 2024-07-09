@@ -127,26 +127,33 @@ class Robot:
 
 # Test method for driving and turning
 def test_drive_and_turn(robot):
-        # Drive straight for 5 seconds
+        # Drive straight for 2 seconds
         robot.drive_straight(2)
-
+        robot.stop()
+    
         # Turn left
         robot.turn_dynamic_angle(-90)
+        robot.stop()
 
         # Drive straight for another 2 seconds
         robot.drive_straight(3)
+        robot.stop()
 
         # Turn right
         robot.turn_dynamic_angle(90)
+        robot.stop()
 
         # Drive straight for another 2 seconds
         robot.drive_straight(2)
+        robot.stop()
 
         # Turn dynamically by 45 degrees
         robot.turn_dynamic_angle(45)
+        robot.stop()
 
         # Drive straight for another 2 seconds
         robot.drive_straight(2)
+        
 
         # Stop the robot after driving straight
         robot.stop()
