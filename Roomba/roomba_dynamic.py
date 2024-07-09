@@ -212,8 +212,13 @@ class Robot:
 def main():
     robot = Robot()
     robot.start()
-    robot.set_velocity(200)
-    robot.turn_dynamic_angle(-270)
+    robot.set_velocity(300)
+    robot.turn_dynamic_angle(-180)
+    robot.turn_dynamic_angle(-90)
+    robot.turn_dynamic_angle(90)
+    robot.turn_dynamic_angle(180)
+    robot.turn_dynamic_angle(270)
+    robot.turn_dynamic_angle(360)
 
 # main
 if __name__ == '__main__':
