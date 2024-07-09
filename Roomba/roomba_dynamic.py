@@ -112,6 +112,8 @@ class Robot:
             time.sleep(0.1)
 
             bump_left, bump_right = self.detect_bumper()
+            print(bump_left)
+            print(bump_right)
             
             if bump_right or bump_left:
                 if bump_left:
