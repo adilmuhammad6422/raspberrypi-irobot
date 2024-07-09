@@ -1,5 +1,6 @@
 import serial
 import time
+import sys
 
 # Robot class contains the implementation and calling functions for the roomba
 class Robot:
@@ -71,8 +72,9 @@ class Robot:
         print("Stopping the robot...")
         self.__write_command([137, 0, 0, 0, 0]) # Sets the velocity and radius to 0
 
-    # Function for turning the robot while its going str
-    def turn_while_driving(self, radius, duration=1):
+    # Function for turning the robot while its driving
+    # It turns the given radius for a given duration
+    def turn_while_driving(self, radius, duration):
         print('Turns left while driving...')
         self.drive_straight(duration)
         self.__call_command(radius)
@@ -80,46 +82,48 @@ class Robot:
         # Sleeps for the time it takes to turn
         time.sleep(duration)
 
+    # Starts the robot to accept commands
     def start(self):
         print("Starting the robot")  # Debugging print
         self.__write_command([128, 132])
         time.sleep(1)
 
+    # Function to detect if it's a left bump or right bump
+    def detect_bumper(self):
+        self.__write_command([149, 1, 7])  # Request bumper sensor data
+        inp = self.tty.read(1)
+        if inp:
+            bump = ord(inp)
+            print("Received:", bump, "Binary:", format(bump, '08b'))
+            
+            bump_right = bump & 0b00000001
+            bump_left = bump & 0b00000010
+
+            return bump_left, bump_right
+        return False, False
+
+    # Function for driving straight with bumper detection
     def drive_straight_with_bumper_detection(self, duration):
         print('Driving Straight with Bumper Detection...')
 
-        radius = 32768  # Special code for driving straight (0x8000)
-
-        # Convert velocity and radius to bytes
-        vel_high_byte, vel_low_byte, radius_high_byte, radius_low_byte = self.__convert_to_bytes(self.velocity, radius)
-        
-        # Send drive command
-        drive_command = [137, vel_high_byte, vel_low_byte, radius_high_byte, radius_low_byte]
-        self.__write_command(drive_command)
+        radius = 32768  
+        self.__call_command(32768) # Drive straight
 
         start_time = time.time()
         while time.time() - start_time < duration:
             time.sleep(0.1)
 
-            self.__write_command([149, 1, 7])  # Request bumper sensor data
-            inp = self.tty.read(1)
-            if inp:
-                bump = ord(inp)
-                print("Received:", bump, "Binary:", format(bump, '08b'))
-                
-                bump_right = bump & 0b00000001
-                bump_left = bump & 0b00000010
-                
-                if bump_right or bump_left:
-                    if bump_left:
-                        print("Left bump detected, turning right...")
-                        self.turn_right(duration=0.5)  # Call turn_right for 0.5 seconds
-                    elif bump_right:
-                        print("Right bump detected, turning left...")
-                        self.turn_left(duration=0.5)  # Call turn_left for 0.5 seconds
-                else:
-                    self.__write_command(drive_command)  # Continue moving forward
-
+            bump_left, bump_right = self.detect_bumper()
+            
+            if bump_right or bump_left:
+                if bump_left:
+                    print("Left bump detected, turning right...")
+                    self.turn_right(duration=0.5)  # Call turn_right for 0.5 seconds
+                elif bump_right:
+                    print("Right bump detected, turning left...")
+                    self.turn_left(duration=0.5)  # Call turn_left for 0.5 seconds
+            else:
+                self.drive_straight(sys.maxsize)
         # Stop the robot
         self.stop()
 
