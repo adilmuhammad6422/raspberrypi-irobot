@@ -184,7 +184,7 @@ class Robot:
         self.send(drive_command)
 
         start_time = time.time()
-        while True:
+        while time.time() - start_time < duration:
             time.sleep(0.1)
 
             self.send([149, 1, 7])  # Request bumper sensor data
@@ -197,14 +197,12 @@ class Robot:
                 bump_left = bump & 0b00000010
                 
                 if bump_right or bump_left:
-                    if bump_right:
-                        print("Left bump detected, turning left...")
-                        self.turn_left(duration=0.5)  # Call turn_left for 0.5 seconds
-                        self.drive_straight_with_bumper_detection()
-                    elif bump_left:
-                        print("Right bump detected, turning right...")
+                    if bump_left:
+                        print("Left bump detected, turning right...")
                         self.turn_right(duration=0.5)  # Call turn_right for 0.5 seconds
-                        self.drive_straight_with_bumper_detection()
+                    elif bump_right:
+                        print("Right bump detected, turning left...")
+                        self.turn_left(duration=0.5)  # Call turn_left for 0.5 seconds
                 else:
                     self.send(drive_command)  # Continue moving forward
 
