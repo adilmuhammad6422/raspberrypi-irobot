@@ -106,7 +106,14 @@ class Robot:
     def drive_straight_with_bumper_detection(self, duration):
         print('Driving Straight with Bumper Detection...')
 
-        self.__call_command(32768)
+        radius = 32768  # Special code for driving straight (0x8000)
+
+        # Convert velocity and radius to bytes
+        vel_high_byte, vel_low_byte, radius_high_byte, radius_low_byte = self.convert_to_bytes(self.velocity, radius)
+        
+        # Send drive command
+        drive_command = [137, vel_high_byte, vel_low_byte, radius_high_byte, radius_low_byte]
+        self.__write_command(drive_command)
 
         start_time = time.time()
         while time.time() - start_time < duration:
@@ -124,12 +131,12 @@ class Robot:
                 if bump_right or bump_left:
                     if bump_left:
                         print("Left bump detected, turning right...")
-                        self.stop()
+                        self.turn_dynamic_angle(-90)
                     elif bump_right:
                         print("Right bump detected, turning left...")
-                        self.stop()
+                        self.turn_dynamic_angle(90)
                 else:
-                    self.drive_straight(1000)
+                    self.__write_command(drive_command)  # Continue moving forward
 
         # Stop the robot
         self.stop()
