@@ -138,41 +138,41 @@ if __name__ == '__main__':
 # Testing methods
 
 # Test method for driving and turning
-def test_drive_and_turn(self):
+def test_drive_and_turn(robot):
         # Drive straight for 5 seconds
-        self.drive_straight(2)
+        robot.drive_straight(2)
 
         # Turn left
-        self.turn_dynamic_angle(-90)
+        robot.turn_dynamic_angle(-90)
 
         # Drive straight for another 2 seconds
-        self.drive_straight(3)
+        robot.drive_straight(3)
 
         # Turn right
-        self.turn_dynamic_angle(90)
+        robot.turn_dynamic_angle(90)
 
         # Drive straight for another 2 seconds
-        self.drive_straight(2)
+        robot.drive_straight(2)
 
         # Turn dynamically by 45 degrees
-        self.turn_dynamic_angle(45)
+        robot.turn_dynamic_angle(45)
 
         # Drive straight for another 2 seconds
-        self.drive_straight(2)
+        robot.drive_straight(2)
 
         # Stop the robot after driving straight
-        self.stop()
+        robot.stop()
 
 # Test method for turning WHILE driving
-def turn_while_driving(self):
+def turn_while_driving(robot):
         # Drive straight for another 2 seconds
-        self.drive_straight(2)
+        robot.drive_straight(2)
 
         # Turn left while driving with a radius of 500mm for 2 seconds
-        self.turn_while_driving(500, 2)
+        robot.turn_while_driving(500, 2)
 
         # Turn right while driving with a radius of 500mm for 2 seconds
-        self.turn_while_driving(500, 2)
+        robot.turn_while_driving(500, 2)
 
         # Stop the robot after driving straight
-        self.stop()
+        robot.stop()
