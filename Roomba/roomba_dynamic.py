@@ -180,7 +180,7 @@ def main():
     robot = Robot()
     robot.start()
     robot.set_velocity(300)
-    turn_while_driving(robot)
+    robot.drive_straight_with_bumper_detection(1000)
 
 # Calls the main method
 if __name__ == '__main__':
