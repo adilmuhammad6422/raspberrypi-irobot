@@ -166,7 +166,7 @@ def turn_while_driving(robot):
         robot.drive_straight(2)
 
         # Turn left while driving with a radius of 500mm for 2 seconds
-        robot.turn_while_driving(500, 2)
+        robot.turn_while_driving(-500, 2)
 
         # Turn right while driving with a radius of 500mm for 2 seconds
         robot.turn_while_driving(500, 2)
