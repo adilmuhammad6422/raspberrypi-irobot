@@ -200,11 +200,11 @@ class Robot:
                     if bump_right:
                         print("Left bump detected, turning left...")
                         self.turn_left(duration=0.5)  # Call turn_left for 0.5 seconds
-                        self.drive_straight_with_bumper_detection
+                        self.drive_straight_with_bumper_detection()
                     elif bump_left:
                         print("Right bump detected, turning right...")
                         self.turn_right(duration=0.5)  # Call turn_right for 0.5 seconds
-                        self.drive_straight_with_bumper_detection
+                        self.drive_straight_with_bumper_detection()
                 else:
                     self.send(drive_command)  # Continue moving forward
 
