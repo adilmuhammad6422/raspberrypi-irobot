@@ -19,7 +19,7 @@ try:
             elif response == 'right':
                 print("Roomba going right.")
                 client_socket.sendall(b'right')
-            elif response == 'quit':
+            elif response == 'stop':
                 print("Stopping..")
                 client_socket.sendall(b'stop')
                 client_socket.shutdown(socket.SHUT_RDWR) # Stop both sending and receiving data using SHUT_RDWR
