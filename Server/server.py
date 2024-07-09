@@ -2,62 +2,69 @@ import socket
 import selectors
 import types
 
+# Define the host and port for the server
 HOST = "0.0.0.0"  # Listen on all available interfaces
 PORT = 44700  # Port to listen on (non-privileged ports are > 1023)
 
+# Create a default selector object to handle multiple connections
 sel = selectors.DefaultSelector()
+
+# Dictionary to keep track of active connections
 connections = {}
 
 def accept_wrapper(sock):
-    conn, addr = sock.accept()  # Should be ready to read
+    """
+    Accepts a new connection from the client.
+    """
+    conn, addr = sock.accept()  # Accept the connection
     print("Accepted connection from", addr)
-    conn.setblocking(False)
-    data = types.SimpleNamespace(addr=addr, inb=b"", outb=b"")
-    events = selectors.EVENT_READ | selectors.EVENT_WRITE
-    sel.register(conn, events, data=data)
-    connections[conn] = data
+    conn.setblocking(False)  # Set the connection to non-blocking mode
+    data = types.SimpleNamespace(addr=addr, inb=b"", outb=b"")  # Initialize connection data
+    events = selectors.EVENT_READ | selectors.EVENT_WRITE  # Set the events to monitor
+    sel.register(conn, events, data=data)  # Register the connection with the selector
+    connections[conn] = data  # Add connection to the dictionary
 
 def service_connection(key, mask):
-    sock = key.fileobj
-    data = key.data
+    """
+    Handles servicing of a connection, both reading from and writing to the socket.
+    """
+    sock = key.fileobj  # Get the socket object
+    data = key.data  # Get the connection data
+
     if mask & selectors.EVENT_READ:
-        recv_data = sock.recv(1024)  # Should be ready to read
+        recv_data = sock.recv(1024)  # Read data from the socket
         if recv_data:
-            data.inb += recv_data
+            data.inb += recv_data  # Append received data to inb buffer
             print("Received", recv_data.decode('utf-8'), "from", data.addr)
             if recv_data.decode('utf-8').strip() == 'quit':
-                sel.unregister(sock)
-                sock.close()
+                sel.unregister(sock)  # Unregister the socket from the selector
+                sock.close()  # Close the socket
                 print("Closed connection to", data.addr)
-                del connections[sock]
-        #else:
-            #print("Closing connection to", data.addr)
-            #sel.unregister(sock)
-            #sock.close()
-            #del connections[sock]
+                del connections[sock]  # Remove the connection from the dictionary
+
     if mask & selectors.EVENT_WRITE:
         if data.outb:
             print("Sending", data.outb.decode('utf-8'), "to", data.addr)
-            sent = sock.send(data.outb)  # Should be ready to write
-            data.outb = data.outb[sent:]
+            sent = sock.send(data.outb)  # Send data from outb buffer to the socket
+            data.outb = data.outb[sent:]  # Remove sent data from outb buffer
 
 # Set up the listening socket
 lsock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-lsock.bind((HOST, PORT))
-lsock.listen()
+lsock.bind((HOST, PORT))  # Bind the socket to the host and port
+lsock.listen()  # Listen for incoming connections
 print("Server is listening on", HOST, ":", PORT)
-lsock.setblocking(False)
-sel.register(lsock, selectors.EVENT_READ, data=None)
+lsock.setblocking(False)  # Set the socket to non-blocking mode
+sel.register(lsock, selectors.EVENT_READ, data=None)  # Register the listening socket with the selector
 
 try:
     while True:
-        events = sel.select(timeout=None)
+        events = sel.select(timeout=None)  # Wait for events
         for key, mask in events:
             if key.data is None:
-                accept_wrapper(key.fileobj)
+                accept_wrapper(key.fileobj)  # Accept new connection
             else:
-                service_connection(key, mask)
-        
+                service_connection(key, mask)  # Service existing connection
+
         if connections:
             print("\nActive connections:")
             for i, conn in enumerate(connections.keys()):
@@ -68,17 +75,15 @@ try:
                 if option.lower() == 'all':
                     msg_to_send = input("Send a message to all connections: ")
                     for conn in connections.keys():
-                        connections[conn].outb = msg_to_send.encode('utf-8')
+                        connections[conn].outb = msg_to_send.encode('utf-8')  # Broadcast message to all connections
                 else:
                     conn_index = int(option)
                     conn = list(connections.keys())[conn_index]
                     msg_to_send = input("Send a message: ")
-                    connections[conn].outb = msg_to_send.encode('utf-8')
+                    connections[conn].outb = msg_to_send.encode('utf-8')  # Send message to a specific connection
             except (ValueError, IndexError):
                 print("Invalid selection. Please try again.")
 except KeyboardInterrupt:
     print("Caught keyboard interrupt, exiting")
 finally:
-    sel.close()
-
-
+    sel.close()  # Close the selector
