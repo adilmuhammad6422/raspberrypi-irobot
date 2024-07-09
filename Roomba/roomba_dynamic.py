@@ -125,11 +125,9 @@ class Robot:
                     if bump_left:
                         print("Left bump detected, turning right...")
                         self.stop()
-                        self.turn_dynamic_angle(-90)
                     elif bump_right:
                         print("Right bump detected, turning left...")
                         self.stop()
-                        self.turn_dynamic_angle(90)
                 else:
                     self.drive_straight(1000)
 
@@ -192,7 +190,7 @@ def main():
     robot = Robot()
     robot.start()
     robot.set_velocity(300)
-    robot.drive_straight_with_bumper_detection(1000)
+    robot.drive_straight_with_bumper_detection(10)
 
 # Calls the main method
 if __name__ == '__main__':
