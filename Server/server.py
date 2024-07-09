@@ -38,8 +38,8 @@ def service_connection(key, mask):
     if mask & selectors.EVENT_WRITE:
         if data.outb:
             print("Sending", data.outb.decode('utf-8'), "to", data.addr)
-            #sent = sock.send(data.outb)  # Should be ready to write
-            #data.outb = data.outb[sent:]
+            sent = sock.send(data.outb)  # Should be ready to write
+            data.outb = data.outb[sent:]
 
 # Set up the listening socket
 lsock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
