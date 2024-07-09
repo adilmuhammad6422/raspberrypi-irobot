@@ -10,12 +10,12 @@ class Robot:
         print("Setting velocity to:", velocity)  # Debugging print
         self.velocity = velocity
 
-    def send(self, commands):
+    def __send(self, commands):
         print("Sending commands:", commands)  # Debugging print
         for x in commands:
             self.tty.write(bytes([x]))
 
-    def convert_to_bytes(self, velocity, radius):
+    def __convert_to_bytes(self, velocity, radius):
         vel_high_byte = (velocity >> 8) & 0xFF
         vel_low_byte = velocity & 0xFF
         radius_high_byte = (radius >> 8) & 0xFF
