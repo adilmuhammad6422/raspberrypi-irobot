@@ -197,10 +197,10 @@ class Robot:
                 bump_left = bump & 0b00000010
                 
                 if bump_right or bump_left:
-                    if bump_left:
+                    if bump_right:
                         print("Left bump detected, turning left...")
                         self.turn_left(duration=0.5)  # Call turn_left for 0.5 seconds
-                    elif bump_right:
+                    elif bump_left:
                         print("Right bump detected, turning right...")
                         self.turn_right(duration=0.5)  # Call turn_right for 0.5 seconds
                 else:
