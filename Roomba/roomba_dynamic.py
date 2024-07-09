@@ -213,6 +213,7 @@ def main():
     robot = Robot()
     robot.start()
     robot.set_velocity(300)
+    robot.turn_while_driving()
 
 # main
 if __name__ == '__main__':
