@@ -20,7 +20,7 @@ class Robot:
 
     # Writes Commands to the tty
     def __write_command(self, commands):
-        print("Sending commands:", commands)  # Debugging print
+        # print("Sending commands:", commands)  # Debugging print
         for x in commands:
             self.tty.write(bytes([x]))
     
@@ -159,12 +159,12 @@ class Robot:
             inp = self.tty.read(1)
             if inp:
                 bump = ord(inp)
-                print("Received:", bump, "Binary:", format(bump, '08b'))
+                # print("Received:", bump, "Binary:", format(bump, '08b'))
                 
                 bump_right = bump & 0b00000001
                 bump_left = bump & 0b00000010
                 
-                if bump_right or bump_left:
+                if bump_right and bump_left:
                     if bump_left:
                         print("Left bump detected, turning right...")
                         self.turn_right(duration=0.5)  # Call turn_right for 0.5 seconds
