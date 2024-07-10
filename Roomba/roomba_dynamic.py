@@ -160,7 +160,7 @@ def test_bumper_detection(robot, duration):
 
     start_time = time.time()
     while time.time() - start_time < duration:
-        bump_left, bump_right = robot.detect_bumper()
+        bump_left, bump_right = robot.detect_bumper(robot)
 
         if bump_left:
             print("Left bump detected, turning right...")
