@@ -51,7 +51,7 @@ class Robot:
 
     # Function for turning x degrees
     # Negative angle for turning left, positive angles for turning right
-    def turn_dynamic_angle(self, angle, duration):
+    def turn_dynamic_angle(self, angle):
         print('Turning ' + str(angle) + ' degree')
 
         # If the angle is 0 drive straight, otherwise turn porportionally for the given angle
