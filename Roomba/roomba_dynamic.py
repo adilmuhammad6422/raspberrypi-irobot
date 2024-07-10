@@ -90,18 +90,18 @@ class Robot:
         time.sleep(1)
 
     # Function to detect if it's a left bump or right bump
-    # def detect_bumper(self):
-    #     self.__write_command([149, 1, 7])  # Request bumper sensor data
-    #     inp = self.tty.read(1)
-    #     if inp:
-    #         bump = ord(inp)
-    #         print("Received:", bump, "Binary:", format(bump, '08b'))
+    def detect_bumper(self):
+        self.__write_command([149, 1, 7])  # Request bumper sensor data
+        inp = self.tty.read(1)
+        if inp:
+            bump = ord(inp)
+            print("Received:", bump, "Binary:", format(bump, '08b'))
             
-    #         bump_right = bump & 0b00000001
-    #         bump_left = bump & 0b00000010
+            bump_right = bump & 0b00000001
+            bump_left = bump & 0b00000010
 
-    #         return bump_left, bump_right
-    #     return False, False
+            return bump_left, bump_right
+        return False, False
 
     # Function for driving straight with bumper detection
     def drive_straight_with_bumper_detection(self, duration):
@@ -120,35 +120,46 @@ class Robot:
 
         start_time = time.time()
         while time.time() - start_time < duration:
+            bump_left, bump_right = self.detect_bumper()
 
-            self.__write_command([149, 1, 7])  # Request bumper sensor data
-            inp = self.tty.read(1)
-            if inp:
-                bump = ord(inp)
-                print("Received:", bump, "Binary:", format(bump, '08b'))
+            if bump_left:
+                print("Left bump detected, turning right...")
+                self.stop()
+            elif bump_right:
+                print("Right bump detected, turning left...")
+                self.stop()
+            else:
+                self.drive_straight(999)
+
+
+            # self.__write_command([149, 1, 7])  # Request bumper sensor data
+            # inp = self.tty.read(1)
+            # if inp:
+            #     bump = ord(inp)
+            #     print("Received:", bump, "Binary:", format(bump, '08b'))
                 
-                bump_right = bump & 0b00000001
-                bump_left = bump & 0b00000010
+            #     bump_right = bump & 0b00000001
+            #     bump_left = bump & 0b00000010
                 
-                #if bump_right or bump_left:
-                if bump_left:
-                    print("Left bump detected, turning right...")
-                    self.stop()
-                    # self.turn_dynamic_angle(-90)
-                    # self.stop()
-                    # time.sleep(0.1)
-                    # self.drive_straight(2)
-                elif bump_right:
-                    print("Right bump detected, turning left...")
-                    self.stop()
-                    # self.turn_dynamic_angle(90)
-                    # self.stop()
-                    # time.sleep(0.1)
-                    # self.drive_straight(2)
-                # else:
-                #     self.__write_command(drive_command)  # Continue moving forward
-                else:
-                    print('here')
+            #     #if bump_right or bump_left:
+            #     if bump_left:
+            #         print("Left bump detected, turning right...")
+            #         self.stop()
+            #         # self.turn_dynamic_angle(-90)
+            #         # self.stop()
+            #         # time.sleep(0.1)
+            #         # self.drive_straight(2)
+            #     elif bump_right:
+            #         print("Right bump detected, turning left...")
+            #         self.stop()
+            #         # self.turn_dynamic_angle(90)
+            #         # self.stop()
+            #         # time.sleep(0.1)
+            #         # self.drive_straight(2)
+            #     # else:
+            #     #     self.__write_command(drive_command)  # Continue moving forward
+            #     else:
+            #         print('here')
 
         # Stop the robot
         self.stop()
