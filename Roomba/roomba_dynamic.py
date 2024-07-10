@@ -118,7 +118,7 @@ class Robot:
 
         start_time = time.time()
         while time.time() - start_time < duration:
-            time.sleep(0.1)
+            #time.sleep(0.1)
 
             self.__write_command([149, 1, 7])  # Request bumper sensor data
             inp = self.tty.read(1)
