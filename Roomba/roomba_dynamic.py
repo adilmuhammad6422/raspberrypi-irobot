@@ -103,25 +103,6 @@ class Robot:
             return bump_left, bump_right
         return False, False
 
-    # Function for driving straight with bumper detection
-    def drive_straight_with_bumper_detection(self, duration):
-        print('Driving Straight with Bumper Detection...')
-        self.drive_straight(2)
-
-        # start_time = time.time()
-        # while time.time() - start_time < duration:
-        #     bump_left, bump_right = self.detect_bumper()
-
-        #     if bump_left:
-        #         print("Left bump detected, turning right...")
-        #         self.stop()
-        #     elif bump_right:
-        #         print("Right bump detected, turning left...")
-        #         self.stop()
-
-        # # Stop the robot
-        self.stop()
-
 
 # Testing methods
 
@@ -172,13 +153,32 @@ def turn_while_driving(robot):
         # Stop the robot after driving straight
         robot.stop()
 
+# Function for driving straight with bumper detection
+def test_bumper_detection(self):
+    print('Driving Straight with Bumper Detection...')
+    self.drive_straight(2)
+
+    # start_time = time.time()
+    # while time.time() - start_time < duration:
+    #     bump_left, bump_right = self.detect_bumper()
+
+    #     if bump_left:
+    #         print("Left bump detected, turning right...")
+    #         self.stop()
+    #     elif bump_right:
+    #         print("Right bump detected, turning left...")
+    #         self.stop()
+
+    # # Stop the robot
+    self.stop()
 
 # The main method
 def main():
     robot = Robot()
     robot.start()
     robot.set_velocity(200)
-    turn_while_driving(robot)
+    test_bumper_detection(robot)
+    
 
 # Calls the main method
 if __name__ == '__main__':
