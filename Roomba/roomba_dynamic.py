@@ -51,7 +51,7 @@ class Robot:
 
     # Function for turning x degrees
     # Negative angle for turning left, positive angles for turning right
-    def turn_dynamic_angle(self, angle):
+    def turn_dynamic_angle(self, angle, duration):
         print('Turning ' + str(angle) + ' degree')
 
         # If the angle is 0 drive straight, otherwise turn porportionally for the given angle
@@ -65,6 +65,7 @@ class Robot:
         
         # Waits for the angle to turn
         time_to_turn = abs(angle) / 90.0
+        # time.sleep(time_to_turn)
         time.sleep(time_to_turn)
 
     # Stops the robot
@@ -89,18 +90,18 @@ class Robot:
         time.sleep(1)
 
     # Function to detect if it's a left bump or right bump
-    def detect_bumper(self):
-        self.__write_command([149, 1, 7])  # Request bumper sensor data
-        inp = self.tty.read(1)
-        if inp:
-            bump = ord(inp)
-            print("Received:", bump, "Binary:", format(bump, '08b'))
+    # def detect_bumper(self):
+    #     self.__write_command([149, 1, 7])  # Request bumper sensor data
+    #     inp = self.tty.read(1)
+    #     if inp:
+    #         bump = ord(inp)
+    #         print("Received:", bump, "Binary:", format(bump, '08b'))
             
-            bump_right = bump & 0b00000001
-            bump_left = bump & 0b00000010
+    #         bump_right = bump & 0b00000001
+    #         bump_left = bump & 0b00000010
 
-            return bump_left, bump_right
-        return False, False
+    #         return bump_left, bump_right
+    #     return False, False
 
     # Function for driving straight with bumper detection
     def drive_straight_with_bumper_detection(self, duration):
