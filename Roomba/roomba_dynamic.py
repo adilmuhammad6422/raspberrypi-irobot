@@ -108,6 +108,10 @@ class Robot:
         print('Driving Straight with Bumper Detection...')
         self.__call_command(32768)
 
+        time.sleep(5)
+        bump_left, bump_right = self.detect_bumper()
+        print(bump_left, bump_right )
+
         # start_time = time.time()
         # while time.time() - start_time < duration:
         #     bump_left, bump_right = self.detect_bumper()
