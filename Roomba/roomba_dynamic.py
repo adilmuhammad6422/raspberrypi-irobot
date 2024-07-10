@@ -145,7 +145,7 @@ class Robot:
         radius = 32768  # Special code for driving straight (0x8000)
 
         # Convert velocity and radius to bytes
-        vel_high_byte, vel_low_byte, radius_high_byte, radius_low_byte = self.convert_to_bytes(self.velocity, radius)
+        vel_high_byte, vel_low_byte, radius_high_byte, radius_low_byte = self.__convert_to_bytes(self.velocity, radius)
         
         # Send drive command
         drive_command = [137, vel_high_byte, vel_low_byte, radius_high_byte, radius_low_byte]
