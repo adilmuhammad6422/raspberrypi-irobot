@@ -13,7 +13,7 @@ class Robot:
         self.tty = serial.Serial(port=port, baudrate=baudrate, timeout=timeout)
         self.velocity = velocity
 
-        self.bump_thresh = 2000 # 100 ms
+        self.bump_thresh = 1000 # 100 ms
         self.bump_left_time = self.bump_right_time = None
     
     # Sets the velocity of the robot
