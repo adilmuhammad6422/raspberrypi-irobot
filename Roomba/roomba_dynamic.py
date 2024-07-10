@@ -107,14 +107,16 @@ class Robot:
     def drive_straight_with_bumper_detection(self, duration):
         print('Driving Straight with Bumper Detection...')
 
-        radius = 32768  # Special code for driving straight (0x8000)
+        # radius = 32768  # Special code for driving straight (0x8000)
 
-        # Convert velocity and radius to bytes
-        vel_high_byte, vel_low_byte, radius_high_byte, radius_low_byte = self.__convert_to_bytes(self.velocity, radius)
+        # # Convert velocity and radius to bytes
+        # vel_high_byte, vel_low_byte, radius_high_byte, radius_low_byte = self.__convert_to_bytes(self.velocity, radius)
         
-        # Send drive command
-        drive_command = [137, vel_high_byte, vel_low_byte, radius_high_byte, radius_low_byte]
-        self.__write_command(drive_command)
+        # # Send drive command
+        # drive_command = [137, vel_high_byte, vel_low_byte, radius_high_byte, radius_low_byte]
+        # self.__write_command(drive_command)
+
+        self.drive_straight(2)
 
         start_time = time.time()
         while time.time() - start_time < duration:
@@ -132,17 +134,21 @@ class Robot:
                 if bump_left:
                     print("Left bump detected, turning right...")
                     self.stop()
-                    self.turn_dynamic_angle(-90)
-                    self.stop()
-                    time.sleep(0.1)
+                    # self.turn_dynamic_angle(-90)
+                    # self.stop()
+                    # time.sleep(0.1)
+                    self.drive_straight(2)
                 elif bump_right:
                     print("Right bump detected, turning left...")
                     self.stop()
-                    self.turn_dynamic_angle(90)
-                    self.stop()
-                    time.sleep(0.1)
+                    # self.turn_dynamic_angle(90)
+                    # self.stop()
+                    # time.sleep(0.1)
+                    self.drive_straight(2)
+                # else:
+                #     self.__write_command(drive_command)  # Continue moving forward
                 else:
-                    self.__write_command(drive_command)  # Continue moving forward
+                    print('here')
 
         # Stop the robot
         self.stop()
