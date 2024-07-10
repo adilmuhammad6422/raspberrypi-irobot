@@ -165,6 +165,7 @@ class Robot:
                 bump_left = bump & 0b00000010
                 
                 if bump_right and bump_left:
+                    print("Received:", bump, "Binary:", format(bump, '08b'))
                     if bump_left:
                         print("Left bump detected, turning right...")
                         self.turn_right(duration=0.5)  # Call turn_right for 0.5 seconds
@@ -172,6 +173,7 @@ class Robot:
                         print("Right bump detected, turning left...")
                         self.turn_left(duration=0.5)  # Call turn_left for 0.5 seconds
                 else:
+                    print('Going straight...')
                     self.__write_command(drive_command)  # Continue moving forward
 
         # Stop the robot
