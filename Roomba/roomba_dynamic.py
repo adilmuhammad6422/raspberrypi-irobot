@@ -110,6 +110,7 @@ class Robot:
                 else:
                     if time.time() - self.bump_right_time > self.bump_thresh:
                         # right bump has been pressed for bump_thresh time
+                        print('Bump right detected for: ', self.bump_right_time)
                         bump_right = True
                         self.bump_right_time = None
                     else:
@@ -123,6 +124,8 @@ class Robot:
                     bump_left = False
                 else:
                     if time.time() - self.bump_left_time > self.bump_thresh:
+                        print('Bump left detected for: ', self.bump_left_time)
+
                         # left bump has been pressed for bump_thresh time
                         bump_left = True
                         self.bump_left_time = None
@@ -194,7 +197,7 @@ class Robot:
                 
                 bump_left, bump_right = self.detect_bumper()
                 
-                if bump_right and bump_left:
+                if bump_right or bump_left:
                     print("Received:", bump, "Binary:", format(bump, '08b'))
                     if bump_left:
                         print("Left bump detected, turning right...")
