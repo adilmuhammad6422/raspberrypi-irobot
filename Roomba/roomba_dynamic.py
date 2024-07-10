@@ -199,10 +199,12 @@ class Robot:
                     if bump_left:
                         print("Left bump detected, turning right...")
                         self.stop()
+                        break
                         # self.turn_right(duration=0.5)  # Call turn_right for 0.5 seconds
                     elif bump_right:
                         print("Right bump detected, turning left...")
                         self.stop()
+                        break
                         # self.turn_left(duration=0.5)  # Call turn_left for 0.5 seconds
                 else:
                     print('Going straight...')
