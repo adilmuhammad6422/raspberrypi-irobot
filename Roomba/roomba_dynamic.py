@@ -90,7 +90,7 @@ class Robot:
     def start(self):
         print("Starting the robot")  # Debugging print
         self.__write_command([128, 132])
-        time.sleep(1)
+        time.sleep(100)
 
     # Function to detect if it's a left bump or right bump
     def detect_bumper(self):
