@@ -110,7 +110,7 @@ class Robot:
         radius = 1  # Special code for turning in place counterclockwise
 
         # Convert velocity and radius to bytes
-        vel_high_byte, vel_low_byte, radius_high_byte, radius_low_byte = self.convert_to_bytes(self.velocity, radius)
+        vel_high_byte, vel_low_byte, radius_high_byte, radius_low_byte = self.__convert_to_bytes(self.velocity, radius)
 
         turn_command = [137, vel_high_byte, vel_low_byte, radius_high_byte, radius_low_byte]
         self.__write_command(turn_command)
@@ -127,7 +127,7 @@ class Robot:
         radius = -1  # Special code for turning in place clockwise
 
         # Convert velocity and radius to bytes
-        vel_high_byte, vel_low_byte, radius_high_byte, radius_low_byte = self.convert_to_bytes(self.velocity, radius)
+        vel_high_byte, vel_low_byte, radius_high_byte, radius_low_byte = self.__convert_to_bytes(self.velocity, radius)
 
         turn_command = [137, vel_high_byte, vel_low_byte, radius_high_byte, radius_low_byte]
         self.__write_command(turn_command)
