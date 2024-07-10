@@ -154,20 +154,52 @@ def turn_while_driving(robot):
         robot.stop()
 
 # Function for driving straight with bumper detection
-def test_bumper_detection(self, duration):
+def test_bumper_detection(self):
     print('Driving Straight with Bumper Detection...')
     self.drive_straight(2)
 
-    start_time = time.time()
-    while time.time() - start_time < duration:
-        bump_left, bump_right = self.detect_bumper()
+    # start_time = time.time()
+    # while time.time() - start_time < duration:
+    #     bump_left, bump_right = self.detect_bumper()
 
-        if bump_left:
-            print("Left bump detected, turning right...")
-            self.stop()
-        elif bump_right:
-            print("Right bump detected, turning left...")
-            self.stop()
+    #     if bump_left:
+    #         print("Left bump detected, turning right...")
+    #         self.stop()
+    #     elif bump_right:
+    #         print("Right bump detected, turning left...")
+    #         self.stop()
+
+    while True:
+        self.__write_command([149, 1, 7])  # Request bumper sensor data
+        inp = self.tty.read(1)
+        if inp:
+            bump = ord(inp)
+            print("Received:", bump, "Binary:", format(bump, '08b'))
+            
+            bump_right = bump & 0b00000001
+            bump_left = bump & 0b00000010
+            
+            #if bump_right or bump_left:
+            if bump_left:
+                print("Left bump detected, turning right...")
+                self.stop()
+                break
+                # self.turn_dynamic_angle(-90)
+                # self.stop()
+                # time.sleep(0.1)
+                # self.drive_straight(2)
+            elif bump_right:
+                print("Right bump detected, turning left...")
+                self.stop()
+                break
+                # self.turn_dynamic_angle(90)
+                # self.stop()
+                # time.sleep(0.1)
+                # self.drive_straight(2)
+            # else:
+            #     self.__write_command(drive_command)  # Continue moving forward
+            else:
+                print('here')
 
     # Stop the robot
     self.stop()
@@ -177,7 +209,7 @@ def main():
     robot = Robot()
     robot.start()
     robot.set_velocity(200)
-    test_bumper_detection(robot, 100)
+    test_bumper_detection(robot)
     
 
 # Calls the main method
