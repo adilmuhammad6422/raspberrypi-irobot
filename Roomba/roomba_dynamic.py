@@ -108,18 +108,18 @@ class Robot:
         print('Driving Straight with Bumper Detection...')
         self.drive_straight(2)
 
-        start_time = time.time()
-        while time.time() - start_time < duration:
-            bump_left, bump_right = self.detect_bumper()
+        # start_time = time.time()
+        # while time.time() - start_time < duration:
+        #     bump_left, bump_right = self.detect_bumper()
 
-            if bump_left:
-                print("Left bump detected, turning right...")
-                self.stop()
-            elif bump_right:
-                print("Right bump detected, turning left...")
-                self.stop()
+        #     if bump_left:
+        #         print("Left bump detected, turning right...")
+        #         self.stop()
+        #     elif bump_right:
+        #         print("Right bump detected, turning left...")
+        #         self.stop()
 
-        # Stop the robot
+        # # Stop the robot
         self.stop()
 
 
