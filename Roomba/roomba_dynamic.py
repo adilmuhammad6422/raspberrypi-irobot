@@ -190,21 +190,21 @@ class Robot:
             time.sleep(0.1)
 
             bump_left, bump_right = self.detect_bumper()
-            print(bump_left, bump_right)
+            # print(bump_left, bump_right)
 
-            # if bump_right or bump_left:
-            #         if bump_left:
-            #             print("Received:", bump_left, "Binary:", format(bump_left, '08b'))
-            #             print("Left bump detected, turning right...")
-            #             self.stop()
-            #             break
-            #             # self.turn_right(duration=0.5)  # Call turn_right for 0.5 seconds
-            #         elif bump_right:
-            #             print("Received:", bump_right, "Binary:", format(bump_right, '08b'))
-            #             print("Right bump detected, turning left...")
-            #             self.stop()
-            #             break
-            #             # self.turn_left(duration=0.5)  # Call turn_left for 0.5 seconds
+            if not bump_right or not bump_left:
+                    if not bump_left:
+                        print("Received:", bump_left, "Binary:", format(bump_left, '08b'))
+                        print("Left bump detected, turning right...")
+                        self.stop()
+                        break
+                        # self.turn_right(duration=0.5)  # Call turn_right for 0.5 seconds
+                    elif not bump_right:
+                        print("Received:", bump_right, "Binary:", format(bump_right, '08b'))
+                        print("Right bump detected, turning left...")
+                        self.stop()
+                        break
+                        # self.turn_left(duration=0.5)  # Call turn_left for 0.5 seconds
 
             # self.__write_command([149, 1, 7])  # Request bumper sensor data
             # inp = self.tty.read(1)
