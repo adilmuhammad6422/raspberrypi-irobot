@@ -12,6 +12,9 @@ class Robot:
     def __init__(self, port='/dev/ttyUSB0', baudrate=57600, timeout=0.01, velocity=200):
         self.tty = serial.Serial(port=port, baudrate=baudrate, timeout=timeout)
         self.velocity = velocity
+
+        self.bump_thresh = 100 # 100 ms
+        self.bump_left_time = self.bump_right_time = None
     
     # Sets the velocity of the robot
     def set_velocity(self, velocity):
@@ -99,6 +102,30 @@ class Robot:
             
             bump_right = bump & 0b00000001
             bump_left = bump & 0b00000010
+            
+            if bump_right:
+                if self.bump_right_time is None:
+                    self.bump_right_time = time.time()
+                    bump_right = False
+                else:
+                    if time.time() - self.bump_right_time > self.bump_thresh:
+                        # right bump has been pressed for bump_thresh time
+                        bump_right = True
+                        self.bump_right_time = None
+                    else:
+                        bump_right = False    
+            
+            if bump_left:
+                if self.bump_left_time is None:
+                    self.bump_left_time = time.time()
+                    bump_left = False
+                else:
+                    if time.time() - self.bump_left_time > self.bump_thresh:
+                        # left bump has been pressed for bump_thresh time
+                        bump_left = True
+                        self.bump_left_time = None
+                    else:
+                        bump_left = False    
 
             return bump_left, bump_right
         return False, False
