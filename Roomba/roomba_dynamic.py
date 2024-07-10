@@ -206,9 +206,9 @@ class Robot:
                         self.stop()
                         break
                         # self.turn_left(duration=0.5)  # Call turn_left for 0.5 seconds
-                else:
-                    print('Going straight...')
-                    self.__write_command(drive_command)  # Continue moving forward
+                # else:
+                #     print('Going straight...')
+                #     self.__write_command(drive_command)  # Continue moving forward
 
         # Stop the robot
         self.stop()
