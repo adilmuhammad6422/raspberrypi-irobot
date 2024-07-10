@@ -98,7 +98,7 @@ class Robot:
         inp = self.tty.read(1)
         if inp:
             bump = ord(inp)
-            print("Received:", bump, "Binary:", format(bump, '08b'))
+            # print("Received:", bump, "Binary:", format(bump, '08b'))
             
             bump_right = bump & 0b00000001
             bump_left = bump & 0b00000010
