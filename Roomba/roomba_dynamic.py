@@ -128,8 +128,6 @@ class Robot:
             elif bump_right:
                 print("Right bump detected, turning left...")
                 self.stop()
-            else:
-                self.drive_straight(999)
 
 
             # self.__write_command([149, 1, 7])  # Request bumper sensor data
