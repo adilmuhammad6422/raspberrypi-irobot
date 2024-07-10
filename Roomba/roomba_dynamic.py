@@ -176,7 +176,7 @@ def main():
     robot = Robot()
     robot.start()
     robot.set_velocity(200)
-    robot.test_bumper_detection( 100)
+    robot.test_bumper_detection(5)
     
 
 # Calls the main method
