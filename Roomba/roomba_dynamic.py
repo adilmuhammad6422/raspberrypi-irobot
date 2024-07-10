@@ -94,7 +94,7 @@ class Robot:
         self.__write_command([149, 1, 7])  # Request bumper sensor data
         inp = self.tty.read(1)
         if inp:
-            bump = ord(inp[0])
+            bump = ord(inp)
             print("Received:", bump, "Binary:", format(bump, '08b'))
             
             bump_right = bump & 0b00000001
