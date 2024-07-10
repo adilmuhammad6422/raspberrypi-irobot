@@ -101,7 +101,6 @@ class Robot:
             return bump_left, bump_right
         return False, False
 
-    # Function for driving straight with bumper detection
     def drive_straight_with_bumper_detection(self, duration):
         print('Driving Straight with Bumper Detection...')
 
@@ -110,17 +109,19 @@ class Robot:
             self.__call_command(self.velocity, 32768)  # Drive straight
             bump_left, bump_right = self.detect_bumper()
 
-            if bump_left:
-                print("Left bump detected, turning right...")
-                self.stop()
-                self.turn_dynamic_angle(90)
-                self.stop()
-            elif bump_right:
-                print("Right bump detected, turning left...")
-                self.stop()
-                self.turn_dynamic_angle(-90)
+            if bump_left or bump_right:
                 self.stop()
 
+                if bump_left:
+                    print("Left bump detected, turning right...")
+                    self.turn_dynamic_angle(90)
+                elif bump_right:
+                    print("Right bump detected, turning left...")
+                    self.turn_dynamic_angle(-90)
+
+                # Continue driving straight after turning
+                self.__call_command(self.velocity, 32768)
+        
         # Stop the robot
         self.stop()
 
