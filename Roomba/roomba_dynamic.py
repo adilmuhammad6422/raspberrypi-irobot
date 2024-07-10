@@ -106,7 +106,7 @@ class Robot:
     # Function for driving straight with bumper detection
     def drive_straight_with_bumper_detection(self, duration):
         print('Driving Straight with Bumper Detection...')
-        self.drive_straight(10)
+        self.drive_straight(2)
 
         start_time = time.time()
         while time.time() - start_time < duration:
