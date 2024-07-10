@@ -164,10 +164,10 @@ def test_bumper_detection(robot, duration):
 
         if bump_left:
             print("Left bump detected, turning right...")
-            robot.stop()
+            robot.stop(robot)
         elif bump_right:
             print("Right bump detected, turning left...")
-            robot.stop()
+            robot.stop(robot)
 
 
     # Stop the robot
