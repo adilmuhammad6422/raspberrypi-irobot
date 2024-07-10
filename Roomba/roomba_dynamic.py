@@ -141,8 +141,8 @@ class Robot:
                     self.turn_dynamic_angle(90)
                     self.stop()
                     time.sleep(0.1)
-                # else:
-                #     self.__write_command(drive_command)  # Continue moving forward
+                else:
+                    self.__write_command(drive_command)  # Continue moving forward
 
         # Stop the robot
         self.stop()
