@@ -113,7 +113,9 @@ class Robot:
                         bump_right = True
                         self.bump_right_time = None
                     else:
-                        bump_right = False    
+                        bump_right = False 
+            else:
+                self.bump_right_time = None
             
             if bump_left:
                 if self.bump_left_time is None:
@@ -125,7 +127,9 @@ class Robot:
                         bump_left = True
                         self.bump_left_time = None
                     else:
-                        bump_left = False    
+                        bump_left = False  
+            else:
+                self.bump_left_time = None  
 
             return bump_left, bump_right
         return False, False
@@ -188,8 +192,7 @@ class Robot:
                 bump = ord(inp)
                 # print("Received:", bump, "Binary:", format(bump, '08b'))
                 
-                bump_right = bump & 0b00000001
-                bump_left = bump & 0b00000010
+                bump_left, bump_right = self.detect_bumper()
                 
                 if bump_right and bump_left:
                     print("Received:", bump, "Binary:", format(bump, '08b'))
