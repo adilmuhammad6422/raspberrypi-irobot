@@ -108,12 +108,15 @@ class Robot:
         time.sleep(duration)
         self.stop()
 
-    def drive_straight_with_bumper_detection(self, duration):
+    def drive_straight_with_bumper_detection(self, duration, angle_to_turn):
+        # duration: seconds. the amount of time this test should run for
+        # angle_to_turn: degrees. the angle to turn (left or right) when a bump is detected 
         print('Driving Straight with Bumper Detection...')
         radius = 32768  # Special code for driving straight (0x8000)
         vel_high_byte, vel_low_byte, radius_high_byte, radius_low_byte = self.__convert_to_bytes(self.velocity, radius)
         drive_command = [137, vel_high_byte, vel_low_byte, radius_high_byte, radius_low_byte]
         self.__write_command(drive_command)
+        driving_forward = True
 
         start_time = time.time()
         while time.time() - start_time < duration:
@@ -121,16 +124,22 @@ class Robot:
             bump_left, bump_right = self.detect_bumper()
             if bump_left:
                 print("Left bump detected, turning right...")
+                driving_forward = False
                 self.stop()
-                self.turn_dynamic_angle(90)
+                self.turn_dynamic_angle(angle_to_turn)
                 # self.turn_right(duration=0.5)
-                break
+                # break
             elif bump_right:
                 print("Right bump detected, turning left...")
+                driving_forward = False
                 self.stop()
-                self.turn_dynamic_angle(-90)
+                self.turn_dynamic_angle(-angle_to_turn)
                 # self.turn_left(duration=0.5)
-                break
+                # break
+            else:
+                if not driving_forward:
+                    self.__write_command(drive_command)
+                    driving_forward = True
 
         self.stop()
 
@@ -162,7 +171,7 @@ def main():
     robot = Robot()
     robot.start()
     robot.set_velocity(200)
-    robot.drive_straight_with_bumper_detection(10)
+    robot.drive_straight_with_bumper_detection(30, 90)
 
 if __name__ == '__main__':
     main()
