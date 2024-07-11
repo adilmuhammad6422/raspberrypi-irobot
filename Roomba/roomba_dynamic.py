@@ -13,8 +13,8 @@ class Robot:
         self.tty = serial.Serial(port=port, baudrate=baudrate, timeout=timeout)
         self.velocity = velocity
 
-        self.bump_thresh = 1000 # 100 ms
-        self.bump_left_time = self.bump_right_time = None
+        self.bump_thresh = 0.1 # 0.1 seconds
+        self.bump_left_start_time = self.bump_right_start_time = None
     
     # Sets the velocity of the robot
     def set_velocity(self, velocity):
@@ -98,164 +98,66 @@ class Robot:
         inp = self.tty.read(1)
         if inp:
             bump = ord(inp)
-            # print("Received:", bump, "Binary:", format(bump, '08b'))
-            
             bump_right = bump & 0b00000001
             bump_left = bump & 0b00000010
             
             if bump_right:
-                if self.bump_right_time is None:
-                    self.bump_right_time = time.time()
-                    bump_right = False
-                else:
-                    if time.time() - self.bump_right_time > self.bump_thresh:
-                        # right bump has been pressed for bump_thresh time
-                        print('Bump right detected for: ', self.bump_right_time)
-                        bump_right = True
-                        self.bump_right_time = None
-                    else:
-                        bump_right = False 
+                if self.bump_right_start_time is None:
+                    self.bump_right_start_time = time.time()
+                elif time.time() - self.bump_right_start_time > self.bump_thresh:
+                    print('Bump right detected for:', time.time() - self.bump_right_start_time)
+                    self.bump_right_start_time = None
+                    return False, True  # right bump detected
             else:
-                self.bump_right_time = None
+                self.bump_right_start_time = None
             
             if bump_left:
-                if self.bump_left_time is None:
-                    self.bump_left_time = time.time()
-                    bump_left = False
-                else:
-                    if time.time() - self.bump_left_time > self.bump_thresh:
-                        print('Bump left detected for: ', self.bump_left_time)
-
-                        # left bump has been pressed for bump_thresh time
-                        bump_left = True
-                        self.bump_left_time = None
-                    else:
-                        bump_left = False  
+                if self.bump_left_start_time is None:
+                    self.bump_left_start_time = time.time()
+                elif time.time() - self.bump_left_start_time > self.bump_thresh:
+                    print('Bump left detected for:', time.time() - self.bump_left_start_time)
+                    self.bump_left_start_time = None
+                    return True, False  # left bump detected
             else:
-                self.bump_left_time = None  
+                self.bump_left_start_time = None
 
-            return bump_left, bump_right
-        return False, False
+        return False, False  # no bump detected
     
-
-    def turn_left(self, duration=1):
-        print('Turning left...')
-
-        radius = 1  # Special code for turning in place counterclockwise
-
-        # Convert velocity and radius to bytes
-        vel_high_byte, vel_low_byte, radius_high_byte, radius_low_byte = self.__convert_to_bytes(self.velocity, radius)
-
-        turn_command = [137, vel_high_byte, vel_low_byte, radius_high_byte, radius_low_byte]
-        self.__write_command(turn_command)
-        
-        # Adjust the sleep duration to achieve the turn
-        time.sleep(duration)  # Adjust this value as necessary
-
-        # Stop the robot after turning
-        self.stop()
-
-    def turn_right(self, duration=1):
-        print('Turning right...')
-
-        radius = -1  # Special code for turning in place clockwise
-
-        # Convert velocity and radius to bytes
-        vel_high_byte, vel_low_byte, radius_high_byte, radius_low_byte = self.__convert_to_bytes(self.velocity, radius)
-
-        turn_command = [137, vel_high_byte, vel_low_byte, radius_high_byte, radius_low_byte]
-        self.__write_command(turn_command)
-        
-        # Adjust the sleep duration to achieve the turn
-        time.sleep(duration)  # Adjust this value as necessary
-
-        # Stop the robot after turning
-        self.stop()
-
     # Function for driving straight with bumper detection
-    def drive_straight_with_bumper_detection(self, duration):
+    def drive_straight_with_bumper_detection(self, duration, angle_to_turn):
+        # duration: seconds. the amount of time this test should run for
+        # angle_to_turn: degrees. the angle to turn (left or right) when a bump is detected 
         print('Driving Straight with Bumper Detection...')
-
         radius = 32768  # Special code for driving straight (0x8000)
-
-        # Convert velocity and radius to bytes
         vel_high_byte, vel_low_byte, radius_high_byte, radius_low_byte = self.__convert_to_bytes(self.velocity, radius)
-        
-        # Send drive command
         drive_command = [137, vel_high_byte, vel_low_byte, radius_high_byte, radius_low_byte]
         self.__write_command(drive_command)
+        driving_forward = True
 
         start_time = time.time()
         while time.time() - start_time < duration:
             time.sleep(0.1)
-
             bump_left, bump_right = self.detect_bumper()
-            print(bump_left, bump_right)
-            
-            #if bump_right or bump_left:
-            if not bump_left:
-                        print("Received:", bump_left, "Binary:", format(bump_left, '08b'))
-                        print("Left bump detected, turning right...")
-                        self.stop()
-                        break
-                        # self.turn_right(duration=0.5)  # Call turn_right for 0.5 seconds
-            elif not bump_right:
-                        print("Received:", bump_right, "Binary:", format(bump_right, '08b'))
-                        print("Right bump detected, turning left...")
-                        self.stop()
-                        break
-                        # self.turn_left(duration=0.5)  # Call turn_left for 0.5 seconds
+            if bump_left:
+                print("Left bump detected, turning right...")
+                driving_forward = False
+                self.stop()
+                self.turn_dynamic_angle(angle_to_turn)
+                # self.turn_right(duration=0.5)
+                # break
+            elif bump_right:
+                print("Right bump detected, turning left...")
+                driving_forward = False
+                self.stop()
+                self.turn_dynamic_angle(-angle_to_turn)
+                # self.turn_left(duration=0.5)
+                # break
+            else:
+                if not driving_forward:
+                    self.__write_command(drive_command)
+                    driving_forward = True
 
-            # self.__write_command([149, 1, 7])  # Request bumper sensor data
-            # inp = self.tty.read(1)
-            # if inp:
-            #     bump = ord(inp)
-            #     # print("Received:", bump, "Binary:", format(bump, '08b'))
-                
-            #     bump_left, bump_right = self.detect_bumper()
-                
-            #     if bump_right or bump_left:
-            #         print("Received:", bump, "Binary:", format(bump, '08b'))
-            #         if bump_left:
-            #             print("Left bump detected, turning right...")
-            #             self.stop()
-            #             break
-            #             # self.turn_right(duration=0.5)  # Call turn_right for 0.5 seconds
-            #         elif bump_right:
-            #             print("Right bump detected, turning left...")
-            #             self.stop()
-            #             break
-            #             # self.turn_left(duration=0.5)  # Call turn_left for 0.5 seconds
-                # else:
-                #     print('Going straight...')
-                #     self.__write_command(drive_command)  # Continue moving forward
-
-        # Stop the robot
         self.stop()
-
-
-
-    # def test_bumper_detection(self, duration):
-    #     print('Driving Straight with Bumper Detection...')
-    #     self.__call_command(32768)
-
-    #     # time.sleep(5)
-    #     # bump_left, bump_right = self.detect_bumper()
-    #     # print(bump_left, bump_right )
-
-    #     start_time = time.time()
-    #     while time.time() - start_time < duration:
-    #         bump_left, bump_right = self.detect_bumper()
-    #         if bump_left:
-    #             print("Left bump detected, turning right...")
-    #             self.stop()
-    #             break
-    #         elif bump_right:
-    #             print("Right bump detected, turning left...")
-    #             self.stop()
-    #             break
-    #     # # Stop the robot
-    #     # self.stop()
 
 # Testing methods
 
@@ -311,7 +213,7 @@ def main():
     robot = Robot()
     robot.start()
     robot.set_velocity(200)
-    robot.drive_straight_with_bumper_detection(10000)
+    robot.drive_straight_with_bumper_detection(30, 90)
     
 
 # Calls the main method
