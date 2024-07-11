@@ -12,6 +12,7 @@ robot.start()  # Start the robot
 
 try:
     while True:
+        robot.set_velocity(200)
         response = client_socket.recv(1024).decode('utf-8')
         if response:
             if response == 'straight':
