@@ -213,7 +213,7 @@ def main():
     robot = Robot()
     robot.start()
     robot.set_velocity(200)
-    robot.drive_straight_with_bumper_detection(30, 90)
+    test_drive_and_turn(robot)
     
 
 # Calls the main method

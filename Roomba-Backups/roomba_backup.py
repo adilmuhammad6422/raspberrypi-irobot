@@ -127,15 +127,11 @@ class Robot:
                 driving_forward = False
                 self.stop()
                 self.turn_dynamic_angle(angle_to_turn)
-                # self.turn_right(duration=0.5)
-                # break
             elif bump_right:
                 print("Right bump detected, turning left...")
                 driving_forward = False
                 self.stop()
                 self.turn_dynamic_angle(-angle_to_turn)
-                # self.turn_left(duration=0.5)
-                # break
             else:
                 if not driving_forward:
                     self.__write_command(drive_command)
