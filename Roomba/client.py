@@ -22,13 +22,15 @@ try:
             elif response == 'left':
                 print("Roomba going left.")
                 robot.set_velocity(200)
-                robot.turn_dynamic_angle(-90)  # Turn left by 90 degrees as an example
+                robot.stop()
+                robot.turn_dynamic_angle(90)  # Turn left by 90 degrees as an example
                 robot.stop()
                 client_socket.sendall(b'left')
             elif response == 'right':
                 print("Roomba going right.")
                 robot.set_velocity(200)
-                robot.turn_dynamic_angle(90)  # Turn right by 90 degrees as an example
+                robot.stop()
+                robot.turn_dynamic_angle(-90)  # Turn right by 90 degrees as an example
                 robot.stop()
                 client_socket.sendall(b'right')
             elif response == 'stop':
