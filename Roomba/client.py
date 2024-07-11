@@ -12,19 +12,21 @@ robot.start()  # Start the robot
 
 try:
     while True:
-        robot.set_velocity(200)
         response = client_socket.recv(1024).decode('utf-8')
         if response:
             if response == 'straight':
                 print("Roomba going straight.")
+                robot.set_velocity(200)
                 robot.drive_straight(2)  # Drive straight for 2 seconds as an example
                 client_socket.sendall(b'straight')
             elif response == 'left':
                 print("Roomba going left.")
+                robot.set_velocity(200)
                 robot.turn_dynamic_angle(-90)  # Turn left by 90 degrees as an example
                 client_socket.sendall(b'left')
             elif response == 'right':
                 print("Roomba going right.")
+                robot.set_velocity(200)
                 robot.turn_dynamic_angle(90)  # Turn right by 90 degrees as an example
                 client_socket.sendall(b'right')
             elif response == 'stop':
