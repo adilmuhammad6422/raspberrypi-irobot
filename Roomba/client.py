@@ -23,30 +23,30 @@ try:
                 print("space error")
                 continue
         if response:
-            if response == 'straight':
+            if command == 'straight':
                 print("Roomba going straight.")
                 robot.set_velocity(200)
                 robot.drive_straight(duration)  # Drive straight for 2 seconds as an example
                 client_socket.sendall(b'straight')
-            elif response == 'left':
+            elif command == 'left':
                 print("Roomba going left.")
                 robot.set_velocity(200)
                 robot.stop()
                 robot.turn_dynamic_angle(90)  # Turn left by 90 degrees as an example
                 robot.stop()
                 client_socket.sendall(b'left')
-            elif response == 'right':
+            elif command == 'right':
                 print("Roomba going right.")
                 robot.set_velocity(200)
                 robot.stop()
                 robot.turn_dynamic_angle(-90)  # Turn right by 90 degrees as an example
                 robot.stop()
                 client_socket.sendall(b'right')
-            elif response == 'stop':
+            elif command == 'stop':
                 print("Stopping..")
                 robot.stop()  # Stop the robot
                 client_socket.sendall(b'stop')
-            elif response == 'quit':
+            elif command == 'quit':
                 print("Quitting.")
                 robot.stop()  # Ensure the robot stops before quitting
                 client_socket.sendall(b'quit')
