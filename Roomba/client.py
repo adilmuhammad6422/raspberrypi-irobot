@@ -10,6 +10,7 @@ client_socket.connect((HOST, PORT))
 
 robot = Robot()  # Create an instance of Robot
 robot.start()  # Start the robot
+robot.set_velocity(200)
 
 try:
     while True:
@@ -30,22 +31,18 @@ try:
         if response:
             if command == 'straight':
                 print("Roomba going straight.")
-                robot.set_velocity(200)
-                print(param1)
                 robot.drive_straight()  # Drive straight 
                 time.sleep(param1)  # sleep for param1 seconds
                 robot.stop()    # stop
                 client_socket.sendall(b'going straight')
             elif command == 'left':
                 print("Roomba going left.")
-                robot.set_velocity(200)
                 robot.stop()
                 robot.turn_dynamic_angle(param1)  # Turn left by 90 degrees as an example
                 robot.stop()
                 client_socket.sendall(b'turning left')
             elif command == 'right':
                 print("Roomba going right.")
-                robot.set_velocity(200)
                 robot.stop()
                 robot.turn_dynamic_angle(-param1)  # Turn right by 90 degrees as an example
                 robot.stop()
@@ -62,7 +59,6 @@ try:
                 break
             elif command == "forward_with_bump":
                 print("Roomba going forward with bump.")
-                robot.set_velocity(200)
                 robot.stop()
                 robot.drive_straight_with_bumper_detection(param1, param2)  # goes forward and turns param2 right/left for param1 duration
                 robot.stop()

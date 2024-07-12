@@ -76,6 +76,7 @@ class Robot:
     def stop(self):
         print("Stopping the robot...")
         self.__write_command([137, 0, 0, 0, 0])
+        time.sleep(0.1)
 
     # Function for turning the robot while its driving
     # It turns the given radius for a given duration
@@ -133,7 +134,7 @@ class Robot:
         # angle_to_turn: degrees. the angle to turn (left or right) when a bump is detected 
         print('Driving Straight with Bumper Detection...')
         start_time = time.time()
-        
+
         self.drive_straight()
         driving_forward = True
 
