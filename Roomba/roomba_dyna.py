@@ -128,7 +128,10 @@ class Robot:
                     return True, False  # left bump detected
             else:
                 self.bump_start_left_time = None
-
+        else:
+            print("inp value: ", inp)
+            self.bump_start_left_time = self.bump_start_right_time = None
+            
         return False, False  # no bump detected
 
     # Function for driving straight with bumper detection

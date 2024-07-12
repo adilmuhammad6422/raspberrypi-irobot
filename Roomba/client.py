@@ -63,7 +63,11 @@ try:
                 robot.drive_straight_with_bumper_detection(param1, param2)  # goes forward and turns param2 right/left for param1 duration
                 robot.stop()
                 client_socket.sendall(b'going forward with bump detection')
-
+            elif command == "read_bumper":
+                print("reading bumper")
+                left_bump, right_bump = robot.detect_bumper()
+                print("left bump:", left_bump)
+                print("right bump:", right_bump)
 
 finally:
     robot.stop()  # Ensure the robot stops in case of an exception
