@@ -13,19 +13,16 @@ robot.start()  # Start the robot
 try:
     while True:
         response = client_socket.recv(1024).decode('utf-8')
+        command_parts = response.split()
+        command = command_parts[0]
+        duration = None
+        if len(command_parts) > 1:
+            try:
+               duration = int(command_parts[1])
+            except ValueError:
+                print("space error")
+                continue
         if response:
-            command_parts = response.split()
-            command = command_parts[0]
-            duration = None
-            if len(command_parts) > 1:
-                try:
-                    duration = int(command_parts[1])
-                except ValueError:
-                    print("space error")
-                    continue
-            
-            print(duration)
-
             if response == 'straight':
                 print("Roomba going straight.")
                 robot.set_velocity(200)
