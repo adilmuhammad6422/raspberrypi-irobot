@@ -14,10 +14,19 @@ try:
     while True:
         response = client_socket.recv(1024).decode('utf-8')
         if response:
+            command_parts = response.split()
+            command = command_parts[0]
+            duration = None
+            if len(command_parts) > 1:
+                try:
+                    duration = int(command_parts[1])
+                except ValueError:
+                    print("space error")
+                    continue
             if response == 'straight':
                 print("Roomba going straight.")
                 robot.set_velocity(200)
-                robot.drive_straight(2)  # Drive straight for 2 seconds as an example
+                robot.drive_straight(duration)  # Drive straight for 2 seconds as an example
                 client_socket.sendall(b'straight')
             elif response == 'left':
                 print("Roomba going left.")
@@ -37,7 +46,6 @@ try:
                 print("Stopping..")
                 robot.stop()  # Stop the robot
                 client_socket.sendall(b'stop')
-                client_socket.shutdown(socket.SHUT_RDWR)  # Stop both sending and receiving data using SHUT_RDWR
             elif response == 'quit':
                 print("Quitting.")
                 robot.stop()  # Ensure the robot stops before quitting
