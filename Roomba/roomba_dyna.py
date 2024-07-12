@@ -114,7 +114,7 @@ class Robot:
                     self.bump_start_right_time = time.time()
                 elif time.time() - self.bump_start_right_time > self.bump_thresh:
                     print('Bump right detected for:',  time.time() - self.bump_start_right_time)
-                    self.bump_start_right_time = None
+                    self.bump_start_right_time = time.time()
                     return False, True  # right bump detected
             else:
                 self.bump_start_right_time = None
@@ -124,14 +124,14 @@ class Robot:
                     self.bump_start_left_time = time.time()
                 elif time.time() - self.bump_start_left_time > self.bump_thresh:
                     print('Bump left detected for:', time.time() - self.bump_start_left_time)
-                    self.bump_start_left_time = None
+                    self.bump_start_left_time = time.time()
                     return True, False  # left bump detected
             else:
                 self.bump_start_left_time = None
         else:
             print("inp value: ", inp)
             self.bump_start_left_time = self.bump_start_right_time = None
-            
+
         return False, False  # no bump detected
 
     # Function for driving straight with bumper detection
@@ -146,7 +146,7 @@ class Robot:
 
         # Runs the robot for duration (seconds)
         while time.time() - start_time < duration:
-            time.sleep(0.1) # sleep for 0.1 seconds
+            time.sleep(0.5) 
             bump_left, bump_right = self.detect_bumper()
             if bump_left:
                 print("Left bump detected, turning right...")
