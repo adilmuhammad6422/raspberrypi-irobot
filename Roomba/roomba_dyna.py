@@ -47,11 +47,10 @@ class Robot:
         radius_low_byte = radius & 0xFF
         return vel_high_byte, vel_low_byte, radius_high_byte, radius_low_byte
 
-    # Function that makes the robot drive straight for a set duration
-    def drive_straight(self, duration):
+    # Function that makes the robot drive straight (infinitely)
+    def drive_straight(self):
         print('Driving Straight...')
         self.__call_command(32768)  # Calls drive command, 32768 is the radius for driving straight
-        time.sleep(duration)
 
     # Function for turning x degrees
     # Negative angle for turning left, positive angles for turning right
