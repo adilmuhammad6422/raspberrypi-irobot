@@ -29,8 +29,7 @@ class Robot:
             self.tty.write(bytes([x]))
         #self.tty.flush()  # Clear the output buffer after writing
 
-
-     # Calls robot commands
+    # Calls robot commands
     def __call_command(self, radius):
         # Convert velocity and radius to bytes
         vel_high_byte, vel_low_byte, radius_high_byte, radius_low_byte = self.__convert_to_bytes(self.velocity, radius)
@@ -73,7 +72,7 @@ class Robot:
         # time.sleep(time_to_turn)
         time.sleep(time_to_turn)
 
-     # Stops the robot from moving
+    # Stops the robot from moving
     def stop(self):
         print("Stopping the robot...")
         self.__write_command([137, 0, 0, 0, 0])
@@ -89,6 +88,7 @@ class Robot:
         time.sleep(duration)
 
      # Starts the robot to accept commands
+    
     def start(self):
         print("Starting the robot...")
         self.__write_command([128, 132])
@@ -96,6 +96,8 @@ class Robot:
 
     # Function to detect if a bump has been detected
     def detect_bumper(self):
+        self.tty.reset_input_buffer()
+        self.tty.reset_output_buffer()
         self.__write_command([149, 1, 7])  # Request bumper sensor data
         inp = self.tty.read(1)
         if inp:
@@ -130,13 +132,10 @@ class Robot:
         # duration: seconds. the amount of time this test should run for
         # angle_to_turn: degrees. the angle to turn (left or right) when a bump is detected 
         print('Driving Straight with Bumper Detection...')
-        radius = 32768  # Special code for driving straight (0x8000)
-        vel_high_byte, vel_low_byte, radius_high_byte, radius_low_byte = self.__convert_to_bytes(self.velocity, radius)
-        drive_command = [137, vel_high_byte, vel_low_byte, radius_high_byte, radius_low_byte]
-        self.__write_command(drive_command)
-        driving_forward = True
-
         start_time = time.time()
+        
+        self.drive_straight()
+        driving_forward = True
 
         # Runs the robot for duration (seconds)
         while time.time() - start_time < duration:
@@ -154,7 +153,7 @@ class Robot:
                 self.turn_dynamic_angle(-angle_to_turn)
             else:
                 if not driving_forward:
-                    self.__write_command(drive_command)
+                    self.drive_straight()
                     driving_forward = True
 
         self.stop()
