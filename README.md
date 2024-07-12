@@ -23,6 +23,8 @@ pip3 install pyserial
 
 # Update Roomba
 rm -rf raspberrypi-irobot
-GIT_SSL_NO_VERIFY=true git clone https://url
+
+GIT_SSL_NO_VERIFY=true git clone https://github.com/adilmuhammad6422/raspberrypi-irobot.git
+
 
 
