@@ -23,6 +23,9 @@ try:
                 except ValueError:
                     print("space error")
                     continue
+            
+            print(duration)
+
             if response == 'straight':
                 print("Roomba going straight.")
                 robot.set_velocity(200)
