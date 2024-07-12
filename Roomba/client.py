@@ -26,6 +26,7 @@ try:
             if command == 'straight':
                 print("Roomba going straight.")
                 robot.set_velocity(200)
+                print(duration)
                 robot.drive_straight(duration)  # Drive straight for 2 seconds as an example
                 client_socket.sendall(b'straight')
             elif command == 'left':
