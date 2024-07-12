@@ -35,21 +35,21 @@ try:
                 robot.drive_straight()  # Drive straight 
                 time.sleep(param1)  # sleep for param1 seconds
                 robot.stop()    # stop
-                client_socket.sendall(b'going straight for '+str(param1))
+                client_socket.sendall(b'going straight')
             elif command == 'left':
                 print("Roomba going left.")
                 robot.set_velocity(200)
                 robot.stop()
                 robot.turn_dynamic_angle(param1)  # Turn left by 90 degrees as an example
                 robot.stop()
-                client_socket.sendall(b'turning left '+str(param1))
+                client_socket.sendall(b'turning left')
             elif command == 'right':
                 print("Roomba going right.")
                 robot.set_velocity(200)
                 robot.stop()
                 robot.turn_dynamic_angle(-param1)  # Turn right by 90 degrees as an example
                 robot.stop()
-                client_socket.sendall(b'turning right '+str(param1))
+                client_socket.sendall(b'turning right')
             elif command == 'stop':
                 print("Stopping..")
                 robot.stop()  # Stop the robot
@@ -66,7 +66,7 @@ try:
                 robot.stop()
                 robot.drive_straight_with_bumper_detection(param1, param2)  # goes forward and turns param2 right/left for param1 duration
                 robot.stop()
-                client_socket.sendall(b'going forward with bump detection for '+str(param2))
+                client_socket.sendall(b'going forward with bump detection')
 
 
 finally:
