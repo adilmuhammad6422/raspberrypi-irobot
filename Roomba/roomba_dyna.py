@@ -77,7 +77,7 @@ class Robot:
 
     # Stops the robot from moving
     def stop(self):
-        print("Stopping the robot...")
+        # print("Stopping the robot...") # commenting cuz too many print statement
         self.__write_command([137, 0, 0, 0, 0])
         time.sleep(0.1)
 
@@ -141,7 +141,7 @@ class Robot:
         print('Driving Straight with Bumper Detection...')
         start_time = time.time()
 
-        # self.drive_straight()
+        self.drive_straight()
         driving_forward = True
 
         # Runs the robot for duration (seconds)
@@ -152,15 +152,17 @@ class Robot:
                 print("Left bump detected, turning right...")
                 driving_forward = False
                 self.stop()
-                # self.turn_dynamic_angle(angle_to_turn)
+                self.turn_dynamic_angle(angle_to_turn)
+                self.stop()
             elif bump_right:
                 print("Right bump detected, turning left...")
                 driving_forward = False
                 self.stop()
-                # self.turn_dynamic_angle(-angle_to_turn)
+                self.turn_dynamic_angle(-angle_to_turn)
+                self.stop()
             else:
                 if not driving_forward:
-                    # self.drive_straight()
+                    self.drive_straight()
                     driving_forward = True
 
         self.stop()
