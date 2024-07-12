@@ -97,8 +97,8 @@ class Robot:
 
     # Function to detect if a bump has been detected
     def detect_bumper(self):
-        self.tty.reset_input_buffer()
-        self.tty.reset_output_buffer()
+        self.tty.flushInput()
+        self.tty.flushOutput()
         self.__write_command([149, 1, 7])  # Request bumper sensor data
         inp = self.tty.read(1)
         if inp:
