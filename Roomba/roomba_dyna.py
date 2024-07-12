@@ -27,7 +27,7 @@ class Robot:
     def __write_command(self, commands):
         for x in commands:
             self.tty.write(bytes([x]))
-        self.tty.flush()  # Clear the output buffer after writing
+        #self.tty.flush()  # Clear the output buffer after writing
 
 
      # Calls robot commands
