@@ -28,7 +28,7 @@ class Robot:
         for x in commands:
             self.tty.write(bytes([x]))
         #self.tty.flush()  # Clear the output buffer after writing
-        time.sleep(0.1)
+        time.sleep(0.2)
         self.tty.flushOutput()
 
 
