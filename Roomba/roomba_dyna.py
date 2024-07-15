@@ -72,14 +72,12 @@ class Robot:
          # Waits for the angle to turn
         time_to_turn = abs(angle) / 90.0
 
-        # time.sleep(time_to_turn)
         time.sleep(time_to_turn)
 
     # Stops the robot from moving
     def stop(self):
         # print("Stopping the robot...") # commenting cuz too many print statement
         self.__write_command([137, 0, 0, 0, 0])
-        #time.sleep(0.1)
 
     # Function for turning the robot while its driving
     # It turns the given radius for a given duration
