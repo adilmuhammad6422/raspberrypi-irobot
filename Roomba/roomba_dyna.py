@@ -29,7 +29,7 @@ class Robot:
             self.tty.write(bytes([x]))
         #self.tty.flush()  # Clear the output buffer after writing
         time.sleep(0.2)
-        self.tty.flushOutput()
+        # self.tty.flushOfutput()
 
 
     # Calls robot commands
@@ -98,8 +98,8 @@ class Robot:
 
     # Function to detect if a bump has been detected
     def detect_bumper(self):
-        self.tty.flushInput()
-        self.tty.flushOutput()
+        # self.tty.flushInput()
+        # self.tty.flushOutput()
         self.__write_command([149, 1, 7])  # Request bumper sensor data
         inp = self.tty.read(1)
         if inp:
