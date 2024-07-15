@@ -2,7 +2,7 @@ import socket
 from roomba_dyna import Robot
 import time
 
-HOST = "192.168.1.102"  # Change this to your computer IP address
+HOST = "192.168.1.999"  # Change this to your computer IP address
 PORT = 44700  # Port to connect to
 
 client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

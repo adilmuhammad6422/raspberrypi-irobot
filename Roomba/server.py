@@ -3,7 +3,7 @@ import selectors
 import types
 
 # Define the host and port for the server
-HOST = "0.0.0.0"  # Listen on all available interfaces
+HOST = "192.168.1.999"  # Listen on all available interfaces
 PORT = 44700  # Port to listen on (non-privileged ports are > 1023)
 
 # Create a default selector object to handle multiple connections
