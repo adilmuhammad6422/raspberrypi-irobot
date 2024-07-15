@@ -15,7 +15,7 @@ class Robot:
     def __init__(self, port='/dev/ttyUSB0', baudrate=57600, timeout=0.01, velocity=200):
         self.tty = serial.Serial(port=port, baudrate=baudrate, timeout=timeout)
         self.velocity = velocity
-        self.bump_thresh = 0.1  # in seconds
+        self.bump_thresh = 0.05  # in seconds
         self.bump_start_left_time = self.bump_start_right_time = None
 
     # Sets the velocity of the robot to the given velocity
