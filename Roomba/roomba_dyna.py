@@ -79,7 +79,7 @@ class Robot:
     def stop(self):
         # print("Stopping the robot...") # commenting cuz too many print statement
         self.__write_command([137, 0, 0, 0, 0])
-        time.sleep(0.05)
+        time.sleep(0.1)
 
     # Function for turning the robot while its driving
     # It turns the given radius for a given duration
