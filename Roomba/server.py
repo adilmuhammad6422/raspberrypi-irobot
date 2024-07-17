@@ -12,6 +12,17 @@ sel = selectors.DefaultSelector()
 # Dictionary to keep track of active connections
 connections = {}
 
+def print_active_connections():
+    """
+    Prints the list of active connections.
+    """
+    if connections:
+        print("\nActive connections:")
+        for i, conn in enumerate(connections.keys()):
+            print(i, ":", connections[conn].addr)
+    else:
+        print("No active connections.")
+
 def accept_wrapper(sock):
     """
     Accepts a new connection from the client.
@@ -23,6 +34,7 @@ def accept_wrapper(sock):
     events = selectors.EVENT_READ | selectors.EVENT_WRITE  # Set the events to monitor
     sel.register(conn, events, data=data)  # Register the connection with the selector
     connections[conn] = data  # Add connection to the dictionary
+    print_active_connections()  # Print the updated list of active connections
 
 def service_connection(key, mask):
     """
@@ -41,6 +53,7 @@ def service_connection(key, mask):
                 sock.close()  # Close the socket
                 print("Closed connection to", data.addr)
                 del connections[sock]  # Remove the connection from the dictionary
+                print_active_connections()  # Print the updated list of active connections
 
     if mask & selectors.EVENT_WRITE:
         if data.outb:
@@ -65,24 +78,19 @@ try:
             else:
                 service_connection(key, mask)  # Service existing connection
 
-        if connections:
-            print("\nActive connections:")
-            for i, conn in enumerate(connections.keys()):
-                print(i, ":", connections[conn].addr)
-
-            try:
-                option = input("Enter 'all' to broadcast a message to all connections or the connection number to send a message to a specific connection: ").strip()
-                if option.lower() == 'all':
-                    msg_to_send = input("Send a message to all connections: ")
-                    for conn in connections.keys():
-                        connections[conn].outb = msg_to_send.encode('utf-8')  # Broadcast message to all connections
-                else:
-                    conn_index = int(option)
-                    conn = list(connections.keys())[conn_index]
-                    msg_to_send = input("Send a message: ")
-                    connections[conn].outb = msg_to_send.encode('utf-8')  # Send message to a specific connection
-            except (ValueError, IndexError):
-                print("Invalid selection. Please try again.")
+        try:
+            option = input("Enter 'all' to broadcast a message to all connections or the connection number to send a message to a specific connection: ").strip()
+            if option.lower() == 'all':
+                msg_to_send = input("Send a message to all connections: ")
+                for conn in connections.keys():
+                    connections[conn].outb = msg_to_send.encode('utf-8')  # Broadcast message to all connections
+            else:
+                conn_index = int(option)
+                conn = list(connections.keys())[conn_index]
+                msg_to_send = input("Send a message: ")
+                connections[conn].outb = msg_to_send.encode('utf-8')  # Send message to a specific connection
+        except (ValueError, IndexError):
+            print("Invalid selection. Please try again.")
 except KeyboardInterrupt:
     print("Caught keyboard interrupt, exiting")
 finally:
