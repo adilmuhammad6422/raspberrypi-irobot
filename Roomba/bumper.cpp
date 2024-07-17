@@ -1,5 +1,9 @@
-#include <SerialStream.h>
-#include "irobot-create.hh"
+#include <iostream>
+#include <unistd.h> // For usleep
+#include <fstream>
+
+#include <LibSerial/SerialStream.h>
+#include "../../libirobot-create-0.1/src/irobot-create.hh"
 
 int main(int argc, char **argv)
 {
