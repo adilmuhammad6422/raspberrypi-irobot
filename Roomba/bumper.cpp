@@ -2,8 +2,8 @@
 #include <unistd.h> // For usleep
 #include <fstream>
 
-#include <../../libserial/src/libserial/SerialStream.h>
-#include "../../libirobot-create-0.1/src/irobot-create.hh"
+#include "/home/pi/libserial/src/libserial/SerialStream.h"
+#include "/home/pi/libirobot-create-0.1/src/irobot-create.hh"
 
 int main(int argc, char **argv)
 {
