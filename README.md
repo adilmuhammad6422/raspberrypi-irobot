@@ -100,7 +100,7 @@ Find the IP Address of the Raspberry Pi (hostname -I) in the command line
    - All the installations will be done in SSH.
 
 2. **Navigate to C++ API GitHub**:
-   - Visit the [libcreate](https://github.com/AutonomyLab/libcreate).
+   - Visit the [libcreate github](https://github.com/AutonomyLab/libcreate).
    - Follow the ReadMe to install necessary libraries
    - Notes: Make sure to install optional gtests and run "make" instead of "make -j" for the cmake part.
 
