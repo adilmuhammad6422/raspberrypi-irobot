@@ -7,7 +7,7 @@ Find the IP Address of the Raspberry Pi (hostname -I) in the command line
   then from there, you can type commands through the terminal
 
 
-### How to get Roomba working
+### How to get Roomba working (Python)
 # Update the package list
 sudo apt-get update
 
