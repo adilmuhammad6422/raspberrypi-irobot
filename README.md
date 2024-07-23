@@ -78,7 +78,7 @@ Find the IP Address of the Raspberry Pi (hostname -I) in the command line
      sudo apt upgrade
      ```
 
-# How to SSH (remote connection) into your raspberry pi from your computer
+# How to SSH (remote connection) into your Raspberry Pi from your computer
 1. **Enable SSH**:
    - Open the Raspberry Pi Configuration tool from the Preferences menu.
    - Go to the Interfaces tab.
@@ -88,16 +88,55 @@ Find the IP Address of the Raspberry Pi (hostname -I) in the command line
    - "hostname -I" gets your Raspberry Pi's IP address
 
 3. **SSH into Raspberry Pi**
-   - ```sh
+   - SSH command
+     ```sh
      ssh pi@<Raspberry_Pi_IP_address>
      ```
 
-# Installing Raspberry Pi OS on a Raspberry Pi 3
+# Running the C++ libcreate code
 ## Step 1: Installations
 
-1. **Navigate to C++ API GitHub**:
+1. **SSH into your Raspberry Pi's IP**
+   - All the installations will be done in SSH.
+
+2. **Navigate to C++ API GitHub**:
    - Visit the [libcreate](https://github.com/AutonomyLab/libcreate).
-   - Make sure to install optional gtests and run "make" instead of "make -j" for the cmake part.
+   - Follow the ReadMe to install necessary libraries
+   - Notes: Make sure to install optional gtests and run "make" instead of "make -j" for the cmake part.
+
+3. **Compile and Run the code**
+   - Installation
+     ```sh
+     cd libcreate/build
+     sudo make install
+     cd ..
+     cd examples
+     export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
+     g++ -o drive_circle drive_circle.cpp -I/usr/local/include -L/usr/local/lib -lcreate
+     ./drive_circle create1
+     ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
