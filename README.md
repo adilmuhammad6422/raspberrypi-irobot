@@ -131,14 +131,22 @@ Find the IP Address of the Raspberry Pi (hostname -I) in the command line
      ```
 
 ## Step 2: Build and Run
-1. **Build and Compile**
+1. **Build**
      ```sh
      cd ..
-     cd examples
-     export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
-     g++ -o <executable_name> <name_of_file> -I/usr/local/include -L/usr/local/lib -lcreate
      ```
-2. **Run**
+     ```sh
+     cd examples
+     ```
+     ```sh
+     export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
+     ```
+2. **Compile**
+   ```sh
+     g++ -o <executable_name> <name_of_file> -I/usr/local/include -L/usr/local/lib -lcreate
+     ```     
+     
+3. **Run**
    ```sh
    ./drive_circle create1
    ```
