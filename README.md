@@ -70,6 +70,7 @@ Find the IP Address of the Raspberry Pi (hostname -I) in the command line
 4. **Complete Initial Configuration**:
    - Follow the on-screen setup wizard (language, time zone, Wi-Fi, etc.).
    - Set the username as "pi" and password as "raspberry"
+   - Connect to "linksys" wifi
 
 5. **Update the System**:
    - Open a terminal and run:
