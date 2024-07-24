@@ -83,7 +83,7 @@ Find the IP Address of the Raspberry Pi (hostname -I) in the command line
    - Open the Raspberry Pi Configuration tool from the Preferences menu.
    - Go to the Interfaces tab.
    - Enable SSH.
-   - 
+    
 2. **Get your IP Address**
    - "hostname -I" gets your Raspberry Pi's IP address
 
@@ -93,28 +93,55 @@ Find the IP Address of the Raspberry Pi (hostname -I) in the command line
      ssh pi@<Raspberry_Pi_IP_address>
      ```
 
-# Running the C++ libcreate code
-## Step 1: Installations
+# Libcreate C++ Library
+## Step 1: Setup
 
 1. **SSH into your Raspberry Pi's IP**
-   - All the installations will be done in SSH.
-
-2. **Navigate to C++ API GitHub**:
-   - Visit the [libcreate github](https://github.com/AutonomyLab/libcreate).
-   - Follow the ReadMe to install necessary libraries
-   - Notes: Make sure to install optional gtests and run "make" instead of "make -j" for the cmake part.
-
-3. **Compile and Run the code**
-   - Installation
+   - SSH command
      ```sh
-     cd libcreate/build
+     ssh pi@<Raspberry_Pi_IP_address>
+     ```
+2. **Installation**:
+   - Install
+     ```sh
+     sudo apt-get install build-essential cmake libboost-system-dev libboost-thread-dev
+     ```
+   - Serial Permissions
+     ```sh
+     sudo usermod -a -G dialout $USER
+     ```
+   - CMake
+     ```sh
+     git clone https://github.com/AutonomyLab/libcreate.git
+     ```
+     ```sh
+     cd libcreate
+     ```
+     ```sh
+     mkdir build && cd build
+     ```
+     ```sh
+     cmake ..
+     ```
+     ```sh
+     make
+     ```
+     ```sh
      sudo make install
+     ```
+
+## Step 2: Build and Run
+1. **Build and Compile**
+     ```sh
      cd ..
      cd examples
      export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
-     g++ -o drive_circle drive_circle.cpp -I/usr/local/include -L/usr/local/lib -lcreate
-     ./drive_circle create1
+     g++ -o <executable_name> <name_of_file> -I/usr/local/include -L/usr/local/lib -lcreate
      ```
+2. **Run**
+   ```sh
+   ./drive_circle create1
+   ```
 
 
 
