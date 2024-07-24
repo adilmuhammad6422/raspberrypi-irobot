@@ -1,0 +1,201 @@
+Start testing: Jul 23 16:05 EDT
+----------------------------------------------------------
+1/6 Testing: test_create
+1/6 Test: test_create
+Command: "/home/raspberrypi/libcreate/build/test_create"
+Directory: /home/raspberrypi/libcreate/build
+"test_create" start time: Jul 23 16:05 EDT
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+[==========] Running 3 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 3 tests from CreateTest
+[ RUN      ] CreateTest.ConstructorSingleParam
+[       OK ] CreateTest.ConstructorSingleParam (3 ms)
+[ RUN      ] CreateTest.Connected
+[       OK ] CreateTest.Connected (0 ms)
+[ RUN      ] CreateTest.Disconnect
+[       OK ] CreateTest.Disconnect (0 ms)
+[----------] 3 tests from CreateTest (4 ms total)
+
+[----------] Global test environment tear-down
+[==========] 3 tests from 1 test suite ran. (4 ms total)
+[  PASSED  ] 3 tests.
+<end of output>
+Test time =   0.09 sec
+----------------------------------------------------------
+Test Passed.
+"test_create" end time: Jul 23 16:05 EDT
+"test_create" time elapsed: 00:00:00
+----------------------------------------------------------
+
+2/6 Testing: test_data
+2/6 Test: test_data
+Command: "/home/raspberrypi/libcreate/build/test_data"
+Directory: /home/raspberrypi/libcreate/build
+"test_data" start time: Jul 23 16:05 EDT
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+[==========] Running 7 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 7 tests from DataTest
+[ RUN      ] DataTest.Constructor
+[       OK ] DataTest.Constructor (1 ms)
+[ RUN      ] DataTest.GetNumPackets
+[       OK ] DataTest.GetNumPackets (0 ms)
+[ RUN      ] DataTest.GetPacket
+[       OK ] DataTest.GetPacket (0 ms)
+[ RUN      ] DataTest.GetPacketIDs
+[       OK ] DataTest.GetPacketIDs (0 ms)
+[ RUN      ] DataTest.GetTotalDataBytes
+[       OK ] DataTest.GetTotalDataBytes (0 ms)
+[ RUN      ] DataTest.IsValidPacketID
+[       OK ] DataTest.IsValidPacketID (0 ms)
+[ RUN      ] DataTest.ValidateAll
+[       OK ] DataTest.ValidateAll (0 ms)
+[----------] 7 tests from DataTest (5 ms total)
+
+[----------] Global test environment tear-down
+[==========] 7 tests from 1 test suite ran. (5 ms total)
+[  PASSED  ] 7 tests.
+<end of output>
+Test time =   0.04 sec
+----------------------------------------------------------
+Test Passed.
+"test_data" end time: Jul 23 16:05 EDT
+"test_data" time elapsed: 00:00:00
+----------------------------------------------------------
+
+3/6 Testing: test_packet
+3/6 Test: test_packet
+Command: "/home/raspberrypi/libcreate/build/test_packet"
+Directory: /home/raspberrypi/libcreate/build
+"test_packet" start time: Jul 23 16:05 EDT
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+[==========] Running 2 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 2 tests from PacketTest
+[ RUN      ] PacketTest.Constructor
+[       OK ] PacketTest.Constructor (0 ms)
+[ RUN      ] PacketTest.SetValidateAndGetData
+[       OK ] PacketTest.SetValidateAndGetData (0 ms)
+[----------] 2 tests from PacketTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 2 tests from 1 test suite ran. (0 ms total)
+[  PASSED  ] 2 tests.
+<end of output>
+Test time =   0.04 sec
+----------------------------------------------------------
+Test Passed.
+"test_packet" end time: Jul 23 16:05 EDT
+"test_packet" time elapsed: 00:00:00
+----------------------------------------------------------
+
+4/6 Testing: test_robot_model
+4/6 Test: test_robot_model
+Command: "/home/raspberrypi/libcreate/build/test_robot_model"
+Directory: /home/raspberrypi/libcreate/build
+"test_robot_model" start time: Jul 23 16:05 EDT
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from RobotModelTest
+[ RUN      ] RobotModelTest.Equality
+[       OK ] RobotModelTest.Equality (0 ms)
+[----------] 1 test from RobotModelTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"test_robot_model" end time: Jul 23 16:05 EDT
+"test_robot_model" time elapsed: 00:00:00
+----------------------------------------------------------
+
+5/6 Testing: test_serial_stream
+5/6 Test: test_serial_stream
+Command: "/home/raspberrypi/libcreate/build/test_serial_stream"
+Directory: /home/raspberrypi/libcreate/build
+"test_serial_stream" start time: Jul 23 16:05 EDT
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+[==========] Running 6 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 6 tests from SerialStreamTest
+[ RUN      ] SerialStreamTest.Constructor
+[       OK ] SerialStreamTest.Constructor (1 ms)
+[ RUN      ] SerialStreamTest.Connected
+[       OK ] SerialStreamTest.Connected (0 ms)
+[ RUN      ] SerialStreamTest.Disconnect
+[       OK ] SerialStreamTest.Disconnect (0 ms)
+[ RUN      ] SerialStreamTest.NumPackets
+[       OK ] SerialStreamTest.NumPackets (0 ms)
+[ RUN      ] SerialStreamTest.Send
+[create::Serial] send failed, not connected.
+[       OK ] SerialStreamTest.Send (0 ms)
+[ RUN      ] SerialStreamTest.SendOpcode
+[create::Serial] send failed, not connected.
+[       OK ] SerialStreamTest.SendOpcode (0 ms)
+[----------] 6 tests from SerialStreamTest (3 ms total)
+
+[----------] Global test environment tear-down
+[==========] 6 tests from 1 test suite ran. (4 ms total)
+[  PASSED  ] 6 tests.
+<end of output>
+Test time =   0.04 sec
+----------------------------------------------------------
+Test Passed.
+"test_serial_stream" end time: Jul 23 16:05 EDT
+"test_serial_stream" time elapsed: 00:00:00
+----------------------------------------------------------
+
+6/6 Testing: test_serial_query
+6/6 Test: test_serial_query
+Command: "/home/raspberrypi/libcreate/build/test_serial_query"
+Directory: /home/raspberrypi/libcreate/build
+"test_serial_query" start time: Jul 23 16:05 EDT
+Output:
+----------------------------------------------------------
+Running main() from ./googletest/src/gtest_main.cc
+[==========] Running 6 tests from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 6 tests from SerialQueryTest
+[ RUN      ] SerialQueryTest.Constructor
+[       OK ] SerialQueryTest.Constructor (1 ms)
+[ RUN      ] SerialQueryTest.Connected
+[       OK ] SerialQueryTest.Connected (0 ms)
+[ RUN      ] SerialQueryTest.Disconnect
+[       OK ] SerialQueryTest.Disconnect (0 ms)
+[ RUN      ] SerialQueryTest.NumPackets
+[       OK ] SerialQueryTest.NumPackets (0 ms)
+[ RUN      ] SerialQueryTest.Send
+[create::Serial] send failed, not connected.
+[       OK ] SerialQueryTest.Send (0 ms)
+[ RUN      ] SerialQueryTest.SendOpcode
+[create::Serial] send failed, not connected.
+[       OK ] SerialQueryTest.SendOpcode (0 ms)
+[----------] 6 tests from SerialQueryTest (4 ms total)
+
+[----------] Global test environment tear-down
+[==========] 6 tests from 1 test suite ran. (4 ms total)
+[  PASSED  ] 6 tests.
+<end of output>
+Test time =   0.05 sec
+----------------------------------------------------------
+Test Passed.
+"test_serial_query" end time: Jul 23 16:05 EDT
+"test_serial_query" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Jul 23 16:05 EDT
