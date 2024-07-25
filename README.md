@@ -132,7 +132,7 @@ Find the IP Address of the Raspberry Pi (hostname -I) in the command line
      export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
      ```
 2. **Compile**
-   ```sh
+     ```sh
      g++ -o <executable_name> <name_of_file> -I/usr/local/include -L/usr/local/lib -lcreate
      ```     
      
