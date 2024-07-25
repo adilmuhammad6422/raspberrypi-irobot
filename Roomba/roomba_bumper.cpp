@@ -3,6 +3,13 @@
 #include <iomanip>
 #include <iostream>
 
+void driveStraight(create::Create &robot, int duration_ms, double velocity)
+{
+    robot.drive(velocity, 0); // Drive straight at 0.2 m/s
+    std::this_thread::sleep_for(std::chrono::milliseconds(duration_ms));
+    robot.drive(0, 0); // Stop
+}
+
 int main(int argc, char **argv)
 {
     // Make Create 1 robot
@@ -30,7 +37,7 @@ int main(int argc, char **argv)
     usleep(100000);
 
     // Command robot to drive a radius of 0.15 metres at 0.2 m/s
-    robot.drive(2, 0);
+    driveStraight(robot, 2, 2);
 
     // robot.driveRadius(0.2, 0.15);
 
