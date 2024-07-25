@@ -133,12 +133,12 @@ Find the IP Address of the Raspberry Pi (hostname -I) in the command line
      ```
 2. **Compile**
      ```sh
-     g++ -o <executable_name> <name_of_file> -I/usr/local/include -L/usr/local/lib -lcreate
+     g++ -o bumpers bumpers.cpp -I/usr/local/include -L/usr/local/lib -lcreate
      ```     
      
 3. **Run**
    ```sh
-   ./drive_circle create1
+   ./bumpers create1
    ```
 
 
