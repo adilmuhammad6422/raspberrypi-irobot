@@ -117,20 +117,10 @@ Find the IP Address of the Raspberry Pi (hostname -I) in the command line
    - CMake
      ```sh
      git clone https://github.com/AutonomyLab/libcreate.git
-     ```
-     ```sh
      cd libcreate
-     ```
-     ```sh
      mkdir build && cd build
-     ```
-     ```sh
      cmake ..
-     ```
-     ```sh
      make
-     ```
-     ```sh
      sudo make install
      ```
 
@@ -138,11 +128,7 @@ Find the IP Address of the Raspberry Pi (hostname -I) in the command line
 1. **Build**
      ```sh
      cd ..
-     ```
-     ```sh
      cd examples
-     ```
-     ```sh
      export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
      ```
 2. **Compile**
