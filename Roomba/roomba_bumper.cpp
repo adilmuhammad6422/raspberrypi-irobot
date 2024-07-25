@@ -37,7 +37,7 @@ int main(int argc, char **argv)
     usleep(100000);
 
     // Command robot to drive a radius of 0.15 metres at 0.2 m/s
-    driveStraight(robot, 2, 2);
+    driveStraight(robot, 2, 2.0);
 
     // robot.driveRadius(0.2, 0.15);
 
