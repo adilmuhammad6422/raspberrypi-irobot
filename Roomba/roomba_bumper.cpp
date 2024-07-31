@@ -1,7 +1,7 @@
 /**
 Software License Agreement (BSD)
 
-\file      drive_circle.cpp
+\file      drive_with_bumpers.cpp
 \authors   Jacob Perron <jperron@sfu.ca>
 \copyright Copyright (c) 2018, Autonomy Lab (Simon Fraser University), All rights reserved.
 
@@ -30,8 +30,8 @@ POSSIBILITY OF SUCH DAMAGE.
 */
 #include "create/create.h"
 
-#include <iomanip>
 #include <iostream>
+#include <iomanip>
 #include <thread>
 #include <chrono>
 
@@ -44,8 +44,7 @@ int main(int argc, char** argv) {
     model = create::RobotModel::CREATE_1;
     baud = 57600;
     std::cout << "Running driver for Create 1" << std::endl;
-  }
-  else {
+  } else {
     std::cout << "Running driver for Create 2" << std::endl;
   }
 
@@ -66,17 +65,27 @@ int main(int argc, char** argv) {
   // There's a delay between switching modes and when the robot will accept drive commands
   usleep(100000);
 
-  // Command robot to drive for 2 secs then stop
+  // Command robot to drive straight
   robot.drive(0.2, 0.0);
-  usleep(2000000);
-  robot.drive(0.0, 0.0);  // Stop
+
+  bool contact_bumpers[2] = {false, false};
 
   while (true) {
-    // Get robot odometry and print
-    const create::Pose pose = robot.getPose();
+    // Get state of bumpers
+    contact_bumpers[0] = robot.isLeftBumper();
+    contact_bumpers[1] = robot.isRightBumper();
 
-    std::cout << std::fixed << std::setprecision(2) << "\rOdometry (x, y, yaw): ("
-              << pose.x << ", " << pose.y << ", " << pose.yaw << ")      ";
+    if (contact_bumpers[0]) {
+      // Left bumper hit, turn 90 degrees to the right
+      robot.driveRadius(0.2, -0.15);  // Small negative radius to turn right
+      usleep(1000000);  // Adjust timing to achieve approximately 90 degree turn
+      robot.drive(0.2, 0.0);  // Drive straight again
+    } else if (contact_bumpers[1]) {
+      // Right bumper hit, turn 90 degrees to the left
+      robot.driveRadius(0.2, 0.15);  // Small positive radius to turn left
+      usleep(1000000);  // Adjust timing to achieve approximately 90 degree turn
+      robot.drive(0.2, 0.0);  // Drive straight again
+    }
 
     usleep(10000);  // 10 Hz
   }
