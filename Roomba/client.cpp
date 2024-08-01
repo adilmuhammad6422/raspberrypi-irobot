@@ -34,8 +34,6 @@ int main()
         return 1;
     }
 
-    // Robot stuff here
-
     char buffer[1024];
     while (true)
     {
@@ -64,7 +62,6 @@ int main()
         {
             send_command = "straight";
             // Implement here
-
         }
         else if (command == "stop")
         {
@@ -78,6 +75,7 @@ int main()
         }
 
         if (!send_command.empty()) {
+            send_command += " OK"; // Acknowledge command execution
             send(client_socket, send_command.c_str(), send_command.size(), 0);
         }
     }
