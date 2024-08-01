@@ -10,8 +10,8 @@
 int main()
 {
     // Server details
-    const char *host = "192.168.1.100"; // Replace with your server's IP address
-    int port = 44700;
+    const char *server_host = "192.168.1.100"; // Replace with your server's IP address
+    int server_port = 44700;
 
     // Create a socket
     int client_socket = socket(AF_INET, SOCK_STREAM, 0);
@@ -24,8 +24,8 @@ int main()
     // Setup server address
     sockaddr_in server_addr;
     server_addr.sin_family = AF_INET;
-    server_addr.sin_port = htons(port);
-    inet_pton(AF_INET, host, &server_addr.sin_addr);
+    server_addr.sin_port = htons(server_port);
+    inet_pton(AF_INET, server_host, &server_addr.sin_addr);
 
     // Connect to the server
     if (connect(client_socket, (sockaddr *)&server_addr, sizeof(server_addr)) < 0)
@@ -37,9 +37,9 @@ int main()
 
     // Initialize RobotDriver
     create::RobotModel model = create::RobotModel::CREATE_1;
-    std::string port = "/dev/ttyUSB0";
+    std::string robot_port = "/dev/ttyUSB0";
     int baud = 57600;
-    RobotDriver driver(model, port, baud);
+    RobotDriver driver(model, robot_port, baud);
     if (!driver.connect()) {
         close(client_socket);
         return 1;
