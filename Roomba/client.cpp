@@ -4,6 +4,7 @@
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include <unistd.h>
+#include <cstdio> // Include this for sscanf
 
 int main()
 {
@@ -29,10 +30,11 @@ int main()
     if (connect(client_socket, (sockaddr *)&server_addr, sizeof(server_addr)) < 0)
     {
         std::cerr << "Connection failed\n";
+        close(client_socket); // Close the socket on failure
         return 1;
     }
 
-    //robot stuff here
+    // Robot stuff here
 
     char buffer[1024];
     while (true)
@@ -55,23 +57,24 @@ int main()
 
         std::string command = response.substr(0, response.find(' '));
         int param1 = 0, param2 = 0;
-        sscanf(response.c_str(), "%*s %d %d", &param1, &param2);
+        sscanf(response.c_str(), "%*s %d %d", &param1, &param2); // Using sscanf to parse the parameters
+
         std::string send_command;
         if (command == "straight")
         {
             send_command = "straight";
-            //implement here
+            // Implement here
 
         }
         else if (command == "stop")
         {
             send_command = "stop";
-            //implement here
+            // Implement here
         }
         else if (command == "forward_with_bump")
         {
             send_command = "forward_with_bump";
-            //implement here
+            // Implement here
         }
 
         if (!send_command.empty()) {
