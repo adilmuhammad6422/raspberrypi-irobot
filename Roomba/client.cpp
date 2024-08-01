@@ -71,7 +71,7 @@ int main()
         std::string send_command;
         if (command == "straight")
         {
-            driver.driveStraight(static_cast<double>(param1) / 1000.0); // param1 is the velocity
+            driver.driveStraight(0.2); // go straight at 0.2 mm/s
             send_command = "straight";
         }
         else if (command == "stop")
@@ -81,7 +81,7 @@ int main()
         }
         else if (command == "turn")
         {
-            driver.turn(static_cast<double>(param1) / 1000.0, static_cast<double>(param2) / 1000.0, 1000); // param1 and param2 are wheel velocities
+            driver.turn(0.15, -0.15, 1000); // param1 and param2 are wheel velocities
             send_command = "turn";
         }
 
