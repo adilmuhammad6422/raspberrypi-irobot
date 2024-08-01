@@ -84,11 +84,13 @@ try:
                 msg_to_send = input("Send a message to all connections: ")
                 for conn in connections.keys():
                     connections[conn].outb = msg_to_send.encode('utf-8')  # Broadcast message to all connections
+                print_active_connections()  # Print active connections after sending the message
             else:
                 conn_index = int(option)
                 conn = list(connections.keys())[conn_index]
                 msg_to_send = input("Send a message: ")
                 connections[conn].outb = msg_to_send.encode('utf-8')  # Send message to a specific connection
+                print_active_connections()  # Print active connections after sending the message
         except (ValueError, IndexError):
             print("Invalid selection. Please try again.")
 except KeyboardInterrupt:
