@@ -1,3 +1,4 @@
+#include "RobotDriver.h"
 #include <iostream>
 #include <string>
 #include <cstring>
@@ -34,6 +35,16 @@ int main()
         return 1;
     }
 
+    // Initialize RobotDriver
+    create::RobotModel model = create::RobotModel::CREATE_1;
+    std::string port = "/dev/ttyUSB0";
+    int baud = 57600;
+    RobotDriver driver(model, port, baud);
+    if (!driver.connect()) {
+        close(client_socket);
+        return 1;
+    }
+
     char buffer[1024];
     while (true)
     {
@@ -60,18 +71,18 @@ int main()
         std::string send_command;
         if (command == "straight")
         {
+            driver.driveStraight(static_cast<double>(param1) / 1000.0); // param1 is the velocity
             send_command = "straight";
-            // Implement here
         }
         else if (command == "stop")
         {
+            driver.stop();
             send_command = "stop";
-            // Implement here
         }
-        else if (command == "forward_with_bump")
+        else if (command == "turn")
         {
-            send_command = "forward_with_bump";
-            // Implement here
+            driver.turn(static_cast<double>(param1) / 1000.0, static_cast<double>(param2) / 1000.0, 1000); // param1 and param2 are wheel velocities
+            send_command = "turn";
         }
 
         if (!send_command.empty()) {
