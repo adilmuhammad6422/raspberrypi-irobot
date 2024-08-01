@@ -65,13 +65,13 @@ int main()
         std::cout << "Received: " << response << "\n";
 
         std::string command = response.substr(0, response.find(' '));
-        int param1 = 0, param2 = 0;
-        sscanf(response.c_str(), "%*s %d %d", &param1, &param2); // Using sscanf to parse the parameters
+        double param1 = 0.0, param2 = 0.0;
+        sscanf(response.c_str(), "%*s %lf %lf", &param1, &param2); // Using sscanf to parse the parameters
 
         std::string send_command;
         if (command == "straight")
         {
-            driver.driveStraight(0.2); // go straight at 0.2 mm/s
+            driver.driveStraight(param1); // go straight at param1 mm/s
             send_command = "straight";
         }
         else if (command == "stop")
@@ -81,8 +81,13 @@ int main()
         }
         else if (command == "turn")
         {
-            driver.turn(0.15, -0.15, 1000); // param1 and param2 are wheel velocities
+            driver.turn(param1, param2, 1000); // param1 and param2 are wheel velocities
             send_command = "turn";
+        }
+        else if (command == "bump")
+        {
+            driver.run();
+            send_command = "bump";
         }
 
         if (!send_command.empty()) {

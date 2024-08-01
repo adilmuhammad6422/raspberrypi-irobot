@@ -32,7 +32,7 @@ public:
     void turn(double leftWheelVelocity, double rightWheelVelocity, int duration_ms) {
         robot_.driveWheels(leftWheelVelocity, rightWheelVelocity);
         std::this_thread::sleep_for(std::chrono::milliseconds(duration_ms));
-        driveStraight(0.2);  // Resume driving straight after turn
+        stop();
     }
 
     void run() {
@@ -45,8 +45,10 @@ public:
 
             if (contact_bumpers[0]) {
                 turn(0.15, -0.15, 1000);  // Turn right
+                driveStraight(0.2);  // Resume driving straight after turn
             } else if (contact_bumpers[1]) {
                 turn(-0.15, 0.15, 1000);  // Turn left
+                driveStraight(0.2);  // Resume driving straight after turn
             }
 
             std::this_thread::sleep_for(std::chrono::milliseconds(10));
