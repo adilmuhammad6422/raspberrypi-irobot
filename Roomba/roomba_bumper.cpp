@@ -59,7 +59,7 @@ public:
         driveStraight(0.2);
         while (true) {
             if (robot_.isVirtualWall()) {
-                turn(-0.2, 0.2, 1000); // turn 180 degrees to the left (adjust timing to change)
+                turn(-0.2, 0.2, 2000); // turn 180 degrees to the left (adjust timing to change)
                 std::cout << "Virtual wall detected. Turning 180 degrees." << std::endl;
             }
             std::this_thread::sleep_for(std::chrono::milliseconds(10));
