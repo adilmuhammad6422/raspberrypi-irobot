@@ -55,6 +55,17 @@ public:
         }
     }
 
+    void testVirtualWall() {
+        driveStraight(0.2);
+        while (true) {
+            if (robot_.isVirtualWall()) {
+                turn(-0.2, 0.2, 1000); // turn 180 degrees to the left (adjust timing to change)
+                std::cout << "Virtual wall detected. Turning 180 degrees." << std::endl;
+            }
+            std::this_thread::sleep_for(std::chrono::milliseconds(10));
+        }
+    }
+
 private:
     create::Create robot_;
     std::string port_;
@@ -72,7 +83,8 @@ int main(int argc, char** argv) {
         return 1;
     }
 
-    driver.run();
+    // driver.run();
+    driver.testVirtualWall();
 
     return 0;
 }
