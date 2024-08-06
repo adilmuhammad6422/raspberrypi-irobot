@@ -141,49 +141,7 @@ Find the IP Address of the Raspberry Pi (hostname -I) in the command line
    ./bumpers create1
    ```
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# How to get Roomba working (Python)
-## Update the package list
-sudo apt-get update
-
-sudo apt-get upgrade
-
-## Ensure pip is installed:
-sudo apt-get install python3-pip
-
-Install pyserial using pip:
-
-pip3 install pyserial
-
-
-## Update Roomba
-rm -rf raspberrypi-irobot
-
-GIT_SSL_NO_VERIFY=true git clone https://github.com/adilmuhammad6422/raspberrypi-irobot.git
-
-
-
+## Step 3: Clone our repo
+```sh
+git clone https://github.com/adilmuhammad6422/raspberrypi-irobot.git
+```
