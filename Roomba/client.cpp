@@ -89,6 +89,11 @@ int main()
             driver.run();
             send_command = "bump";
         }
+        else if (command == "wall")
+        {
+            driver.testVirtualWall();
+            send_command = "bump";
+        }
 
         if (!send_command.empty()) {
             send_command += " OK"; // Acknowledge command execution

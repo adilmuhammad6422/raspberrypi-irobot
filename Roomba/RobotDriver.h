@@ -27,6 +27,7 @@ public:
     }
 
     void driveStraight(double velocity) {
+        running_ = true;
         robot_.drive(velocity, 0.0);
     }
 
@@ -36,6 +37,7 @@ public:
     }
 
     void turn(double leftWheelVelocity, double rightWheelVelocity, int duration_ms) {
+        running_ = true;
         robot_.driveWheels(leftWheelVelocity, rightWheelVelocity);
         std::this_thread::sleep_for(std::chrono::milliseconds(duration_ms));
         stop();
