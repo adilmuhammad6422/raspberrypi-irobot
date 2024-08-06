@@ -81,6 +81,10 @@ private:
             } else if (contact_bumpers[1]) {
                 turn(-0.15, 0.15, 1000);  // Turn left
                 driveStraight(0.2);  // Resume driving straight after turn
+            } else if(robot_.isVirtualWall()) {
+                turn(-0.2, 0.2, 2000); // turn 180 degrees to the left (adjust timing to change)
+                std::cout << "Virtual wall detected. Turning 180 degrees." << std::endl;
+                driveStraight(0.2);
             }
 
             std::this_thread::sleep_for(std::chrono::milliseconds(10));
