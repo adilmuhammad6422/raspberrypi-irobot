@@ -8,6 +8,8 @@
 #include <chrono>
 #include <string>
 #include <atomic>
+#include <condition_variable>
+#include <mutex>
 
 class RobotDriver {
 public:
@@ -27,28 +29,49 @@ public:
     }
 
     void driveStraight(double velocity) {
-        running_ = true;
         robot_.drive(velocity, 0.0);
     }
 
     void stop() {
+        std::lock_guard<std::mutex> lock(mutex_);
         running_ = false; // Set the running flag to false to stop the run method
         robot_.drive(0.0, 0.0);
+        cv_.notify_all();
     }
 
     void turn(double leftWheelVelocity, double rightWheelVelocity, int duration_ms) {
-        running_ = true;
         robot_.driveWheels(leftWheelVelocity, rightWheelVelocity);
         std::this_thread::sleep_for(std::chrono::milliseconds(duration_ms));
         stop();
     }
 
     void run() {
-        running_ = true; // Set the running flag to true to start the loop
+        {
+            std::lock_guard<std::mutex> lock(mutex_);
+            running_ = true; // Set the running flag to true to start the loop
+        }
+        std::thread(&RobotDriver::runLoop, this).detach(); // Run the loop in a separate thread
+    }
+
+    void testVirtualWall() {
+        {
+            std::lock_guard<std::mutex> lock(mutex_);
+            running_ = true; // Set the running flag to true to start the loop
+        }
+        std::thread(&RobotDriver::virtualWallLoop, this).detach(); // Run the loop in a separate thread
+    }
+
+private:
+    void runLoop() {
         driveStraight(0.2);
         bool contact_bumpers[2] = {false, false};
 
-        while (running_) {
+        while (true) {
+            {
+                std::lock_guard<std::mutex> lock(mutex_);
+                if (!running_) break; // Exit loop if not running
+            }
+
             contact_bumpers[0] = robot_.isLeftBumper();
             contact_bumpers[1] = robot_.isRightBumper();
 
@@ -64,23 +87,29 @@ public:
         }
     }
 
-    void testVirtualWall() {
-        running_ = true; // Set the running flag to true to start the loop
+    void virtualWallLoop() {
         driveStraight(0.2);
-        while (running_) {
+        while (true) {
+            {
+                std::lock_guard<std::mutex> lock(mutex_);
+                if (!running_) break; // Exit loop if not running
+            }
+
             if (robot_.isVirtualWall()) {
                 turn(-0.2, 0.2, 2000); // turn 180 degrees to the left (adjust timing to change)
                 std::cout << "Virtual wall detected. Turning 180 degrees." << std::endl;
             }
+
             std::this_thread::sleep_for(std::chrono::milliseconds(10));
         }
     }
 
-private:
     create::Create robot_;
     std::string port_;
     int baud_;
     std::atomic<bool> running_; // Atomic flag to control the loop execution
+    std::condition_variable cv_;
+    std::mutex mutex_;
 };
 
 #endif // ROBOT_DRIVER_H
