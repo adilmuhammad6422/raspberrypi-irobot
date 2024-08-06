@@ -146,3 +146,9 @@ Find the IP Address of the Raspberry Pi (hostname -I) in the command line
 ```sh
 git clone https://github.com/adilmuhammad6422/raspberrypi-irobot.git
 ```
+
+## Compile Client.cpp
+```sh
+g++ client.cpp -o client -lcreate -pthread
+./client
+```
