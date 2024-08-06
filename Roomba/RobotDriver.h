@@ -42,7 +42,7 @@ public:
     void turn(double leftWheelVelocity, double rightWheelVelocity, int duration_ms) {
         robot_.driveWheels(leftWheelVelocity, rightWheelVelocity);
         std::this_thread::sleep_for(std::chrono::milliseconds(duration_ms));
-        stop();
+        robot_.drive(0.0, 0.0); // Stop after turn
     }
 
     void run() {
