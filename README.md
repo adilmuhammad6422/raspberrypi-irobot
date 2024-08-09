@@ -73,7 +73,13 @@ Find the IP Address of the Raspberry Pi (hostname -I) in the command line
    - Set the username as "pi" and password as "raspberry"
    - Connect to "linksys" wifi
    - Use firefox as default browser
-
+     
+5. **Update the System**:
+   - Open a terminal and run:
+     ```sh
+     sudo apt update
+     sudo apt upgrade
+     ```
 
 # How to SSH (remote connection) into your Raspberry Pi from your computer
     
