@@ -131,7 +131,7 @@ Find the IP Address of the Raspberry Pi (hostname -I) in the command line
      ```
 2. **Compile**
      ```sh
-     g++ -o bumpers bumpers.cpp -I/usr/local/include -L/usr/local/lib -lcreate
+     g++ -o roomba_bumper roomba_bumper.cpp -I/usr/local/include -L/usr/local/lib -lcreate
      ```     
      
 3. **Run**
