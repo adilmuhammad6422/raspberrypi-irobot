@@ -72,6 +72,8 @@ Find the IP Address of the Raspberry Pi (hostname -I) in the command line
    - Set hostname to the sticker on the raspberry pi ex. "bp012"
    - Set the username as "pi" and password as "raspberry"
    - Connect to "linksys" wifi
+   - Use firefox as default browser
+   - Enable raspberry pi connect
 
 5. **Update the System**:
    - Open a terminal and run:
