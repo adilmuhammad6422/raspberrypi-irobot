@@ -114,8 +114,7 @@ Find the IP Address of the Raspberry Pi (hostname -I) in the command line
      ```
    - CMake
      ```sh
-     git clone https://github.com/AutonomyLab/libcreate.git
-     cd libcreate
+     rm -rf build
      mkdir build && cd build
      cmake ..
      make
@@ -136,7 +135,7 @@ Find the IP Address of the Raspberry Pi (hostname -I) in the command line
      
 3. **Run**
    ```sh
-   ./bumpers create1
+   ./roomba_bumper
    ```
 
 ## Step 3: Clone our repo
