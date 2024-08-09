@@ -82,14 +82,14 @@ Find the IP Address of the Raspberry Pi (hostname -I) in the command line
      ```
 
 # How to SSH (remote connection) into your Raspberry Pi from your computer
-    
 1. **Get your IP Address**
+   - Go into preferences and enable SSH and click "ok" then reboot
    - Get your Raspberry Pi's IP Address
      ```sh
      hostname -I
      ```
 
-2. **SSH into Raspberry Pi**
+3. **SSH into Raspberry Pi**
    - SSH command
      ```sh
      ssh pi@<Raspberry_Pi_IP_address>
