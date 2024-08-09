@@ -45,7 +45,7 @@ Find the IP Address of the Raspberry Pi (hostname -I) in the command line
    - Launch the application.
 
 3. **Choose the Operating System**:
-   - Click “CHOOSE OS” and select your preferred Raspberry Pi OS version.
+   - Click “CHOOSE OS” and select Raspberry Pi OS(64 bit)
 
 4. **Select Storage**:
    - Click “CHOOSE STORAGE” and select your SD card.
