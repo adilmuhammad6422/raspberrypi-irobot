@@ -104,17 +104,10 @@ Find the IP Address of the Raspberry Pi (hostname -I) in the command line
      ssh pi@<Raspberry_Pi_IP_address>
      ```
 2. **Installation**:
-   - Install
      ```sh
-     sudo apt-get install build-essential cmake libboost-system-dev libboost-thread-dev
+      sudo apt-get install build-essential cmake libboost-system-dev libboost-thread-dev
      git clone https://github.com/adilmuhammad6422/raspberrypi-irobot.git
-     ```
-   - Serial Permissions
-     ```sh
      sudo usermod -a -G dialout $USER
-     ```
-   - CMake
-     ```sh
      cd raspberrypi-irobot/Roomba
      mkdir build && cd build
      cmake ..
