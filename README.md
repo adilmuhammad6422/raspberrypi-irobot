@@ -120,6 +120,9 @@ Find the IP Address of the Raspberry Pi (hostname -I) in the command line
      ```sh
      cd ..
      g++ -o roomba_bumper roomba_bumper.cpp -I/usr/local/include -L/usr/local/lib -lcreate
+     ```
+2. **Run**
+     ```sh
      export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
      ./roomba_bumper
      ```
