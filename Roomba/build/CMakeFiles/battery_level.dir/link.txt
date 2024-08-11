@@ -1,1 +1,0 @@
-/usr/bin/c++ -rdynamic CMakeFiles/battery_level.dir/examples/battery_level.cpp.o -o battery_level  -Wl,-rpath,/home/raspberrypi/libcreate/build libcreate.so /usr/lib/aarch64-linux-gnu/libboost_system.so.1.74.0 /usr/lib/aarch64-linux-gnu/libboost_thread.so.1.74.0 /usr/lib/aarch64-linux-gnu/libboost_atomic.so.1.74.0 
