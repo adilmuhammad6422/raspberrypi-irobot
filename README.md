@@ -114,7 +114,7 @@ Find the IP Address of the Raspberry Pi (hostname -I) in the command line
      ```
    - CMake
      ```sh
-     rm -rf build
+     cd raspberrypi-irobot/Roomba
      mkdir build && cd build
      cmake ..
      make
