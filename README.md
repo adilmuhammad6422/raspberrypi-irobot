@@ -107,6 +107,7 @@ Find the IP Address of the Raspberry Pi (hostname -I) in the command line
    - Install
      ```sh
      sudo apt-get install build-essential cmake libboost-system-dev libboost-thread-dev
+     git clone https://github.com/adilmuhammad6422/raspberrypi-irobot.git
      ```
    - Serial Permissions
      ```sh
@@ -126,22 +127,9 @@ Find the IP Address of the Raspberry Pi (hostname -I) in the command line
      ```sh
      cd ..
      cd examples
-     export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
-     ```
-2. **Compile**
-     ```sh
      g++ -o roomba_bumper roomba_bumper.cpp -I/usr/local/include -L/usr/local/lib -lcreate
-     ```     
-     
-3. **Run**
-   ```sh
-   ./roomba_bumper
-   ```
-
-## Step 3: Clone our repo
-```sh
-git clone https://github.com/adilmuhammad6422/raspberrypi-irobot.git
-```
+     ./roomba_bumper
+     ```
 
 ## Compile Client.cpp
 ```sh
