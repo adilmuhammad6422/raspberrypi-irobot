@@ -118,7 +118,7 @@ Find the IP Address of the Raspberry Pi (hostname -I) in the command line
 ## Step 2: Build and Run
 1. **Build**
      ```sh
-     cd ..
+     cd raspberrypi-irobot/Roomba
      g++ -o roomba_bumper roomba_bumper.cpp -I/usr/local/include -L/usr/local/lib -lcreate
      ```
 2. **Run**
