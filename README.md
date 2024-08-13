@@ -133,3 +133,63 @@ g++ client.cpp -o client -lcreate -pthread
 export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
 ./client
 ```
+
+
+## Bash Roomba_bumper
+```sh
+nano ~/start_robot.sh
+```
+
+```bash
+ #!/bin/bash
+ # Navigate to the directory containing your C++ file
+ cd raspberrypi-irobot/Roomba
+
+ git checkout -- .
+ git pull origin main
+
+ # Compile the C++ file
+ g++ -o roomba_bumper roomba_bumper.cpp -I/usr/local/include -L/usr/local/lib -lcreate
+
+ # Run the compiled program
+ export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
+ ./roomba_bumper
+```
+
+## Startup
+```sh
+crontab -e
+@reboot /home/pi/start_robot.sh
+```
+
+### Running
+
+```sh
+chmod +x start_robot.sh
+./start_robot
+```
+
+## Bash Client
+```sh
+nano ~/start_client.sh
+```
+
+
+```bash
+ #!/bin/bash
+cd raspberrypi-irobot/Roomba
+g++ client.cpp -o client -lcreate -pthread
+export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
+./client
+```
+
+## Startup
+```sh
+crontab -e
+@reboot /home/pi/start_client.sh
+```
+
+```sh
+chmod +x start_client.sh
+./start_client
+```
