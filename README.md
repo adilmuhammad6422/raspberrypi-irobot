@@ -166,7 +166,7 @@ crontab -e
 
 ```sh
 chmod +x start_robot.sh
-./start_robot
+./start_robot.sh
 ```
 
 ## Bash Client
@@ -191,5 +191,5 @@ crontab -e
 
 ```sh
 chmod +x start_client.sh
-./start_client
+./start_client.sh
 ```
