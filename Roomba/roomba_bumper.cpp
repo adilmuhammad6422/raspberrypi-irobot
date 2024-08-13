@@ -48,8 +48,12 @@ public:
         driveStraight(0.2);
         bool contact_bumpers[2] = {false, false};
 
-        while (true)
+        auto start_time = std::chrono::steady_clock::now();
+        auto duration = std::chrono::seconds(45);
+
+        while (std::chrono::steady_clock::now() - start_time < duration)
         {
+
             contact_bumpers[0] = robot_.isLeftBumper();
             contact_bumpers[1] = robot_.isRightBumper();
 
@@ -63,9 +67,17 @@ public:
                 turn(-0.15, 0.15, 1000); // Turn left
                 driveStraight(0.2);      // Resume driving straight after turn
             }
+            else if (robot_.isVirtualWall())
+            {
+                turn(-0.2, 0.2, 2000); // turn 180 degrees to the left (adjust timing to change)
+                std::cout << "Virtual wall detected. Turning 180 degrees." << std::endl;
+                driveStraight(0.2);
+            }
 
             std::this_thread::sleep_for(std::chrono::milliseconds(10));
         }
+
+        stop(); // Stop the robot after 45 seconds
     }
 
     void testVirtualWall()
