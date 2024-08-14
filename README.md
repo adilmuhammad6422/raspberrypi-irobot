@@ -178,7 +178,7 @@ nano ~/start_client.sh
 ```bash
  #!/bin/bash
 cd raspberrypi-irobot/Roomba
-g++ client.cpp -o client -lcreate -pthread
+g++ -o client client.cpp -I/usr/local/include -L/usr/local/lib -lcreate -pthread
 export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
 ./client
 ```
