@@ -2,7 +2,7 @@
 
 
 ## Table of Contents
-- [TODO](#)
+- [TODO List](#todos)
 - [About](#-about)
 - [Pre-requisites](#prerequisites)
    - [Fresh Install, Updating OS, & Changing Router](RaspberryOs.md)
@@ -12,9 +12,42 @@
    - [Setup startup file](#step-2-setup-startup-file)
 
 
-# TODO
-- [ ] meet with Nathan to ask about the todos in the readme
-- [ ] fix the todos in the readme - 
+# TODOs
+### Software Todos:
+- [ ] meet with Nathan to ask about the commented todos in the readme
+- [ ] readme todos: Sanity check 2 - connect with server, server should send "hello client", client should send back "hello server"
+- [ ] readme todos: verify startup file
+- [ ] if demo1 is running, how can we stop it? 
+### Physical Todos:
+- [ ] All 12 pis have updated OS, installed software
+- [ ] All 12 pis can communicate with roomba (Sanity Check 1)
+   - [ ] Go forward
+   - [ ] Left/Right bumber
+   - [ ] Virtual wall
+- [ ] All 12 pis can communicate with server (Sanity Check 2)
+- [ ] Run all 12 pis together on final testbed
+### Prep Todos:
+- Main Hardware:
+   - [ ] 12 + ?rasperry pis
+   - [ ] 12 + ? roombas
+   - [ ] 12 + ? red cardboard sheets
+   - [ ] 1 outdoor nav router 
+   - [ ] 4 virtual walls
+- Batteries:
+   - [ ] 24 battery packs for pis
+   - [ ] 24 rechargeable batteries for roombas
+   - [ ] 12 Batteries for Virtual walls (2 each)
+- Cables
+   - [ ] 24 small micro USB cables for battery packs
+   - [ ] 24 Roomba chargers
+   - [ ] 12 pi - roomba comm cables
+- Supporting Hardware:
+   - [ ] 1 mouse
+   - [ ] 1 keyboard
+   - [ ] 1 monitor
+   - [ ] 1 HDMI cable
+   - [ ] 1 long microUSB cable
+   - [ ] 1 USB wall adapter
 
 ## 🚀 About
 
@@ -22,6 +55,9 @@ This project provides an interface to send commands to the IRobot Create Roomba.
 1. server.py
 2. client.cpp
 
+The server.py 
+
+<!-- TODO: client.py, driver_circle.cpp, roomba_dyna.py, roomba_dynamic.py - are any of these files used? -->
 
 <!-- 
 TODO: should we delete this section? It seems to be the same information as below.
