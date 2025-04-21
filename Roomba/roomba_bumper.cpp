@@ -21,7 +21,7 @@ class RobotDriver
 {
 public:
     RobotDriver(create::RobotModel model, const std::string &port, int baud)
-        : robot_(model), port_(port), baud_(baud) {}
+        : robot_(model), port_(port), baud_(baud), interrupt_(false) {}
 
     bool connect()
     {
@@ -46,7 +46,9 @@ public:
 
     void stop()
     {
-        robot_.drive(0.0, 0.0);
+        interrupt_ = true; // set interrupt to true 
+        std::this_thread::sleep_for(std::chrono::milliseconds(50)); // sleep for 50ms so that loops stop due to interrupt=true
+        robot_.drive(0.0, 0.0); // stop roomba
     }
 
     void turn(double leftWheelVelocity, double rightWheelVelocity, int duration_ms)
@@ -58,13 +60,14 @@ public:
 
     void run(double duration_s)
     {
+        interrupt_ = false;
         driveStraight(0.2);
         bool contact_bumpers[2] = {false, false};
 
         auto start_time = std::chrono::steady_clock::now();
         auto duration = std::chrono::seconds(duration_s);
 
-        while (std::chrono::steady_clock::now() - start_time < duration)
+        while (!interrupt_ && std::chrono::steady_clock::now() - start_time < duration)
         {
 
             contact_bumpers[0] = robot_.isLeftBumper();
@@ -93,10 +96,13 @@ public:
         stop(); // Stop the robot after 45 seconds
     }
 
-    void testVirtualWall()
+    void testVirtualWall(double duration_s)
     {
+        auto start_time = std::chrono::steady_clock::now();
+        auto duration = std::chrono::seconds(duration_s);
+
         driveStraight(0.2);
-        while (true)
+        while (std::chrono::steady_clock::now() - start_time < duration)
         {
             if (robot_.isVirtualWall())
             {
@@ -111,6 +117,7 @@ private:
     create::Create robot_;
     std::string port_;
     int baud_;
+    bool interrupt_;
 };
 
 int main(int argc, char **argv)

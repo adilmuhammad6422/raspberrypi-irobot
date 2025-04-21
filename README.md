@@ -15,9 +15,9 @@
 # TODOs
 ### Software Todos:
 - [ ] meet with Nathan to ask about the commented todos in the readme
-- [ ] readme todos: Sanity check 2 - connect with server, server should send "hello client", client should send back "hello server"
+- [ ] readme todos: Sanity check 2 - connect with server, server should send "hello", client should send back "hello OK"
 - [ ] readme todos: verify startup file
-- [ ] if demo1 is running, how can we stop it? 
+- [ ] if demo1 is running, how can we stop it? interrupt added, needs to be verified.
 ### Physical Todos:
 - [ ] All 12 pis have updated OS, installed software
 - [ ] All 12 pis can communicate with roomba (Sanity Check 1)
@@ -28,7 +28,7 @@
 - [ ] Run all 12 pis together on final testbed
 ### Prep Todos:
 - Main Hardware:
-   - [ ] 12 + ?rasperry pis
+   - [ ] 12 + ? rasperry pis
    - [ ] 12 + ? roombas
    - [ ] 12 + ? red cardboard sheets
    - [ ] 1 outdoor nav router 
@@ -55,7 +55,9 @@ This project provides an interface to send commands to the IRobot Create Roomba.
 1. server.py
 2. client.cpp
 
-The server.py 
+The server.py is meant to run on a pc, connect with the client.cpp that runs on the pis. The server can basically send these commands:
+- "runDemo x" // where x is the number of seconds to run the demo for. see [roomba_bumper](Roomba/roomba_bumper.cpp) for details.
+- "stop" // to stop the roombas.
 
 <!-- TODO: client.py, driver_circle.cpp, roomba_dyna.py, roomba_dynamic.py - are any of these files used? -->
 
@@ -125,7 +127,7 @@ g++ -o client client.cpp -I/usr/local/include -L/usr/local/lib -lcreate -pthread
 export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
 ./client
 ```
-TODO: incomplete, need to add info on how to setup server on pc, and send basic commands to pi and for pi to respond. is this done on the pi in the first place?
+TODO: incomplete, need to add info on how to setup server on pc, and send basic commands to pi and for pi to respond.
 
 <!-- 
 TODO:  The below code seems to create a startup file for running roomba_bumper directly? Is this correct? roomba_bumper is supposed to be a testing file to test whether the pi->roomba communication is working.

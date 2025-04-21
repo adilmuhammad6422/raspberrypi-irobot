@@ -68,23 +68,24 @@ int main()
         std::string send_command;
         if (command == "straight"){
             driver.driveStraight(param1); // go straight at param1 mm/s
-            send_command = "straight";
+            send_command = "Going straight...";
         }else if (command == "stop"){
             driver.stop();
-            send_command = "stop";
+            send_command = "Stopping...";
         }else if (command == "turn"){
             driver.turn(param1, param2, 1000); // param1 and param2 are wheel velocities
-            send_command = "turn";
-        }else if (command == "runDemo1"){
+            send_command = "Turning...";
+        }else if (command == "runDemo"){
             driver.run(param1);
-            send_command = "runDemo1";
+            send_command = "Running Demo...";
         }else if (command == "testWall"){
             driver.testVirtualWall();
-            send_command = "testWall";
+            send_command = "Testing Virtual Wall...";
+        }else if (command == "hello"){
+            send_command = "Hello!";
         }
 
         if (!send_command.empty()) {
-            send_command += " OK"; // Acknowledge command execution
             send(client_socket, send_command.c_str(), send_command.size(), 0);
         }
     }
