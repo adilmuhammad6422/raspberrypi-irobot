@@ -1,6 +1,5 @@
 # Raspberry Pi-irobot
 
-
 ## Table of Contents
 - [TODO List](#todos)
 - [About](#-about)
@@ -10,14 +9,15 @@
 - [Installation](#installation)
    - [Clone and setup repo](#step-1-setup)
    - [Setup startup file](#step-2-setup-startup-file)
+- [Usage](#usage)
 
 
-# TODOs
+## TODOs
 ### Software Todos:
 - [ ] meet with Nathan to ask about the commented todos in the readme
 - [ ] readme todos: Sanity check 2 - connect with server, server should send "hello", client should send back "hello OK"
 - [ ] readme todos: verify startup file
-- [ ] if demo1 is running, how can we stop it? interrupt added, needs to be verified.
+- [ ] if demo is running, how can we stop it? interrupt added, needs to be verified.
 ### Physical Todos:
 - [ ] All 12 pis have updated OS, installed software
 - [ ] All 12 pis can communicate with roomba (Sanity Check 1)
@@ -26,7 +26,7 @@
    - [ ] Virtual wall
 - [ ] All 12 pis can communicate with server (Sanity Check 2)
 - [ ] Run all 12 pis together on final testbed
-### Prep Todos:
+### ICRA hardware list:
 - Main Hardware:
    - [ ] 12 + ? rasperry pis
    - [ ] 12 + ? roombas
@@ -49,8 +49,8 @@
    - [ ] 1 long microUSB cable
    - [ ] 1 USB wall adapter
 
-## 🚀 About
 
+## 🚀 About
 This project provides an interface to send commands to the IRobot Create Roomba. There are two parts:
 1. server.py
 2. client.cpp
@@ -58,6 +58,8 @@ This project provides an interface to send commands to the IRobot Create Roomba.
 The server.py is meant to run on a pc, connect with the client.cpp that runs on the pis. The server can basically send these commands:
 - "runDemo x" // where x is the number of seconds to run the demo for. see [roomba_bumper](Roomba/roomba_bumper.cpp) for details.
 - "stop" // to stop the roombas.
+
+See [Usage](#usage).
 
 <!-- TODO: client.py, driver_circle.cpp, roomba_dyna.py, roomba_dynamic.py - are any of these files used? -->
 
@@ -70,10 +72,10 @@ Find the IP Address of the Raspberry Pi (hostname -I) in the command line
   then from there, you can type commands through the terminal 
   -->
 
-## Prerequisites
+## Prerequisites for Installation
 For fresh installation of a pi see [this](RaspberryOs.md).
 ### How to SSH (remote connection) into your Raspberry Pi from your computer
-1. **Find Pi's IP Address**
+1. Find Pi's IP Address
    - Connect your Pi to a monitor <!-- TODO: there should be a way to find the ip address without connecting it to a monitor  -->
    - Go into preferences and enable SSH and click "ok" then reboot
    - Get your Raspberry Pi's IP Address
@@ -81,8 +83,7 @@ For fresh installation of a pi see [this](RaspberryOs.md).
      hostname -I
      ```
 
-3. **SSH into Raspberry Pi**
-   - SSH command
+3. SSH into Raspberry Pi
      ```sh
      ssh pi@<Raspberry_Pi_IP_address>
      ```
@@ -195,3 +196,12 @@ TODO: verify the startup files.
 chmod +x $HOME/raspberrypi-irobot/start_client.sh
 .$HOME/raspberrypi-irobot/start_client.sh
 ```
+
+## Usage
+Now that the pi is setup do this:
+1. Connect the pi with the roomba and battery. Keep the pi off by turning the battery pack off. 
+2. Run server.py on pc, making sure it is connected to the router
+3. Turn on the roomba first - TODO: ask nathan/adil whether we should turn the pi first or roomba first
+4. Turn on the batteries of the pis. This should turn on the pi. You should hear a beep sound from the roomba and see on the server that the pis are connecting.
+5. Send the command "runDemo 60" via the server. All the roombas should start moving forward at 0.2m/s for 60 seconds while turning left/right if it bumps into anything on its left/right and turning 180° if it senses a virtual wall. 
+   1. Optionally, within the 60s you can send the command "stop" from the server. All the roombas should stop momentarily.
