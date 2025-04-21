@@ -1,88 +1,42 @@
 # Raspberry Pi-irobot
 
-### How to sign into Raspberry Pi 3 using ssh
+
+## Table of Contents
+- [TODO](#)
+- [About](#-about)
+- [Pre-requisites](#prerequisites)
+   - [Fresh Install, Updating OS, & Changing Router](RaspberryOs.md)
+   - [Connecting to your Pi](#how-to-ssh-remote-connection-into-your-raspberry-pi-from-your-computer)
+- [Installation](#installation)
+   - [Clone and setup repo](#step-1-setup)
+   - [Setup startup file](#step-2-setup-startup-file)
+
+
+# TODO
+- [ ] meet with Nathan to ask about the todos in the readme
+- [ ] fix the todos in the readme - 
+
+## 🚀 About
+
+This project provides an interface to send commands to the IRobot Create Roomba. There are two parts:
+1. server.py
+2. client.cpp
+
+
+<!-- 
+TODO: should we delete this section? It seems to be the same information as below.
+
+## How to connect to Raspberry Pi 3 using ssh
 Find the IP Address of the Raspberry Pi (hostname -I) in the command line
   on Macbook terminal type "ssh pi@192.168.x.x" to get into Raspberry Pi 3 command line
-  then from there, you can type commands through the terminal
-
-# Installing Raspberry Pi OS on a Raspberry Pi 3
+  then from there, you can type commands through the terminal 
+  -->
 
 ## Prerequisites
-- **Raspberry Pi 3**
-- **SD Card Reader**
-- **Computer with internet access**
-
-## Step 1: Prepare the SD Card
-
-### 1. Format the SD Card
-
-1. **Download and Install SD Card Formatter**:
-   - Visit the [SD Card Formatter download page](https://www.sdcard.org/downloads/formatter/).
-   - Scroll down to “SD Memory Card Formatter Download for Windows/Mac”
-   - Click on your OS, then scroll down and click accept
-
-2. **Insert the Raspberry Pi's SD Card**:
-   - Insert the SD card into your computer’s SD card slot or use a reader.
-
-3. **Open SD Card Formatter**:
-   - Launch the SD Card Formatter application.
-
-4. **Select the SD Card**:
-   - Choose your SD card from the list of drives.
-
-5. **Choose "Overwrite" Formatting Option**:
-
-6. **Start Formatting**:
-   - Click “Format” and confirm.
-
-## Step 2: Write the Image to the SD Card
-
-1. **Download and Install Raspberry Pi Imager**:
-   - Visit the [Raspberry Pi Imager download page](https://www.raspberrypi.com/software/).
-   - Download and install the version for your OS.
-
-2. **Open Raspberry Pi Imager**:
-   - Launch the application.
-
-3. **Choose the Operating System**:
-   - Click “CHOOSE OS” and select Raspberry Pi OS(64 bit)
-
-4. **Select Storage**:
-   - Click “CHOOSE STORAGE” and select your SD card.
-
-5. **Write the Image**:
-   - Click “WRITE” and confirm. Wait for the process to complete.
-
-6. **Eject the SD Card**:
-   - Safely eject the SD card from your computer.
-
-## Step 3: Set Up the Raspberry Pi
-
-1. **Insert the SD Card**:
-   - Place the SD card into your Raspberry Pi 3.
-
-2. **Connect Peripherals**:
-   - Attach a keyboard, mouse, and monitor.
-
-3. **Power Up**:
-   - Connect the power supply to boot the Raspberry Pi.
-
-4. **Complete Initial Configuration**:
-   - Follow the on-screen setup wizard (language, time zone, Wi-Fi, etc.).
-   - Set hostname to the sticker on the raspberry pi ex. "bp012"
-   - Set the username as "pi" and password as "raspberry"
-   - Connect to "linksys" wifi
-   - Use firefox as default browser
-     
-5. **Update the System**:
-   - Open a terminal and run:
-     ```sh
-     sudo apt update
-     sudo apt upgrade
-     ```
-
-# How to SSH (remote connection) into your Raspberry Pi from your computer
-1. **Get your IP Address**
+For fresh installation of a pi see [this](RaspberryOs.md).
+### How to SSH (remote connection) into your Raspberry Pi from your computer
+1. **Find Pi's IP Address**
+   - Connect your Pi to a monitor <!-- TODO: there should be a way to find the ip address without connecting it to a monitor  -->
    - Go into preferences and enable SSH and click "ok" then reboot
    - Get your Raspberry Pi's IP Address
      ```sh
@@ -95,15 +49,15 @@ Find the IP Address of the Raspberry Pi (hostname -I) in the command line
      ssh pi@<Raspberry_Pi_IP_address>
      ```
 
-# Libcreate C++ Library
-## Step 1: Setup
+## Installation
+### Step 1: Setup
 
-1. **SSH into your Raspberry Pi's IP**
-   - SSH command
-     ```sh
-     ssh pi@<Raspberry_Pi_IP_address>
-     ```
-2. **Installation**:
+1. SSH into your Raspberry Pi's IP
+
+   ```sh
+   ssh pi@<Raspberry_Pi_IP_address>
+   ```
+2. Install dependencies, clone repository and compile libarary:
      ```sh
      sudo apt-get install build-essential cmake libboost-system-dev libboost-thread-dev
      git clone https://github.com/adilmuhammad6422/raspberrypi-irobot.git
@@ -115,25 +69,30 @@ Find the IP Address of the Raspberry Pi (hostname -I) in the command line
      sudo make install
      ```
 
-## Step 2: Build and Run
-1. **Build**
+#### Sanity check 1 
+Building and running roomba_bumper.cpp to verify pi-roomba communication.
+1. Build
      ```sh
      cd raspberrypi-irobot/Roomba
      g++ -o roomba_bumper roomba_bumper.cpp -I/usr/local/include -L/usr/local/lib -lcreate
      ```
-2. **Run**
+2. Run. This should make the roomba go forward at 0.2m/s while turning left/right and 180° if it touches an obstacle on its left/right or detects a virtual wall, respectively. See [roomba_bumper.cpp](Roomba/roomba_bumper.cpp) for details.
      ```sh
      export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
      ./roomba_bumper
      ```
 
-## Compile Client.cpp
+#### Sanity check 2
+Building and running client.cpp to verify server-client communication.
 ```sh
 g++ -o client client.cpp -I/usr/local/include -L/usr/local/lib -lcreate -pthread
 export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
 ./client
 ```
+TODO: incomplete, need to add info on how to setup server on pc, and send basic commands to pi and for pi to respond. is this done on the pi in the first place?
 
+<!-- 
+TODO:  The below code seems to create a startup file for running roomba_bumper directly? Is this correct? roomba_bumper is supposed to be a testing file to test whether the pi->roomba communication is working.
 
 ## Bash Roomba_bumper
 ```sh
@@ -167,29 +126,34 @@ crontab -e
 ```sh
 chmod +x start_robot.sh
 ./start_robot.sh
-```
+``` -->
 
-## Bash Client
-```sh
-nano ~/start_client.sh
-```
+### Step 2: Setup startup file
+<!-- 
+I have created a startup file so that the user does not have to. they just have to link it in the raspberry pi.
 
+1. **create startup file**
+   ```sh
+   nano ~/start_client.sh
+   ```
 
 ```bash
  #!/bin/bash
-cd raspberrypi-irobot/Roomba
+cd $HOME/raspberrypi-irobot/Roomba
 g++ -o client client.cpp -I/usr/local/include -L/usr/local/lib -lcreate -pthread
 export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
 ./client
-```
+``` -->
 
-## Startup
+To have your pi automatically run client.cpp on startup.
 ```sh
 crontab -e
-@reboot /home/pi/start_client.sh
+@reboot /home/pi/raspberrypi-irobot/start_client.sh
 ```
 
+TODO: verify the startup files.
+
 ```sh
-chmod +x start_client.sh
-./start_client.sh
+chmod +x $HOME/raspberrypi-irobot/start_client.sh
+.$HOME/raspberrypi-irobot/start_client.sh
 ```

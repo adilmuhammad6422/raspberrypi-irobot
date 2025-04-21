@@ -4,6 +4,19 @@
 #include <thread>
 #include <chrono>
 
+
+// This file creates a class to communicate with the roomba. 
+
+// The main method runs a good sanity check that the pi is communicating with the roomba. 
+// Roomba will go forward for a total of 45 seconds while
+//      turning left or right if it bumps into an obstacle on its left or right respectively.
+//      turning around if it detects a virtual wall.
+
+// TODO: 
+// 1. in-place turning left 360.
+// 2. in-place turning right 360.
+// 3. reversing
+
 class RobotDriver
 {
 public:
@@ -43,13 +56,13 @@ public:
         stop();
     }
 
-    void run()
+    void run(double duration_s)
     {
         driveStraight(0.2);
         bool contact_bumpers[2] = {false, false};
 
         auto start_time = std::chrono::steady_clock::now();
-        auto duration = std::chrono::seconds(45);
+        auto duration = std::chrono::seconds(duration_s);
 
         while (std::chrono::steady_clock::now() - start_time < duration)
         {

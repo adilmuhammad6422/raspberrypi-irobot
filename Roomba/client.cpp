@@ -50,13 +50,10 @@ int main()
     {
         memset(buffer, 0, sizeof(buffer));
         int bytes_received = recv(client_socket, buffer, sizeof(buffer) - 1, 0);
-        if (bytes_received < 0)
-        {
+        if (bytes_received < 0){
             std::cerr << "Recv failed\n";
             break;
-        }
-        else if (bytes_received == 0)
-        {
+        }else if (bytes_received == 0){
             std::cout << "Server closed connection\n";
             break;
         }
@@ -69,30 +66,21 @@ int main()
         sscanf(response.c_str(), "%*s %lf %lf", &param1, &param2); // Using sscanf to parse the parameters
 
         std::string send_command;
-        if (command == "straight")
-        {
+        if (command == "straight"){
             driver.driveStraight(param1); // go straight at param1 mm/s
             send_command = "straight";
-        }
-        else if (command == "stop")
-        {
+        }else if (command == "stop"){
             driver.stop();
             send_command = "stop";
-        }
-        else if (command == "turn")
-        {
+        }else if (command == "turn"){
             driver.turn(param1, param2, 1000); // param1 and param2 are wheel velocities
             send_command = "turn";
-        }
-        else if (command == "bump")
-        {
-            driver.run();
-            send_command = "bump";
-        }
-        else if (command == "wall")
-        {
+        }else if (command == "runDemo1"){
+            driver.run(param1);
+            send_command = "runDemo1";
+        }else if (command == "testWall"){
             driver.testVirtualWall();
-            send_command = "bump";
+            send_command = "testWall";
         }
 
         if (!send_command.empty()) {
