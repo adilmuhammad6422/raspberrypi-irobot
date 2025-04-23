@@ -65,39 +65,44 @@ def service_connection(key, mask):
             del connections[sock]
         print_active_connections()
 
-# Set up the listening socket
-lsock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-lsock.bind((HOST, PORT))  # Bind the socket to the host and port
-lsock.listen()  # Listen for incoming connections
-print("Server is listening on", HOST, ":", PORT)
-lsock.setblocking(False)  # Set the socket to non-blocking mode
-sel.register(lsock, selectors.EVENT_READ, data=None)  # Register the listening socket with the selector
+def main():
+    # Set up the listening socket
+    lsock = socket.socket()
+    lsock.bind((HOST, PORT))  # Bind the socket to the host and port
+    lsock.listen()  # Listen for incoming connections
+    print("Server is listening on", HOST, ":", PORT)
+    lsock.setblocking(False)  # Set the socket to non-blocking mode
+    sel.register(lsock, selectors.EVENT_READ, data=None)  # Register the listening socket with the selector
 
-try:
-    while True:
-        events = sel.select(timeout=None)  # Wait for events
-        for key, mask in events:
-            if key.data is None:
-                accept_wrapper(key.fileobj)  # Accept new connection
-            else:
-                service_connection(key, mask)  # Service existing connection
+    try:
+        while True:
+            events = sel.select(timeout=None)  # Wait for events
+            for key, mask in events:
+                if key.data is None:
+                    accept_wrapper(key.fileobj)  # Accept new connection
+                else:
+                    service_connection(key, mask)  # Service existing connection
 
-        option = input("Enter 'all' to broadcast a message to all connections or the connection number to send a message to a specific connection: ").strip()
-        try:
-            if option.lower() == 'all':
-                msg_to_send = input("Send a message to all connections: ")
-                for conn in connections.keys():
-                    connections[conn].outb = msg_to_send.encode('utf-8')  # Broadcast message to all connections
-                print_active_connections()  # Print active connections after sending the message
-            else:
-                conn_index = int(option)
-                conn = list(connections.keys())[conn_index]
-                msg_to_send = input("Send a message: ")
-                connections[conn].outb = msg_to_send.encode('utf-8')  # Send message to a specific connection
-                print_active_connections()  # Print active connections after sending the message
-        except (ValueError, IndexError):
-            print("Invalid selection. Please try again.")
-except KeyboardInterrupt:
-    print("Caught keyboard interrupt, exiting")
-finally:
-    sel.close()  # Close the selector
+            option = input("Enter 'all' to broadcast a message to all connections or the connection number to send a message to a specific connection: ").strip()
+            try:
+                if option.lower() == 'all':
+                    msg_to_send = input("Send a message to all connections: ")
+                    for conn in connections.keys():
+                        connections[conn].outb = msg_to_send.encode('utf-8')  # Broadcast message to all connections
+                    print_active_connections()  # Print active connections after sending the message
+                else:
+                    conn_index = int(option)
+                    conn = list(connections.keys())[conn_index]
+                    msg_to_send = input("Send a message: ")
+                    connections[conn].outb = msg_to_send.encode('utf-8')  # Send message to a specific connection
+                    print_active_connections()  # Print active connections after sending the message
+            except (ValueError, IndexError):
+                print("Invalid selection. Please try again.")
+    except KeyboardInterrupt:
+        print("Caught keyboard interrupt, exiting")
+    finally:
+        sel.close()  # Close the selector
+
+
+if __name__ == "__main__":
+    main()

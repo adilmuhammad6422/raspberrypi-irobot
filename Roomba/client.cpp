@@ -30,7 +30,7 @@ int main()
     // Connect to the server
     if (connect(client_socket, (sockaddr *)&server_addr, sizeof(server_addr)) < 0)
     {
-        std::cerr << "Connection failed\n";
+        std::cerr << "Connection to host failed. Exiting...\n";
         close(client_socket); // Close the socket on failure
         return 1;
     }
@@ -76,7 +76,7 @@ int main()
             driver.turn(param1, param2, 1000); // param1 and param2 are wheel velocities
             send_command = "Turning...";
         }else if (command == "runDemo"){
-            driver.run(param1);
+            driver.run((int)param1);
             send_command = "Running Demo...";
         }else if (command == "testWall"){
             driver.testVirtualWall();
