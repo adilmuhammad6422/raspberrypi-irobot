@@ -160,7 +160,7 @@ if(LIBCREATE_BUILD_TESTS)
   include_directories(${GTEST_INCLUDE_DIRS})
 endif()
 
-if(LIBCREATE_BUILD_TESTS AND ${GTEST_FOUND})
+if(LIBCREATE_BUILD_TESTS)
   message("GTest installation found. Building tests.")
 
   enable_testing()
