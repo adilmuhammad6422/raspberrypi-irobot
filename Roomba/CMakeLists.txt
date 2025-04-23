@@ -146,10 +146,10 @@ install(
 )
 
 # Install package.xml (for catkin)
-install(
-  FILES package.xml
-  DESTINATION ${SHARE_INSTALL_DIR}
-)
+#install(
+#  FILES package.xml
+#  DESTINATION ${SHARE_INSTALL_DIR}
+#)
 
 ###########
 # Testing #
