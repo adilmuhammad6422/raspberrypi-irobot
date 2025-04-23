@@ -187,19 +187,19 @@ export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
 
 To have your pi automatically run client.cpp on startup.
 ```sh
-crontab -e
-@reboot /home/pi/raspberrypi-irobot/start_client.sh
+chmod +x $HOME/raspberrypi-irobot/start_client.sh
+# .$HOME/raspberrypi-irobot/start_client.sh
+```
+```sh
+(crontab -l 2>/dev/null; echo "@reboot /home/pi/raspberrypi-irobot/start_client.sh") | crontab -
 ```
 
 TODO: verify the startup files.
 
-```sh
-chmod +x $HOME/raspberrypi-irobot/start_client.sh
-.$HOME/raspberrypi-irobot/start_client.sh
-```
 
 ## Usage
 Now that the pi is setup do this:
+1. Startup the linksys router, connect your laptop to it. youll get the server ip. For the linksys router, the first assigne
 1. Connect the pi with the roomba and battery. Keep the pi off by turning the battery pack off. 
 2. Run server.py on pc, making sure it is connected to the router
 3. Turn on the roomba first - TODO: ask nathan/adil whether we should turn the pi first or roomba first
