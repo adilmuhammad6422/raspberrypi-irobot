@@ -12,7 +12,7 @@ add_compile_options(-Wall -Wextra -Wpedantic)
 
 set(PACKAGE_VERSION 3.0.0)
 
-option(LIBCREATE_BUILD_TESTS "Enable the build of tests." ON)
+option(LIBCREATE_BUILD_TESTS "Enable the build of tests." OFF)
 
 find_package(Boost REQUIRED COMPONENTS system thread)
 find_package(Threads REQUIRED)
@@ -60,16 +60,7 @@ target_link_libraries(${LIBRARY_NAME}
 )
 
 # Declare example executables
-set(EXAMPLES
-  battery_level
-  bumpers
-  cliffs
-  drive_circle
-  leds
-  packets
-  play_song
-  wheeldrop
-)
+set(EXAMPLES)
 
 foreach(EXAMPLE ${EXAMPLES})
   add_executable(${EXAMPLE} examples/${EXAMPLE}.cpp)
