@@ -45,7 +45,7 @@ public:
         robot_.drive(0.0, 0.0); // Stop after turn
     }
 
-    void run() {
+    void run(int duration_s) {
         {
             std::lock_guard<std::mutex> lock(mutex_);
             running_ = true; // Set the running flag to true to start the loop

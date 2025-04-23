@@ -42,24 +42,28 @@ def service_connection(key, mask):
     """
     sock = key.fileobj  # Get the socket object
     data = key.data  # Get the connection data
+    try:
+        if mask & selectors.EVENT_READ:
+            recv_data = sock.recv(1024)  # Read data from the socket
+            if recv_data:
+                data.inb += recv_data  # Append received data to inb buffer
+                print("Received", recv_data.decode('utf-8'), "from", data.addr)
+                if recv_data.decode('utf-8').strip() == 'quit':
+                    raise ConnectionResetError("Client sent 'quit' command")
 
-    if mask & selectors.EVENT_READ:
-        recv_data = sock.recv(1024)  # Read data from the socket
-        if recv_data:
-            data.inb += recv_data  # Append received data to inb buffer
-            print("Received", recv_data.decode('utf-8'), "from", data.addr)
-            if recv_data.decode('utf-8').strip() == 'quit':
-                sel.unregister(sock)  # Unregister the socket from the selector
-                sock.close()  # Close the socket
-                print("Closed connection to", data.addr)
-                del connections[sock]  # Remove the connection from the dictionary
-                print_active_connections()  # Print the updated list of active connections
+        if mask & selectors.EVENT_WRITE:
+            if data.outb:
+                print("Sending", data.outb.decode('utf-8'), "to", data.addr)
+                sent = sock.send(data.outb)  # Send data from outb buffer to the socket
+                data.outb = data.outb[sent:]  # Remove sent data from outb buffer
 
-    if mask & selectors.EVENT_WRITE:
-        if data.outb:
-            print("Sending", data.outb.decode('utf-8'), "to", data.addr)
-            sent = sock.send(data.outb)  # Send data from outb buffer to the socket
-            data.outb = data.outb[sent:]  # Remove sent data from outb buffer
+    except (ConnectionResetError, BrokenPipeError) as e:
+        print(f"Closing connection to {data.addr}: {e}")
+        sel.unregister(sock)
+        sock.close()
+        if sock in connections:
+            del connections[sock]
+        print_active_connections()
 
 # Set up the listening socket
 lsock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -78,8 +82,8 @@ try:
             else:
                 service_connection(key, mask)  # Service existing connection
 
+        option = input("Enter 'all' to broadcast a message to all connections or the connection number to send a message to a specific connection: ").strip()
         try:
-            option = input("Enter 'all' to broadcast a message to all connections or the connection number to send a message to a specific connection: ").strip()
             if option.lower() == 'all':
                 msg_to_send = input("Send a message to all connections: ")
                 for conn in connections.keys():
