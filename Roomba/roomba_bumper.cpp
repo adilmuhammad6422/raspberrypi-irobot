@@ -92,7 +92,7 @@ public:
         stop(); // Stop the robot after 45 seconds
     }
 
-    void testVirtualWall(double duration_s)
+    void testVirtualWall(int duration_s)
     {
         auto start_time = std::chrono::steady_clock::now();
         auto duration = std::chrono::seconds(duration_s);
