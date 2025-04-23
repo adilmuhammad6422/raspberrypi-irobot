@@ -58,11 +58,10 @@ public:
         stop();
     }
 
-    void run(double duration_s)
+    void run(int duration_s)
     {
         interrupt_ = false;
         driveStraight(0.2);
-        bool contact_bumpers[2] = {false, false};
 
         auto start_time = std::chrono::steady_clock::now();
         auto duration = std::chrono::seconds(duration_s);
@@ -70,15 +69,12 @@ public:
         while (!interrupt_ && std::chrono::steady_clock::now() - start_time < duration)
         {
 
-            contact_bumpers[0] = robot_.isLeftBumper();
-            contact_bumpers[1] = robot_.isRightBumper();
-
-            if (contact_bumpers[0])
+            if (robot_.isLeftBumper())
             {
                 turn(0.15, -0.15, 1000); // Turn right
                 driveStraight(0.2);      // Resume driving straight after turn
             }
-            else if (contact_bumpers[1])
+            else if (robot_.isRightBumper())
             {
                 turn(-0.15, 0.15, 1000); // Turn left
                 driveStraight(0.2);      // Resume driving straight after turn
@@ -133,7 +129,7 @@ int main(int argc, char **argv)
         return 1;
     }
 
-    driver.run();
+    driver.run(5);
 
     return 0;
 }
