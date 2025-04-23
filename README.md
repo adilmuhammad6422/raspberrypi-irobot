@@ -97,19 +97,11 @@ For fresh installation of a pi see [this](RaspberryOs.md).
    ```sh
    ssh pi@<Raspberry_Pi_IP_address>
    ```
-2. Install dependencies, clone repository and compile libarary:
-     ```sh
-     sudo apt-get install build-essential cmake libboost-system-dev libboost-thread-dev
-     git clone https://github.com/adilmuhammad6422/raspberrypi-irobot.git
-     sudo usermod -a -G dialout $USER
-     cd raspberrypi-irobot/Roomba
-     mkdir build && cd build
-     cmake ..
-     make
-     sudo make install
-     ```
+2. Clone repository
+3. run setup.sh to install dependencies, compile libarary, and compile client.cpp
+    
 
-#### Sanity check 1 
+<!-- #### Sanity check 1 
 Building and running roomba_bumper.cpp to verify pi-roomba communication.
 1. Build
      ```sh
@@ -129,7 +121,7 @@ g++ -o client client.cpp -I/usr/local/include -L/usr/local/lib -lcreate -pthread
 export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
 ./client
 ```
-TODO: incomplete, need to add info on how to setup server on pc, and send basic commands to pi and for pi to respond.
+TODO: incomplete, need to add info on how to setup server on pc, and send basic commands to pi and for pi to respond. -->
 
 <!-- 
 TODO:  The below code seems to create a startup file for running roomba_bumper directly? Is this correct? roomba_bumper is supposed to be a testing file to test whether the pi->roomba communication is working.
@@ -186,12 +178,12 @@ export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
 ``` -->
 
 To have your pi automatically run client.cpp on startup.
-```sh
+<!-- ```sh
 chmod +x $HOME/raspberrypi-irobot/start_client.sh
 # .$HOME/raspberrypi-irobot/start_client.sh
-```
+``` -->
 ```sh
-(crontab -l 2>/dev/null; echo "@reboot /home/pi/client") | crontab -
+(crontab -l 2>/dev/null; echo "@reboot sleep 10 && /home/pi/client") | crontab -
 ```
 
 TODO: verify the startup files.
