@@ -75,15 +75,16 @@ Find the IP Address of the Raspberry Pi (hostname -I) in the command line
 ## Prerequisites for Installation
 For fresh installation of a pi see [this](RaspberryOs.md).
 ### How to SSH (remote connection) into your Raspberry Pi from your computer
-1. Find Pi's IP Address
-   - Connect your Pi to a monitor <!-- TODO: there should be a way to find the ip address without connecting it to a monitor  -->
+1. If your Pi does not have SSH enabled:
+   - Connect your Pi to a monitor
    - Go into preferences and enable SSH and click "ok" then reboot
-   - Get your Raspberry Pi's IP Address
+2. Find Pi's IP Address
+   - One way to find the ip address of the pi is to use the router's homepage.
+   <!-- - Another way is to connect Get your Raspberry Pi's IP Address
      ```sh
      hostname -I
-     ```
-
-3. SSH into Raspberry Pi
+     ``` -->
+3. SSH into Raspberry Pi, password: raspberry
      ```sh
      ssh pi@<Raspberry_Pi_IP_address>
      ```
@@ -91,7 +92,7 @@ For fresh installation of a pi see [this](RaspberryOs.md).
 ## Installation
 ### Step 1: Setup
 
-1. SSH into your Raspberry Pi's IP
+1. SSH into your Raspberry Pi's IP, password: raspberry
 
    ```sh
    ssh pi@<Raspberry_Pi_IP_address>

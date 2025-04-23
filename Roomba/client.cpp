@@ -10,7 +10,7 @@
 int main()
 {
     // Server details
-    const char *server_host = "192.168.1.100"; // Replace with your server's IP address
+    const char *server_host = "192.168.1.110"; // Replace with your server's IP address
     int server_port = 44700;
 
     // Create a socket
