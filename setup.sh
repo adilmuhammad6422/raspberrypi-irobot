@@ -7,5 +7,4 @@ make
 sudo make install
 cd ..
 export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
-g++ -o roomba_bumper roomba_bumper.cpp -I/usr/local/include -L/usr/local/lib -lcreate
-g++ -o client client.cpp -I/usr/local/include -L/usr/local/lib -lcreate -pthread
+g++ -static -o client client.cpp /usr/local/lib/libcreate.a -I/usr/local/include -lboost_system -lboost_thread -lpthread

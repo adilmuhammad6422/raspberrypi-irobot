@@ -34,7 +34,7 @@ include_directories(
 )
 
 # Declare cpp library
-add_library(${LIBRARY_NAME} SHARED
+add_library(${LIBRARY_NAME} STATIC
   src/create.cpp
   src/serial.cpp
   src/serial_stream.cpp

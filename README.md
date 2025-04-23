@@ -191,7 +191,7 @@ chmod +x $HOME/raspberrypi-irobot/start_client.sh
 # .$HOME/raspberrypi-irobot/start_client.sh
 ```
 ```sh
-(crontab -l 2>/dev/null; echo "@reboot /home/pi/raspberrypi-irobot/start_client.sh") | crontab -
+(crontab -l 2>/dev/null; echo "@reboot /home/pi/client") | crontab -
 ```
 
 TODO: verify the startup files.
