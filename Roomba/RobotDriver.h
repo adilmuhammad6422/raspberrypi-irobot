@@ -78,13 +78,6 @@ private:
         std::normal_distribution<double> vw_noise(0.0, 0.2); // this translates into noise that 87% will turn the roomba +- 30 degrees of original turning amount
         std::normal_distribution<double> bumper_noise(0.0, 0.05); // this translates into noise that 83% will turn the roomba +- 5 degrees of original turning amount
         
-
-        // Generate and round to the nearest integer
-        int random_integer = std::round(distribution(gen));
-
-        std::cout << "Random integer from normal distribution: " << random_integer << std::endl;
-
-        
         driveStraight(roomba_speed);
         bool contact_bumpers[2] = {false, false};
 
