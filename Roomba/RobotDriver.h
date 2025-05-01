@@ -51,9 +51,9 @@ public:
         {
             std::lock_guard<std::mutex> lock(mutex_);
             running_ = true; // Set the running flag to true to start the loop
-            double m_speed = static_cast<double>(roomba_speed_cm)/10.0;
         }
-        std::thread(&RobotDriver::runLoop, this, ms_speed).detach(); // Run the loop in a separate thread
+        double m_speed = static_cast<double>(roomba_speed_cm)/10.0;
+        std::thread(&RobotDriver::runLoop, this, m_speed).detach(); // Run the loop in a separate thread
     }
 
     void LeftRightTurn(){
