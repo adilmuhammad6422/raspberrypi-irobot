@@ -15,24 +15,28 @@
 ## TODOs
 ### Software Todos:
 - [ ] meet with Nathan to ask about the commented todos in the readme
-- [ ] readme todos: Sanity check 2 - connect with server, server should send "hello", client should send back "hello OK"
-- [ ] readme todos: verify startup file
-- [ ] if demo is running, how can we stop it? interrupt added, needs to be verified.
+- [ ] Server and Client are prone to errors:
+   - [ ] if roomba restarts, client does not reconnect 
+   - [ ] if client cannot connect to roomba, client should send error message to server, try to restart itself `sudo reboot`.
+   - [ ] the server should be able to ping all the pis, irrespective of whether they are connected to it or not. the server should be able to ping all the Pi IP addresses and give a list of which pi is disconnected to the router.
+- [x] readme todos: Sanity check 2 - connect with server, server should send "hello", client should send back "hello OK"
+- [x] readme todos: verify startup file
+- [x] if demo is running, how can we stop it? interrupt added, needs to be verified.
 ### Physical Todos:
-- [ ] All 12 pis have updated OS, installed software
-- [ ] All 12 pis can communicate with roomba (Sanity Check 1)
-   - [ ] Go forward
-   - [ ] Left/Right bumber
-   - [ ] Virtual wall
-- [ ] All 12 pis can communicate with server (Sanity Check 2)
-- [ ] Run all 12 pis together on final testbed
+- [x] All 9 pis have updated OS, installed software
+- [x] All 9 pis can communicate with roomba (Sanity Check 1)
+   - [x] Go forward
+   - [x] Left/Right bumber
+   - [x] Virtual wall
+- [x] All 9 pis can communicate with server (Sanity Check 2)
+- [ ] Run all 9 pis together on final testbed
 ### ICRA hardware list:
 - Main Hardware:
-   - [ ] 12 + ? rasperry pis
-   - [ ] 12 + ? roombas
-   - [ ] 12 + ? red cardboard sheets
+   - [ ] 9 + 3? rasperry pis
+   - [ ] 12 roombas
+   - [ ] 12 red cardboard sheets
    - [ ] 1 outdoor nav router 
-   - [ ] 4 virtual walls
+   - [ ] 4 + ? virtual walls
 - Batteries:
    - [ ] 24 battery packs for pis
    - [ ] 24 rechargeable batteries for roombas
@@ -191,10 +195,14 @@ TODO: verify the startup files.
 
 ## Usage
 Now that the pi is setup do this:
-1. Startup the linksys router, connect your laptop to it. youll get the server ip. For the linksys router, the first assigne
-1. Connect the pi with the roomba and battery. Keep the pi off by turning the battery pack off. 
-2. Run server.py on pc, making sure it is connected to the router
-3. Turn on the roomba first - TODO: ask nathan/adil whether we should turn the pi first or roomba first
-4. Turn on the batteries of the pis. This should turn on the pi. You should hear a beep sound from the roomba and see on the server that the pis are connecting.
+0. Startup the linksys router, connect your laptop to it. youll get the server ip. For the linksys router, the first assigned ip is 192.168.1.110
+1. Run server.py on pc, making sure it is connected to the router
+2. Connect the pi with the battery, turn off by double pressing the power button. Connect the pi with the roomba with the cables
+3. Turn on the roomba first. Power light should flicker red and yellow then remain on yellow. 
+4. Turn on the batteries of the pis (single click). This should turn on the pi. You should hear a beep sound from the roomba, the power light should go off and see on the server that the pis are connecting. 
 5. Send the command "runDemo 60" via the server. All the roombas should start moving forward at 0.2m/s for 60 seconds while turning left/right if it bumps into anything on its left/right and turning 180° if it senses a virtual wall. 
    1. Optionally, within the 60s you can send the command "stop" from the server. All the roombas should stop momentarily.
+
+
+## Hardware issues
+- if after connecting everything, turning the roomba on first, then the pi, waiting 10s and then you hear a second beep but the light stays on -> pi cannot communicate with the roomba. likely an issue of the wiring.

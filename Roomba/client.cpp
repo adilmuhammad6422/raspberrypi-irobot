@@ -78,6 +78,9 @@ int main()
         }else if (command == "runDemo"){
             driver.run((int)param1);
             send_command = "Running Demo...";
+        }else if(command == "test"){
+            driver.LeftRightTurn();
+            send_command = "Running LR Test...";
         }else if (command == "testWall"){
             driver.testVirtualWall();
             send_command = "Testing Virtual Wall...";

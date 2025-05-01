@@ -3,15 +3,13 @@
 
 #include "create/create.h"
 #include <iostream>
-// #include <iomanip>
+#include <iomanip>
 #include <thread>
 #include <chrono>
 #include <string>
 #include <atomic>
 #include <condition_variable>
 #include <mutex>
-#include <random>
-#include <cmath>
 
 class RobotDriver {
 public:
@@ -47,19 +45,12 @@ public:
         robot_.drive(0.0, 0.0); // Stop after turn
     }
 
-    void run(int roomba_speed_cm=2) {
+    void run(int roomba_speed) {
         {
             std::lock_guard<std::mutex> lock(mutex_);
             running_ = true; // Set the running flag to true to start the loop
-            double m_speed = static_cast<double>(roomba_speed_cm)/10.0;
         }
-        std::thread(&RobotDriver::runLoop, this, ms_speed).detach(); // Run the loop in a separate thread
-    }
-
-    void LeftRightTurn(){
-        turn(0.15, -0.15, 1000);  // Turn right
-        turn(-0.15, +0.15, 2000);  // Turn left
-        turn(0.15, -0.15, 1000);  // face front
+        std::thread(&RobotDriver::runLoop, this).detach(); // Run the loop in a separate thread
     }
 
     void testVirtualWall() {
@@ -71,21 +62,8 @@ public:
     }
 
 private:
-    void runLoop(double roomba_speed) {
-        std::random_device rd;
-        std::mt19937 gen(rd());
-
-        std::normal_distribution<double> vw_noise(0.0, 0.2); // this translates into noise that 87% will turn the roomba +- 30 degrees of original turning amount
-        std::normal_distribution<double> bumper_noise(0.0, 0.05); // this translates into noise that 83% will turn the roomba +- 5 degrees of original turning amount
-        
-
-        // Generate and round to the nearest integer
-        int random_integer = std::round(distribution(gen));
-
-        std::cout << "Random integer from normal distribution: " << random_integer << std::endl;
-
-        
-        driveStraight(roomba_speed);
+    void runLoop() {
+        driveStraight(0.2);
         bool contact_bumpers[2] = {false, false};
 
         while (true) {
@@ -96,20 +74,17 @@ private:
 
             contact_bumpers[0] = robot_.isLeftBumper();
             contact_bumpers[1] = robot_.isRightBumper();
-            int ms_turning_time = 0;
+
             if (contact_bumpers[0]) {
-                ms_turning_time = 675 + std::round(bumper_noise(gen)*1000); // turn 180 degrees to the left. 675 ms to turn 45. 
-                turn(0.15, -0.15, ms_turning_time);  // Turn right. 675 ms needed to turn 45 degrees at that speed
-                driveStraight(roomba_speed);  // Resume driving straight after turn
+                turn(0.15, -0.15, 1000);  // Turn right
+                driveStraight(0.2);  // Resume driving straight after turn
             } else if (contact_bumpers[1]) {
-                ms_turning_time = 675 + std::round(bumper_noise(gen)*1000); // turn 180 degrees to the left. 675 ms to turn 45. 
-                turn(-0.15, 0.15, ms_turning_time);  // Turn left. 675 ms needed to turn 45 degrees at that speed
-                driveStraight(roomba_speed);  // Resume driving straight after turn
+                turn(-0.15, 0.15, 1000);  // Turn left
+                driveStraight(0.2);  // Resume driving straight after turn
             } else if(robot_.isVirtualWall()) {
-                ms_turning_time = 2025 + std::round(vw_noise(gen)*1000); // turn 180 degrees to the left. 2025 ms to turn 180. 
-                turn(-0.2, 0.2, ms_turning_time); 
-                // std::cout << "Virtual wall detected. Turning 180 degrees." << std::endl;x
-                driveStraight(roomba_speed);
+                turn(-0.2, 0.2, 2000); // turn 180 degrees to the left (adjust timing to change)
+                std::cout << "Virtual wall detected. Turning 180 degrees." << std::endl;
+                driveStraight(0.2);
             }
 
             std::this_thread::sleep_for(std::chrono::milliseconds(10));
