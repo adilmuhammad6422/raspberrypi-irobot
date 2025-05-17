@@ -28,11 +28,11 @@
 - [ ] Run all 12 pis together on final testbed
 ### ICRA hardware list:
 - Main Hardware:
-   - [ ] 12 + ? rasperry pis
-   - [ ] 12 + ? roombas
-   - [ ] 12 + ? red cardboard sheets
+   - [ ] 12 rasperry pis
+   - [ ] 12 roombas
+   - [ ] 12 red cardboard sheets
    - [ ] 1 outdoor nav router 
-   - [ ] 4 virtual walls
+   - [ ] 6 virtual walls
 - Batteries:
    - [ ] 24 battery packs for pis
    - [ ] 24 rechargeable batteries for roombas
@@ -48,6 +48,7 @@
    - [ ] 1 HDMI cable
    - [ ] 1 long microUSB cable
    - [ ] 1 USB wall adapter
+   - [ ] 2 ps4 joysticks 
 
 
 ## 🚀 About
